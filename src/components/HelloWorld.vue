@@ -2,7 +2,6 @@
   <v-container class="fill-height" max-width="900">
     <Player name="John" number="10" />
     <div>
-
       <v-row>
         <v-col v-for="link in links" :key="link.href" cols="6">
           <v-card
