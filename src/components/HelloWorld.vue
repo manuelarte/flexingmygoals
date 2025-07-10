@@ -30,16 +30,19 @@
   interface PlayerModel {
     name: string
     number: number
+    color: string
   }
 
   const player: PlayerModel = {
     name: 'John',
     number: 10,
+    color: 'myTeam',
   }
 
   const player2: PlayerModel = {
     name: 'Doe',
     number: 5,
+    color: 'opponent',
   }
   const links = [
     {
