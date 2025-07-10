@@ -1,6 +1,6 @@
 <template>
   <div class="player-wrapper">
-    <div class="player" :style="stylePlayer">
+    <div class="player" :class="{ myTeam: color === 'myTeam', opponent: color === 'opponent' }">
       <div class="number">{{ number }}</div>
     </div>
     <div class="label">{{ name }}</div>
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 
-  const props = defineProps({
+  defineProps({
     name: {
       type: String,
       required: true,
@@ -32,22 +32,6 @@
       default: 'home',
     },
   })
-
-  const stylePlayer = computed(() => {
-    if (props.color === 'myTeam') {
-      return {
-        backgroundColor: ['#1e90ff', 'radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)'],
-      }
-    }
-    if (props.color === 'opponent') {
-      return {
-        backgroundColor: ['#ff0000', 'radial-gradient(circle at 30% 30%, #ff0000, #cc0000)'],
-      }
-    }
-    return {
-      backgroundColor: ['#1e90ff', 'radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)'],
-    }
-  })
 </script>
 
 <style scoped lang="sass">
@@ -57,8 +41,8 @@
   flex-direction: column
   float: left
   align-items: center
-  /* move 0 to center */
-  transform: translate(-50%, -50%)
+  /* move 0 to center, more or less... TODO: fix this */
+  transform: translate(-40%, -40%)
   transition: transform 0.2s
   user-select: none
 
@@ -77,7 +61,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
   transition: background-color 0.3s
   border-radius: 50%
-  /*background: #1e90ff radial-gradient(circle at 30% 30%, #1e90ff, #0066cc);*/
+  /*background: #1e90ff radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)*/
+
+.myTeam
+  background: #1e90ff radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)
+
+.opponent
+  background: #ff0000 radial-gradient(circle at 30% 30%, #ff0000, #ff1133)
 
 .label
   margin-top: 4px
