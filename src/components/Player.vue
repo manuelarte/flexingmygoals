@@ -2,7 +2,6 @@
   <div
     class="player"
     :class="[{ 'has-name': name }]"
-    :style="playerStyles"
   >
     <div class="number">{{ number }}</div>
     <div v-if="name" class="name">{{ name }}</div>
@@ -13,7 +12,6 @@
   defineProps({
     name: { type: String, default: 'Player' },
     number: { type: Number, default: 10 },
-    shape: { type: String, default: 'circle' }, // 'circle' or 'shirt'
   })
 </script>
 

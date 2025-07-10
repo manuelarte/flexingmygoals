@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height" max-width="900">
-    <Player name="Manuel" number="7" shape="circle" />
+    <Player name="John" number="10" />
     <div>
 
       <v-row>
