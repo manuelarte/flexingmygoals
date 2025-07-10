@@ -1,6 +1,9 @@
 <template>
   <v-container class="fill-height" max-width="900">
-    <Player v-bind="player" />
+    <Field>
+      <Player v-bind="player" />
+      <Player v-bind="player2" />
+    </Field>
     <div>
       <v-row>
         <v-col v-for="link in links" :key="link.href" cols="6">
@@ -32,6 +35,11 @@
   const player: PlayerModel = {
     name: 'John',
     number: 10,
+  }
+
+  const player2: PlayerModel = {
+    name: 'Doe',
+    number: 5,
   }
   const links = [
     {

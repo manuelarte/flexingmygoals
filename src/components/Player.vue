@@ -31,7 +31,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  float: left;
   align-items: center;
+  /* move 0 to center */
   transform: translate(-50%, -50%);
   transition: transform 0.2s;
   user-select: none;
