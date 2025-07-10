@@ -9,8 +9,20 @@
 
 <script setup lang="ts">
   defineProps({
-    name: { type: String, default: 'Player' },
-    number: { type: Number, default: 10 },
+    name: {
+      type: String,
+      required: true,
+      validator (value: string, _) {
+        return value.length > 3
+      },
+    },
+    number: {
+      type: Number,
+      required: true,
+      validator (value: number, _) {
+        return Number.isInteger(value) && value >= 1 && value <= 99
+      },
+    },
   })
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height" max-width="900">
-    <Player name="John" number="10" />
+    <Player v-bind="player" />
     <div>
       <v-row>
         <v-col v-for="link in links" :key="link.href" cols="6">
@@ -24,6 +24,15 @@
 </template>
 
 <script setup lang="ts">
+  interface PlayerModel {
+    name: string
+    number: number
+  }
+
+  const player: PlayerModel = {
+    name: 'John',
+    number: 10,
+  }
   const links = [
     {
       href: 'https://vuetifyjs.com/',
