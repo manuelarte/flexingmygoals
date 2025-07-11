@@ -17,7 +17,6 @@ $grass_color_secondary: #4A934A
 .field
   width: 100%
   height: 100%
-  max-height: 400px
 
 .grass-gradient
   $stops: ()
