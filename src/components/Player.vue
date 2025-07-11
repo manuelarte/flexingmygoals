@@ -35,6 +35,12 @@
 </script>
 
 <style scoped lang="sass">
+@use 'sass:math'
+
+$player_size: 60px
+$player_number_size: $player_size * 0.5
+$player_name_size: $player_size * 0.3
+
 .player-wrapper
   position: relative
   display: flex
@@ -42,7 +48,7 @@
   float: left
   align-items: center
   /* move 0 to center, more or less... TODO: fix this */
-  transform: translate(-40%, -40%)
+  transform: translate(math.div(-$player_size, 2), math.div(-$player_size, 2))
   transition: transform 0.2s
   user-select: none
 
@@ -50,14 +56,14 @@
   transform: translate(-50%, -50%) scale(1.1)
 
 .player
-  width: 60px
-  height: 60px
+  width: $player_size
+  height: $player_size
   display: flex
   align-items: center
   justify-content: center
   color: white
   font-weight: bold
-  font-size: 28px
+  font-size: $player_number_size
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
   transition: background-color 0.3s
   border-radius: 50%
@@ -71,7 +77,7 @@
 
 .label
   margin-top: 4px
-  font-size: 20px
+  font-size: $player_name_size
   font-weight: 500
   color: white
   text-shadow: 0 1px 2px black
