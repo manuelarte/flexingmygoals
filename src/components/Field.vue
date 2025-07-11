@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field grass-gradient">
     <slot />
   </div>
 </template>
@@ -13,9 +13,33 @@ $grass_color_primary: #7CFC00
 $grass_color_secondary: #6FC500
 
 .field
-  background-color: $grass_color_primary
   width: 100%
   height: 100%
   max-height: 400px
+
+.grass-gradient
+  background: linear-gradient(
+    0deg,
+$grass_color_primary 0%,
+$grass_color_primary 10%,
+$grass_color_secondary 10%,
+$grass_color_secondary 20%,
+$grass_color_primary 20%,
+$grass_color_primary 30%,
+$grass_color_secondary 30%,
+$grass_color_secondary 40%,
+$grass_color_primary 40%,
+$grass_color_primary 50%,
+$grass_color_secondary 50%,
+$grass_color_secondary 60%,
+$grass_color_primary 60%,
+$grass_color_primary 70%,
+$grass_color_secondary 70%,
+$grass_color_secondary 80%,
+$grass_color_primary 80%,
+$grass_color_primary 90%,
+$grass_color_secondary 90%,
+$grass_color_secondary 100%,
+)
 
 </style>
