@@ -9,8 +9,8 @@
 </script>
 
 <style scoped lang="sass">
-$grass_color_primary: #7CFC00
-$grass_color_secondary: #6FC500
+$grass_color_primary: #3E7B3E
+$grass_color_secondary: #4A934A
 
 .field
   width: 100%
