@@ -1,8 +1,8 @@
 <template>
   <v-container class="fill-height" max-width="900">
-    <Field>
-      <Player v-bind="player" />
-      <Player v-bind="player2" />
+    <Field class="field-container">
+      <Player v-bind="player" :style="stylePlayer" />
+      <Player v-bind="player2" :style="stylePlayer2" />
     </Field>
   </v-container>
 </template>
@@ -19,10 +19,25 @@
     number: 10,
     color: 'myTeam',
   }
+  const stylePlayer = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  }
 
   const player2: PlayerModel = {
     name: 'Doe',
     number: 5,
     color: 'opponent',
   }
+  const stylePlayer2 = {
+    position: 'absolute',
+    top: 0,
+    left: '50px',
+  }
 </script>
+
+<style lang="sass">
+.field-container
+  position: relative
+</style>
