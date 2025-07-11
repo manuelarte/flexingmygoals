@@ -1,7 +1,12 @@
 <template>
   <v-container class="fill-height" max-width="900">
     <Field class="field-container">
-      <Player v-bind="player" :style="stylePlayer" />
+      <Player
+        id="player1"
+        v-bind="player"
+        :is-draggable="true"
+        :style="stylePlayer"
+      />
       <Player v-bind="player2" :style="stylePlayer2" />
     </Field>
   </v-container>
