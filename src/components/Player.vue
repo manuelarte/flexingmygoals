@@ -36,10 +36,16 @@
 
 <style scoped lang="sass">
 @use 'sass:math'
+@use 'sass:color'
 
 $player_size: 60px
 $player_number_size: $player_size * 0.5
 $player_name_size: $player_size * 0.3
+
+$myTeam_color: #1E90FF
+$myTeam_color_dark: color.scale($myTeam_color, $lightness: -80%)
+$opponent_color: #FF0000
+$opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
 
 .player-wrapper
   position: relative
@@ -47,7 +53,6 @@ $player_name_size: $player_size * 0.3
   flex-direction: column
   float: left
   align-items: center
-  /* move 0 to center, more or less... TODO: fix this */
   transform: translate(math.div(-$player_size, 2), math.div(-$player_size, 2))
   transition: transform 0.2s
   user-select: none
@@ -67,13 +72,12 @@ $player_name_size: $player_size * 0.3
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
   transition: background-color 0.3s
   border-radius: 50%
-  /*background: #1e90ff radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)*/
 
 .myTeam
-  background: #1e90ff radial-gradient(circle at 30% 30%, #1e90ff, #0066cc)
+  background: $myTeam_color radial-gradient(circle at 30% 30%, $myTeam_color, $myTeam_color_dark)
 
 .opponent
-  background: #ff0000 radial-gradient(circle at 30% 30%, #ff0000, #ff1133)
+  background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color, #450d03)
 
 .label
   margin-top: 4px
