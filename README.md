@@ -14,9 +14,9 @@ This is the official scaffolding tool for Vuetify, designed to give you a head s
 
 Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
 
-| Package Manager                                                | Command        |
-|---------------------------------------------------------------|----------------|
-| [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
+| Package Manager | Command        |
+|-----------------|----------------|
+| [pnpm](https://pnpm.io/installation)     | `pnpm install` |
 
 After completing the installation, your environment is ready for Vuetify development.
 
