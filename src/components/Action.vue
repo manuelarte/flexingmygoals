@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
   import { useDraggable } from '@vueuse/core'
-  import { computed, ref } from 'vue'
   import Field from '@/components/Field.vue'
 
   interface PlayerModel {
@@ -51,17 +50,6 @@
     number: 10,
     color: 'myTeam',
   }
-  const playerPosition1 = ref({
-    x: 60,
-    y: 80,
-  })
-
-  const stylePlayer1: ComputedRef = computed(() => {
-    return {
-      left: playerPosition1.value.x + 'px',
-      top: playerPosition1.value.y + 'px',
-    }
-  })
 
 </script>
 
