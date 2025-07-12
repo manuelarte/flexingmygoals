@@ -5,7 +5,8 @@
         <div
           ref="playerRef"
           class="player-wrapper"
-          :style="stylePlayer1"
+          style="position: absolute"
+          :style="style"
         >
           <Player
             id="player1"
@@ -20,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useDraggable } from '@vueuse/core'
   import { computed, ref } from 'vue'
   import Field from '@/components/Field.vue'
 
@@ -31,6 +33,18 @@
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
   const playerRef = useTemplateRef('playerRef')
+
+  // `style` will be a helper computed for `left: ?px; top: ?px;`
+  const { x, y, style } = useDraggable(playerRef, {
+    initialValue: { x: 0, y: 0 },
+    onMove: position => {
+      const rect = fieldWrapperRef.value!.getBoundingClientRect()
+      position.x = position.x - rect.left
+      position.y = position.y - rect.top
+      position.x = Math.max(0, Math.min(position.x, rect.width))
+      position.y = Math.max(0, Math.min(position.y, rect.height))
+    },
+  })
 
   const player1: PlayerModel = {
     name: 'John',

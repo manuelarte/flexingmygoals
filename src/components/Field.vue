@@ -1,10 +1,10 @@
 <template>
   <div class="field grass-gradient">
-    <slot />
     <div class="field-lines">
       <div class="center-line" />
       <div class="center-circle" />
     </div>
+    <slot />
   </div>
 </template>
 
@@ -25,6 +25,7 @@ $field_length: 75%
   width: 100%
 
 .grass-gradient
+  z-index: 0
   $stops: ()
   @for $i from 0 through 9
     $start: $i * 10%
