@@ -2,12 +2,15 @@
   <v-container class="fill-height" max-width="900">
     <div ref="fieldWrapperRef" class="field-wrapper">
       <Field class="field-container">
-        <div ref="playerRef" class="player-wrapper">
+        <div
+          ref="playerRef"
+          class="player-wrapper"
+          :style="stylePlayer1"
+        >
           <Player
             id="player1"
-            v-bind="player"
+            v-bind="player1"
             :is-draggable="true"
-            :style="stylePlayer"
           />
         </div>
       </Field>
@@ -26,28 +29,23 @@
     color: string
   }
 
-  interface PlayerStyle {
-    top: string // in pixels
-    left: string // in pixels
-  }
-
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
   const playerRef = useTemplateRef('playerRef')
 
-  const player: PlayerModel = {
+  const player1: PlayerModel = {
     name: 'John',
     number: 10,
     color: 'myTeam',
   }
-  const playerPosition = ref({
-    x: 0,
-    y: 0,
+  const playerPosition1 = ref({
+    x: 60,
+    y: 80,
   })
 
-  const stylePlayer: ComputedRef<PlayerStyle> = computed(() => {
+  const stylePlayer1: ComputedRef = computed(() => {
     return {
-      left: playerPosition.value.x + 'px',
-      top: playerPosition.value.y + 'px',
+      left: playerPosition1.value.x + 'px',
+      top: playerPosition1.value.y + 'px',
     }
   })
 
