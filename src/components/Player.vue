@@ -53,7 +53,7 @@
 @use 'sass:math'
 @use 'sass:color'
 
-$player_size: 40px
+$player_size: 30px
 $player_number_size: $player_size * 0.5
 $player_name_size: math.max($player_size * 0.3, 22px)
 

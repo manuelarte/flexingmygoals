@@ -1,6 +1,11 @@
 <template>
   <div class="field grass-gradient">
     <div class="field-lines">
+      <div class="opponent-box">
+        <div class="opponent-goal" />
+        <div class="opponent-small-box" />
+        <div class="opponent-penalty-point" />
+      </div>
       <div class="center-line" />
       <div class="center-circle" />
     </div>
@@ -14,11 +19,15 @@
 
 <style scoped lang="sass">
 @use 'sass:list'
+@use 'sass:math'
 
 $grass_color_primary: #3E7B3E
 $grass_color_secondary: #4A934A
 $line_border: 4px
 $field_length: 75%
+
+$box_width: 40%
+$small_box_width: 50%
 
 .field
   height: 100%
@@ -61,5 +70,37 @@ $field_length: 75%
       border-radius: 50%
       transform: translate(-50%, -50%)
       background: transparent
+
+    .opponent-box
+      position: absolute
+      border-left: $line_border solid white
+      border-right: $line_border solid white
+      border-bottom: $line_border solid white
+      margin-left: 50% - math.div($box_width, 2)
+      width: $box_width
+      height: $box_width * 0.7
+      .opponent-goal
+        position: absolute
+        width: 30%
+        height: $line_border
+        background: white
+        margin-left: 35%
+        margin-top: -2 * $line_border
+      .opponent-small-box
+        position: absolute
+        border-left: $line_border solid white
+        border-right: $line_border solid white
+        border-bottom: $line_border solid white
+        margin-left: 50% - math.div($small_box_width, 2)
+        width: $small_box_width
+        height: $small_box_width * 0.8
+      .opponent-penalty-point
+        position: absolute
+        border-radius: 50%
+        margin-left: 50%
+        margin-top: 30%
+        width: 5px
+        height: 5px
+        background: white
 
 </style>
