@@ -1,15 +1,17 @@
 <template>
-  <div class="field grass-gradient">
-    <div class="field-lines">
-      <div class="opponent-box">
-        <div class="opponent-goal" />
-        <div class="opponent-small-box" />
-        <div class="opponent-penalty-point" />
+  <div class="field-wrapper grass-gradient">
+    <div class="field">
+      <div class="field-lines">
+        <div class="opponent-box">
+          <div class="opponent-goal" />
+          <div class="opponent-small-box" />
+          <div class="opponent-penalty-point" />
+        </div>
+        <div class="center-line" />
+        <div class="center-circle" />
       </div>
-      <div class="center-line" />
-      <div class="center-circle" />
+      <slot />
     </div>
-    <slot />
   </div>
 </template>
 
@@ -29,9 +31,16 @@ $field_length: 75%
 $box_width: 40%
 $small_box_width: 50%
 
-.field
+.field-wrapper
   height: 100%
   width: 100%
+
+.field
+  height: 100%
+  width: 98%
+  margin-left: auto
+  margin-right: auto
+  padding-top: 1%
 
 .grass-gradient
   z-index: 0
