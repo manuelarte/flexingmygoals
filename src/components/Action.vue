@@ -12,6 +12,7 @@
             id="player1"
             v-bind="player1"
             :is-draggable="true"
+            :is-dragging="isDragging"
           />
         </div>
       </Field>
@@ -34,7 +35,7 @@
   const playerRef = useTemplateRef('playerRef')
 
   // `style` will be a helper computed for `left: ?px; top: ?px;`
-  const { x, y, style } = useDraggable(playerRef, {
+  const { x, y, isDragging, style } = useDraggable(playerRef, {
     initialValue: { x: 0, y: 0 },
     onMove: position => {
       const rect = fieldWrapperRef.value!.getBoundingClientRect()

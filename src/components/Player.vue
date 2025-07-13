@@ -2,7 +2,11 @@
   <div class="player-wrapper">
     <div
       class="player"
-      :class="{ myTeam: color === 'myTeam', opponent: color === 'opponent', draggable: isDraggable }"
+      :class="{ myTeam: color === 'myTeam',
+                opponent: color === 'opponent',
+                draggable: isDraggable,
+                dragging: isDragging,
+      }"
     >
       <div class="number">{{ number }}</div>
     </div>
@@ -38,6 +42,10 @@
       type: Boolean,
       default: false,
     },
+    isDragging: {
+      type: Boolean,
+      default: false,
+    },
   })
 </script>
 
@@ -56,6 +64,15 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
 
 .draggable
   cursor: move
+
+@keyframes scaleAnimation
+  0%
+    transform: scale(1)
+  100%
+    transform: scale(1.2)
+
+.dragging
+  animation: scaleAnimation 0.2s forwards
 
 .label
   margin-top: 4px
@@ -80,9 +97,6 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   transform: translate(math.div(-$player_size, 2), math.div(-$player_size, 2))
   transition: transform 0.2s
   user-select: none
-
-.player-wrapper:hover
-  transform: translate(-50%, -50%) scale(1.1)
 
 .player
   width: $player_size
