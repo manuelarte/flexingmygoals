@@ -15,7 +15,7 @@
             :is-dragging="isDragging"
           />
         </div>
-        <div class="ball-wrapper">
+        <div ref="ballRef" class="ball-wrapper">
           <Ball />
         </div>
       </Field>
@@ -36,6 +36,7 @@
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
   const playerRef = useTemplateRef('playerRef')
+  const ballRef = useTemplateRef('ballRef')
 
   // `style` will be a helper computed for `left: ?px; top: ?px;`
   const { x, y, isDragging, style } = useDraggable(playerRef, {
