@@ -8,27 +8,24 @@
                 dragging: isDragging,
       }"
     >
-      <div class="number">{{ number }}</div>
+      <div class="number">{{ player.number }}</div>
     </div>
-    <div class="label">{{ name }}</div>
+    <div class="label">{{ player.name }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { PlayerModel } from '@/models/action.record.model.ts'
 
   defineProps({
-    name: {
-      type: String,
+    player: {
+      type: PlayerModel,
       required: true,
-      validator (value: string, _) {
-        return value.length >= 3
-      },
-    },
-    number: {
-      type: Number,
-      required: true,
-      validator (value: number, _) {
-        return Number.isInteger(value) && value >= 1 && value <= 99
+      validator (player: PlayerModel, _) {
+        const name = player.name
+        const number = player.number
+        return name.length >= 3
+          && Number.isInteger(number) && number > 0 && number < 100
       },
     },
     color: {

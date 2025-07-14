@@ -8,6 +8,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
+    "test": "vitest",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --fix"
   },
@@ -36,6 +37,7 @@
     "vite": "^6.2.2",
     "vite-plugin-vue-layouts-next": "^0.0.8",
     "vite-plugin-vuetify": "^2.1.1",
+    "vitest": "^3.2.4",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.2.8"
   }

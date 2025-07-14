@@ -10,9 +10,10 @@
         >
           <Player
             id="player1"
-            v-bind="player1"
+            :color="player1.color"
             :is-draggable="true"
             :is-dragging="isDragging"
+            :player="player1.player"
           />
         </div>
         <div ref="ballRef" class="ball-wrapper">
@@ -27,10 +28,10 @@
 <script setup lang="ts">
   import { useDraggable } from '@vueuse/core'
   import Field from '@/components/Field.vue'
+  import { PlayerModel } from '@/models/action.record.model.ts'
 
-  interface PlayerModel {
-    name: string
-    number: number
+  interface PlayerAction {
+    player: PlayerModel
     color: string
   }
 
@@ -50,9 +51,8 @@
     },
   })
 
-  const player1: PlayerModel = {
-    name: 'John',
-    number: 10,
+  const player1: PlayerAction = {
+    player: new PlayerModel('John', 10),
     color: 'myTeam',
   }
 
