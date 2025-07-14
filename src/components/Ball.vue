@@ -27,7 +27,7 @@ $ball_size: 20px
   animation: scaleAnimation 0.2s forwards
 
 .ball
-  background: url(https://upload.wikimedia.org/wikipedia/en/e/ec/Soccer_ball.svg)
+  background: url(@/assets/ball.svg)
   background-size: $ball_size $ball_size
   height: $ball_size
   width: $ball_size
