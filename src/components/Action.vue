@@ -16,7 +16,7 @@
           />
         </div>
         <div class="ball-wrapper">
-          <Ball :is-dragging="isDragging" />
+          <Ball />
         </div>
       </Field>
     </div>
