@@ -15,6 +15,9 @@
             :is-dragging="isDragging"
           />
         </div>
+        <div class="ball-wrapper">
+          <Ball :is-dragging="isDragging" />
+        </div>
       </Field>
     </div>
 
@@ -55,6 +58,10 @@
 </script>
 
 <style lang="sass">
+.ball-wrapper
+  position: absolute
+  top: 0
+  left: 0
 .field-wrapper
   height: 100%
   width: 100%
