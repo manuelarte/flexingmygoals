@@ -29,13 +29,15 @@ $line_border: 4px
 
 /* depending of the width of the field, the box, goals can look bigger */
 $field_width_max: 0.8
-$field_width_percentage: (-0.45 * $field_width_max + 0.9)*100%
+/* Calculating the percentage that the box width has regarding the total width. For minimum field witdh is 90%, for maximum width is 45% */
+$field_width_box_percentage: (-0.45 * $field_width_max + 0.9)*100%
 
 /* We only display 75% of the football field */
 $field_length: 75%
 
 /* width size of the box regarding percentage of width */
-$box_width: $field_width_percentage
+$box_width: $field_width_box_percentage
+$box_height: ($box_width * 0.4) * 1.25
 /* width size of the small box regarding percentage of bigger box*/
 $small_box_width: 45%
 /* width size of the goal regarding percentage of bigger box*/
@@ -83,8 +85,8 @@ $goal_width: 20%
       position: absolute
       top: $field_length
       left: 50%
-      width: 140px
-      height: 140px
+      width: 0.5*$box_width
+      height: 0.5*$box_width
       border: $line_border solid white
       border-radius: 50%
       transform: translate(-50%, -50%)
@@ -97,7 +99,7 @@ $goal_width: 20%
       border-bottom: $line_border solid white
       margin-left: 50% - math.div($box_width, 2)
       width: $box_width
-      height: $box_width * 0.7
+      height: $box_height
       .opponent-goal
         position: absolute
         width: $goal_width
@@ -117,7 +119,7 @@ $goal_width: 20%
         position: absolute
         border-radius: 50%
         margin-left: 50%
-        margin-top: 30%
+        margin-top: $box_height * 0.7
         width: 5px
         height: 5px
         background: white
