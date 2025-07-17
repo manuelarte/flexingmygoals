@@ -26,10 +26,20 @@
 $grass_color_primary: #3E7B3E
 $grass_color_secondary: #4A934A
 $line_border: 4px
+
+/* depending of the width of the field, the box, goals can look bigger */
+$field_width_max: 0.8
+$field_width_percentage: (-0.45 * $field_width_max + 0.9)*100%
+
+/* We only display 75% of the football field */
 $field_length: 75%
 
-$box_width: 40%
-$small_box_width: 50%
+/* width size of the box regarding percentage of width */
+$box_width: $field_width_percentage
+/* width size of the small box regarding percentage of bigger box*/
+$small_box_width: 45%
+/* width size of the goal regarding percentage of bigger box*/
+$goal_width: 20%
 
 .field-wrapper
   height: 100%
@@ -90,10 +100,10 @@ $small_box_width: 50%
       height: $box_width * 0.7
       .opponent-goal
         position: absolute
-        width: 30%
+        width: $goal_width
         height: $line_border
         background: white
-        margin-left: 35%
+        margin-left: 50% - math.div($goal_width, 2)
         margin-top: -2 * $line_border
       .opponent-small-box
         position: absolute
