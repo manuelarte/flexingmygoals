@@ -119,7 +119,7 @@ $goal_width: 20%
         position: absolute
         border-radius: 50%
         margin-left: 50%
-        margin-top: $box_height * 0.7
+        margin-top: 0.75 * $box_height * 0.7
         width: 5px
         height: 5px
         background: white
