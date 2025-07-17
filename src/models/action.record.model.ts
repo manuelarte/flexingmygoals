@@ -70,27 +70,23 @@ export class ActionPositions {
 
     if (this.other.length > 0) {
       for (let i = 0; i < this.other.length; i++) {
-        if (this.other[i].time >= time) {
-          next = this.other[i]
+        const current = this.other[i]
+        if (current.time >= time) {
+          next = current
+          break
         } else {
-          previous = this.other[i]
+          previous = current
         }
       }
     }
     if (next == null) {
       return previous.position
     } else {
-      const x2 = next.time
-      const x1 = previous.time
+      const t2 = next.time
+      const t1 = previous.time
 
-      const yx2 = next.position.x
-      const yx1 = previous.position.x
-
-      const yy2 = next.position.y
-      const yy1 = previous.position.y
-
-      const mx = (yx2 - yx1) / (x2 - x1)
-      const my = (yy2 - yy1) / (x2 - x1)
+      const mx = (next.position.x - previous.position.x) / (t2 - t1)
+      const my = (next.position.y - previous.position.y) / (t2 - t1)
 
       return new Position(mx * time, my * time)
     }
