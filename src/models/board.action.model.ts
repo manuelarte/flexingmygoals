@@ -1,6 +1,6 @@
 import { ValidationException } from '@/models/validation.model'
 
-export class PlayerModel {
+export class PlayerBoard {
   public name: string
   public number: number
   constructor (name: string, number: number) {
@@ -15,7 +15,7 @@ export class PlayerModel {
   }
 }
 
-export class Position {
+export class BoardPosition {
   public x: number
   public y: number
   constructor (x: number, y: number) {
@@ -33,12 +33,12 @@ export class Position {
 /**
  * ActionTimestamp declares a position for a particular moment in time.
  */
-export class ActionTimestamp {
+export class BoardActionTimestamp {
   /* The position at one particular moment on time */
-  public position: Position
+  public position: BoardPosition
   /* The moment in time */
   public time: number
-  constructor (position: Position, time: number) {
+  constructor (position: BoardPosition, time: number) {
     if (time < 0 || time > 1) {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
@@ -47,12 +47,12 @@ export class ActionTimestamp {
   }
 }
 
-export class ActionPositions {
+export class BoardAction {
   /* initialPosition of the object in time, t=0 */
-  public initialPosition: Position
+  public initialPosition: BoardPosition
   /* other positions of the object for different times */
-  public other: Array<ActionTimestamp>
-  constructor (initialPosition: Position, other: Array<ActionTimestamp>) {
+  public other: Array<BoardActionTimestamp>
+  constructor (initialPosition: BoardPosition, other: Array<BoardActionTimestamp>) {
     this.initialPosition = initialPosition
     // TODO(manuelarte): validate that the time is not repeated
     this.other = other.slice().sort((a, b): number => {
@@ -60,13 +60,13 @@ export class ActionPositions {
     })
   }
 
-  getPositionForTime (time: number): Position {
+  getPositionForTime (time: number): BoardPosition {
     if (time < 0 || time > 1) {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
 
-    let previous: ActionTimestamp = new ActionTimestamp(this.initialPosition, 0)
-    let next: ActionTimestamp | null = null
+    let previous: BoardActionTimestamp = new BoardActionTimestamp(this.initialPosition, 0)
+    let next: BoardActionTimestamp | null = null
 
     if (this.other.length > 0) {
       for (let i = 0; i < this.other.length; i++) {
@@ -88,7 +88,7 @@ export class ActionPositions {
       const mx = (next.position.x - previous.position.x) / (t2 - t1)
       const my = (next.position.y - previous.position.y) / (t2 - t1)
 
-      return new Position(mx * time, my * time)
+      return new BoardPosition(mx * time, my * time)
     }
   }
 }

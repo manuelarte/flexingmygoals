@@ -1,5 +1,5 @@
 <template>
-  <Action />
+  <Board />
 </template>
 
 <script lang="ts" setup>

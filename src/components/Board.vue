@@ -28,10 +28,10 @@
 <script setup lang="ts">
   import { useDraggable } from '@vueuse/core'
   import Field from '@/components/Field.vue'
-  import { PlayerModel } from '@/models/action.record.model.ts'
+  import { PlayerBoard } from '@/models/board.action.model.ts'
 
   interface PlayerAction {
-    player: PlayerModel
+    player: PlayerBoard
     color: string
   }
 
@@ -52,7 +52,7 @@
   })
 
   const player1: PlayerAction = {
-    player: new PlayerModel('John', 10),
+    player: new PlayerBoard('John', 10),
     color: 'myTeam',
   }
 
