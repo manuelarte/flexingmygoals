@@ -64,9 +64,10 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
 
 @keyframes scaleAnimation
   0%
-    transform: scale(1)
+    margin-right: 100%
+    transform: scale(1) translate(0, -50%)
   100%
-    transform: scale(1.2)
+    transform: scale(1.2) translate(0, -50%)
 
 .dragging
   animation: scaleAnimation 0.2s forwards
@@ -78,6 +79,7 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   color: white
   text-shadow: 0 1px 2px black
   white-space: nowrap
+  transform: translate(-50%, -50%)
 
 .myTeam
   background: $myTeam_color radial-gradient(circle at 30% 30%, $myTeam_color, $myTeam_color_dark)
@@ -91,7 +93,6 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   flex-direction: column
   float: left
   align-items: center
-  transform: translate(math.div(-$player_size, 2), math.div(-$player_size, 2))
   transition: transform 0.2s
   user-select: none
 
@@ -106,5 +107,10 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   font-size: $player_number_size
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
   transition: background-color 0.3s
+  transform: translate(0%, -50%)
+  margin-right: 100%
   border-radius: 50%
+
+.debug
+  border: 1px solid red
 </style>
