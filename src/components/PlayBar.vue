@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-slider
-      v-model="timeValue"
       append-icon="mdi-replay"
       class="slider"
       max="1"
       min="0"
+      :model-value="timeValue"
       :prepend-icon="getPlayBarIcon()"
       thumb-label="always"
       @change="$emit('time-changed', $event)"
@@ -46,8 +46,8 @@
     return props.isPlaying ? 'mdi-pause' : 'mdi-play'
   }
 
-  const timeChanged = (): void => {
-    console.log('time changed')
+  const timeChanged = (newValue: number): void => {
+    timeValue.value = newValue
     emits('time-changed', timeValue.value)
   }
 </script>
