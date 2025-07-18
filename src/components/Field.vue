@@ -75,11 +75,11 @@ $goal_width: 20%
     .center-line
       background-color: white
       height: $line_border
-      left: 0
+      left: 1%
       position: absolute
       transform: translateY(-50%)
       top: $field_length
-      width: 100%
+      width: 98%
 
     .center-circle
       position: absolute
@@ -119,7 +119,7 @@ $goal_width: 20%
         position: absolute
         border-radius: 50%
         margin-left: 50%
-        margin-top: 0.75 * $box_height * 0.7
+        margin-top: 0.75 * $box_height
         width: 5px
         height: 5px
         background: white
