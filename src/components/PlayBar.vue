@@ -2,14 +2,13 @@
   <v-container>
     <v-slider
       append-icon="mdi-replay"
-      class="slider"
       max="1"
       min="0"
       :model-value="timeValue"
       :prepend-icon="getPlayBarIcon()"
       thumb-label="always"
-      @change="$emit('time-changed', $event)"
-      @click:prepend="$emit('toggle-play', !isPlaying)"
+      @click:append="resetTime"
+      @click:prepend="changeIsPlaying(!isPlaying)"
       @update:model-value="timeChanged"
     />
   </v-container>
@@ -42,17 +41,24 @@
 
   const timeValue = ref(props.time)
 
+  const changeIsPlaying = (newValue: boolean): void => {
+    emits('toggle-play', newValue)
+  }
+
   const getPlayBarIcon = (): string => {
     return props.isPlaying ? 'mdi-pause' : 'mdi-play'
   }
 
   const timeChanged = (newValue: number): void => {
-    timeValue.value = newValue
-    emits('time-changed', timeValue.value)
+    timeValue.value = newValue // needed to update the slider
+    emits('time-changed', newValue)
+  }
+
+  const resetTime = (): void => {
+    changeIsPlaying(false)
+    timeChanged(0)
   }
 </script>
 
 <style scoped lang="sass">
-.slider
-  vertical-align: middle
 </style>
