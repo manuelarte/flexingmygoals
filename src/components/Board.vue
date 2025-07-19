@@ -10,10 +10,10 @@
         >
           <Player
             id="player1"
-            :color="player1.color"
+            :color="player1.item.color"
             :is-draggable="true"
             :is-dragging="isDragging"
-            :player="player1.playerAction.item"
+            :player="player1.item"
           />
         </div>
         <div ref="ballRef" class="ball-wrapper">
@@ -26,15 +26,9 @@
 </template>
 
 <script setup lang="ts">
-  import type { BoardItemAction, BoardPlayer } from '@/models/board.action.model.ts'
   import { useDraggable } from '@vueuse/core'
   import Field from '@/components/Field.vue'
   import { PlayerJohn } from '@/models/board.example.ts'
-
-  interface PlayerAction {
-    playerAction: BoardItemAction<BoardPlayer>
-    color: string
-  }
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
   const playerRef = useTemplateRef('playerRef')
@@ -52,10 +46,7 @@
     },
   })
 
-  const player1: PlayerAction = {
-    playerAction: PlayerJohn,
-    color: 'myTeam',
-  }
+  const player1 = PlayerJohn
 
 </script>
 

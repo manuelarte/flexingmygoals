@@ -1,5 +1,10 @@
 import { ValidationException } from '@/models/validation.model'
 
+export enum TeamSide {
+  MyTeam = 'myTeam',
+  OpponentTeam = 'opponentTeam',
+}
+
 interface BoardItem {}
 
 export class BoardBall implements BoardItem {}
@@ -7,7 +12,8 @@ export class BoardBall implements BoardItem {}
 export class BoardPlayer implements BoardItem {
   public name: string
   public number: number
-  constructor (name: string, number: number) {
+  public color: TeamSide
+  constructor (name: string, number: number, color: TeamSide) {
     if (name.length < 2) {
       throw new ValidationException('name too short')
     }
@@ -16,6 +22,7 @@ export class BoardPlayer implements BoardItem {
     }
     this.name = name
     this.number = number
+    this.color = color
   }
 }
 
