@@ -49,7 +49,7 @@
       if (props.isPlaying) {
         changeTime(timeValue.value + 0.01)
       }
-      if (timeValue.value > 1) {
+      if (timeValue.value >= 1) {
         changeIsPlaying(false)
         changeTime(1)
       }
