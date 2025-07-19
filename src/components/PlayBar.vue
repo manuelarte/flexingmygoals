@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-
   const props = defineProps({
     isPlaying: {
       type: Boolean,
@@ -32,10 +31,10 @@
 
   const emits = defineEmits(
     {
-      'toggle-play': (_: boolean) => true,
       'time-changed': (newTime: number) => {
         return newTime >= 0 && newTime <= 100
       },
+      'toggle-play': (_: boolean) => true,
     },
   )
 
