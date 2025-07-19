@@ -6,7 +6,7 @@
           ref="playerRef"
           class="player-wrapper"
           style="position: absolute"
-          :style="style"
+          :style="{ left: `${playerTimePos.x}px`, top: `${playerTimePos.y}px` }"
         >
           <Player
             id="player1"
@@ -41,7 +41,15 @@
   })
 
   const playerTimePos = computed (() => {
-    return player1.actions.getPositionForTime(props.time)
+    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    const rect = fieldWrapperRef.value!.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const normalizePos = player1.actions.getPositionForTime(props.time)
+    return {
+      x: normalizePos.x * width,
+      y: normalizePos.y * height,
+    }
   })
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')

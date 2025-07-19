@@ -105,8 +105,8 @@ export class BoardAction {
       const mx = (next.position.x - previous.position.x) / (t2 - t1)
       const my = (next.position.y - previous.position.y) / (t2 - t1)
 
-      const newX = Number.parseFloat((mx * time + previous.position.x).toFixed(2))
-      const newY = Number.parseFloat((my * time + previous.position.y).toFixed(2))
+      const newX = Number.parseFloat((mx * time + previous.position.x).toFixed(3))
+      const newY = Number.parseFloat((my * time + previous.position.y).toFixed(3))
       return new BoardPosition(newX, newY)
     }
   }
