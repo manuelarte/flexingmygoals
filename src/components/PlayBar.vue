@@ -9,7 +9,7 @@
       thumb-label="always"
       @click:append="resetTime"
       @click:prepend="changeIsPlaying(!isPlaying)"
-      @update:model-value="timeChanged"
+      @update:model-value="changeTime"
     />
   </v-container>
 </template>
@@ -38,7 +38,26 @@
     },
   )
 
+  onBeforeUnmount(() => {
+    if (intervalId != null) {
+      clearInterval(intervalId)
+    }
+  })
+
+  onMounted(() => {
+    intervalId = setInterval(() => {
+      if (props.isPlaying) {
+        changeTime(timeValue.value + 0.01)
+      }
+      if (timeValue.value > 1) {
+        changeIsPlaying(false)
+        changeTime(1)
+      }
+    }, 100)
+  })
+
   const timeValue = ref(props.time)
+  let intervalId: ReturnType<typeof setInterval> | null = null
 
   const changeIsPlaying = (newValue: boolean): void => {
     emits('toggle-play', newValue)
@@ -48,14 +67,14 @@
     return props.isPlaying ? 'mdi-pause' : 'mdi-play'
   }
 
-  const timeChanged = (newValue: number): void => {
-    timeValue.value = newValue // needed to update the slider
+  const changeTime = (newValue: number): void => {
+    timeValue.value = Number.parseFloat(newValue.toFixed(2))
     emits('time-changed', newValue)
   }
 
   const resetTime = (): void => {
     changeIsPlaying(false)
-    timeChanged(0)
+    changeTime(0)
   }
 </script>
 
