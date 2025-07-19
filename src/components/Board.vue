@@ -30,6 +30,20 @@
   import Field from '@/components/Field.vue'
   import { PlayerJohn } from '@/models/board.example.ts'
 
+  const props = defineProps({
+    time: {
+      type: Number,
+      required: true,
+      validator (value: number, _) {
+        return value >= 0 && value <= 100
+      },
+    },
+  })
+
+  const playerTimePos = computed (() => {
+    return player1.actions.getPositionForTime(props.time)
+  })
+
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
   const playerRef = useTemplateRef('playerRef')
   const ballRef = useTemplateRef('ballRef')

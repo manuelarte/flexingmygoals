@@ -21,6 +21,15 @@ test('ActionPositions get position for time 0.5 from 0 to 1', () => {
   expect(actionPositions.getPositionForTime(0.5)).toStrictEqual(new BoardPosition(0.5, 0.5))
 })
 
+test('ActionPositions get position for time 0.5 from 0.5 to 1', () => {
+  const initialPosition = new BoardPosition(0.5, 0.5)
+  const other = [
+    new BoardActionTimestamp(new BoardPosition(1, 1), 1),
+  ]
+  const actionPositions = new BoardAction(initialPosition, other)
+  expect(actionPositions.getPositionForTime(0.5)).toStrictEqual(new BoardPosition(0.75, 0.75))
+})
+
 test('ActionPositions get position for time only initial value', () => {
   const initialPosition = new BoardPosition(0.2, 0.2)
   const other: Array<BoardActionTimestamp> = [
