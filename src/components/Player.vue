@@ -15,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
-  import { PlayerBoard } from '@/models/board.action.model.ts'
+  import { BoardPlayer } from '@/models/board.action.model.ts'
 
   defineProps({
     player: {
-      type: PlayerBoard,
+      type: BoardPlayer,
       required: true,
-      validator (player: PlayerBoard, _) {
+      validator (player: BoardPlayer, _) {
         const name = player.name
         const number = player.number
         return name.length >= 3

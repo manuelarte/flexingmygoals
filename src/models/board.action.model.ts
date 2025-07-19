@@ -1,6 +1,10 @@
 import { ValidationException } from '@/models/validation.model'
 
-export class PlayerBoard {
+interface BoardItem {}
+
+export class BoardBall implements BoardItem {}
+
+export class BoardPlayer implements BoardItem {
   public name: string
   public number: number
   constructor (name: string, number: number) {
@@ -15,6 +19,9 @@ export class PlayerBoard {
   }
 }
 
+/**
+ * The position of an item in the board.
+ */
 export class BoardPosition {
   public x: number
   public y: number
@@ -31,7 +38,7 @@ export class BoardPosition {
 }
 
 /**
- * ActionTimestamp declares a position for a particular moment in time.
+ * BoardActionTimestamp declares a position for a particular moment in time.
  */
 export class BoardActionTimestamp {
   /* The position at one particular moment on time */
@@ -47,6 +54,9 @@ export class BoardActionTimestamp {
   }
 }
 
+/**
+ * BoardAction declares the initial position and the rest of positions for a player/ball
+ */
 export class BoardAction {
   /* initialPosition of the object in time, t=0 */
   public initialPosition: BoardPosition
@@ -90,5 +100,15 @@ export class BoardAction {
 
       return new BoardPosition(mx * time, my * time)
     }
+  }
+}
+
+export class BoardItemAction<Type extends BoardItem> {
+  public item: Type
+  public actions: BoardAction
+
+  constructor (item: Type, actions: BoardAction) {
+    this.item = item
+    this.actions = actions
   }
 }
