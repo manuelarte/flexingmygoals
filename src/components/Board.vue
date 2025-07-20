@@ -18,13 +18,13 @@
           />
         </div>
         <div
-          ref="playerOpponentKeeperRef"
+          ref="playerOpponentTeamKeeperRef"
           class="player-wrapper"
           style="position: absolute"
           :style="{ left: `${playerOpponentTeamKeeperTimePos.x}px`, top: `${playerOpponentTeamKeeperTimePos.y}px` }"
         >
           <Player
-            id="player1"
+            id="playerOpponentTeamKeeper"
             :color="playerOpponentTeamKeeper.item.color"
             :is-draggable="false"
             :is-dragging="false"

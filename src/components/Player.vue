@@ -1,9 +1,9 @@
 <template>
   <div class="player-wrapper">
     <div
-      class="player"
+      class="player keeper"
       :class="{ myTeam: color === 'myTeam',
-                opponent: color === 'opponentTeam',
+                opponentTeam: color === 'opponentTeam',
                 draggable: isDraggable,
                 dragging: isDragging,
       }"
@@ -74,8 +74,11 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
 .myTeam
   background: $myTeam_color radial-gradient(circle at 30% 30%, $myTeam_color, $myTeam_color_dark)
 
-.opponent
-  background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color, #450d03)
+.opponentTeam
+  background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color, $opponent_color_dark)
+
+  &.keeper
+    background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color_dark, #660000)
 
 .player-wrapper
   position: relative
