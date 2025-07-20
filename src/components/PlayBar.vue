@@ -13,7 +13,7 @@
         <v-btn
           :disabled="timeValue >= 1"
           :icon="getPlayBarIcon()"
-          size="small"
+          size="x-small"
           variant="text"
           @click="changeIsPlaying(!isPlaying)"
         />

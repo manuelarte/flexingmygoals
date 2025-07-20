@@ -1,11 +1,19 @@
 <template>
-  <PlayBar
-    :is-playing="isPlaying"
-    :time="time"
-    @time-changed="onTimeChanged"
-    @toggle-play="onTogglePlay"
-  />
-  <Board :action="Example1" :time="time" />
+  <v-container class="fill-height">
+    <v-row no-gutters rows="12">
+      <div class="board">
+        <Board :action="Example1" :time="time" />
+      </div>
+      <div class="slider">
+        <PlayBar
+          :is-playing="isPlaying"
+          :time="time"
+          @time-changed="onTimeChanged"
+          @toggle-play="onTogglePlay"
+        />
+      </div>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
@@ -22,3 +30,11 @@
     isPlaying.value = newValue
   }
 </script>
+
+<style scoped lang="sass">
+  .board
+    height: 80vh
+    width: 100%
+  .slider
+    width: 100%
+</style>

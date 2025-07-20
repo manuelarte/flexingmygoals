@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height" max-width="900">
+  <v-container class="fill-height">
     <div ref="fieldWrapperRef" class="field-wrapper">
       <Field class="field-container">
         <!-- Players -->
@@ -133,8 +133,6 @@
 .field-wrapper
   height: 100%
   width: 100%
-  max-height: 500px
-  max-width: 800px
 .field-container
   position: relative
 .player-wrapper
