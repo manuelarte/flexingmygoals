@@ -20,7 +20,9 @@ export const PlayerManuel = new BoardItemAction(
 export const OpponentKeeper = new BoardItemAction(
   new BoardPlayer('Keeper', 1, TeamSide.OpponentTeam),
   new BoardAction(
-    new BoardPosition(0.5, 0.05),
-    [],
+    new BoardPosition(0.5, 0.07),
+    [
+      new BoardActionTimestamp(new BoardPosition(0.46, 0.05), 0.2),
+    ],
   ),
 )
