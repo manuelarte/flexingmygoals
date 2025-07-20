@@ -5,11 +5,11 @@ export enum TeamSide {
   OpponentTeam = 'opponentTeam',
 }
 
-interface BoardItem {}
+interface BoardPin {}
 
-export class BoardBall implements BoardItem {}
+export class BoardBall implements BoardPin {}
 
-export class BoardPlayer implements BoardItem {
+export class BoardPlayer implements BoardPin {
   public name: string
   public number: number
   public color: TeamSide
@@ -27,7 +27,7 @@ export class BoardPlayer implements BoardItem {
 }
 
 /**
- * The position of an item in the board.
+ * The normalized position of a pin (Player or Ball) in the board.
  * @param x the coordinate from [0, 1] in the board where 0 is the left side of the pitch.
  * @param y the coordinate from [0, 1] in the board where 0 is where the opponent team goal is.
  */
@@ -47,12 +47,12 @@ export class BoardPosition {
 }
 
 /**
- * BoardActionTimestamp declares a position for a particular moment in time.
+ * BoardActionTimestamp declares a board position for a particular moment in time.
  */
 export class BoardActionTimestamp {
   /* The position at one particular moment on time */
   public position: BoardPosition
-  /* The moment in time */
+  /* The moment in time [0, 1] */
   public time: number
   constructor (position: BoardPosition, time: number) {
     if (time < 0 || time > 1) {
@@ -64,7 +64,7 @@ export class BoardActionTimestamp {
 }
 
 /**
- * BoardAction declares the initial position and the rest of positions for a player/ball
+ * BoardAction declares the initial board position and the rest of the board positions for a pin (player/ball).
  */
 export class BoardAction {
   /* initialPosition of the object in time, t=0 */
@@ -79,6 +79,10 @@ export class BoardAction {
     })
   }
 
+  /**
+   * Returns the BoardPosition based on linear interpolation for an specific moment in time.
+   * @param time the moment in time [0, 1].
+   */
   getPositionForTime (time: number): BoardPosition {
     if (time < 0 || time > 1) {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
@@ -114,12 +118,23 @@ export class BoardAction {
   }
 }
 
-export class BoardItemAction<Type extends BoardItem> {
+/**
+ * Holder for the board position in any particular moment in time [0, 1].
+ */
+export class BoardPinAction<Type extends BoardPin> {
   public item: Type
   public actions: BoardAction
 
   constructor (item: Type, actions: BoardAction) {
     this.item = item
     this.actions = actions
+  }
+
+  /**
+   * Returns the BoardPosition based on linear interpolation for an specific moment in time.
+   * @param time the moment in time [0, 1].
+   */
+  getPositionForTime (time: number): BoardPosition {
+    return this.actions.getPositionForTime(time)
   }
 }

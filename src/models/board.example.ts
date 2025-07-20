@@ -1,13 +1,13 @@
 import {
   BoardAction,
   BoardActionTimestamp,
-  BoardItemAction,
+  BoardPinAction,
   BoardPlayer,
   BoardPosition,
   TeamSide,
 } from './board.action.model'
 
-export const PlayerManuel = new BoardItemAction(
+export const PlayerManuel = new BoardPinAction(
   new BoardPlayer('Manuel', 12, TeamSide.MyTeam),
   new BoardAction(
     new BoardPosition(0.2, 0.4),
@@ -17,7 +17,7 @@ export const PlayerManuel = new BoardItemAction(
   ),
 )
 
-export const OpponentKeeper = new BoardItemAction(
+export const OpponentKeeper = new BoardPinAction(
   new BoardPlayer('Keeper', 1, TeamSide.OpponentTeam),
   new BoardAction(
     new BoardPosition(0.5, 0.07),

@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { TeamSide } from '@/models/board.action.model.ts'
   import { BoardPlayer } from '@/models/board.action.model.ts'
 
   defineProps({
@@ -30,10 +31,10 @@
     },
     color: {
       type: String,
-      validator (value: string, _) {
-        return ['myTeam', 'opponent'].includes(value)
+      validator (value: TeamSide, _) {
+        return ['myTeam', 'opponentTeam'].includes(value)
       },
-      default: 'home',
+      required: true,
     },
     isDraggable: {
       type: Boolean,

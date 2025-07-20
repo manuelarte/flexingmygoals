@@ -63,12 +63,12 @@
 
   const playerMyTeamMainTimePos = computed (() => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
-    const normalizePos = playerMyTeamMain.actions.getPositionForTime(props.time)
+    const normalizePos = playerMyTeamMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerOpponentTeamKeeperTimePos = computed (() => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
-    const normalizePos = playerOpponentTeamKeeper.actions.getPositionForTime(props.time)
+    const normalizePos = playerOpponentTeamKeeper.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
 
