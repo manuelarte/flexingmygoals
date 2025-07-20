@@ -2,20 +2,36 @@
   <v-container class="fill-height" max-width="900">
     <div ref="fieldWrapperRef" class="field-wrapper">
       <Field class="field-container">
+        <!-- Players -->
         <div
-          ref="playerRef"
+          ref="playerMainRef"
           class="player-wrapper"
           style="position: absolute"
-          :style="{ left: `${playerTimePos.x}px`, top: `${playerTimePos.y}px` }"
+          :style="{ left: `${playerMyTeamMainTimePos.x}px`, top: `${playerMyTeamMainTimePos.y}px` }"
+        >
+          <Player
+            id="playerMain"
+            :color="playerMyTeamMain.item.color"
+            :is-draggable="false"
+            :is-dragging="false"
+            :player="playerMyTeamMain.item"
+          />
+        </div>
+        <div
+          ref="playerOpponentKeeperRef"
+          class="player-wrapper"
+          style="position: absolute"
+          :style="{ left: `${playerOpponentTeamKeeperTimePos.x}px`, top: `${playerOpponentTeamKeeperTimePos.y}px` }"
         >
           <Player
             id="player1"
-            :color="player1.item.color"
+            :color="playerOpponentTeamKeeper.item.color"
             :is-draggable="false"
-            :is-dragging="isDragging"
-            :player="player1.item"
+            :is-dragging="false"
+            :player="playerOpponentTeamKeeper.item"
           />
         </div>
+        <!-- End Players -->
         <div ref="ballRef" class="ball-wrapper">
           <Ball />
         </div>
@@ -26,9 +42,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useDraggable } from '@vueuse/core'
+  import type { BoardPosition } from '@/models/board.action.model.ts'
   import Field from '@/components/Field.vue'
-  import { PlayerJohn } from '@/models/board.example.ts'
+  import { OpponentKeeper, PlayerManuel } from '@/models/board.example.ts'
+
+  interface RelativePos {
+    x: number
+    y: number
+  }
 
   const props = defineProps({
     time: {
@@ -40,35 +61,32 @@
     },
   })
 
-  const playerTimePos = computed (() => {
+  const playerMyTeamMainTimePos = computed (() => {
+    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    const normalizePos = playerMyTeamMain.actions.getPositionForTime(props.time)
+    return denormalizePos(normalizePos)
+  })
+  const playerOpponentTeamKeeperTimePos = computed (() => {
+    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    const normalizePos = playerOpponentTeamKeeper.actions.getPositionForTime(props.time)
+    return denormalizePos(normalizePos)
+  })
+
+  const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
+
+  const playerMyTeamMain = PlayerManuel
+  const playerOpponentTeamKeeper = OpponentKeeper
+
+  const denormalizePos = (normalizePos: BoardPosition): RelativePos => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
     const rect = fieldWrapperRef.value!.getBoundingClientRect()
     const width = rect.width
     const height = rect.height
-    const normalizePos = player1.actions.getPositionForTime(props.time)
     return {
       x: normalizePos.x * width,
       y: normalizePos.y * height,
     }
-  })
-
-  const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
-  const playerRef = useTemplateRef('playerRef')
-  const ballRef = useTemplateRef('ballRef')
-
-  // `style` will be a helper computed for `left: ?px; top: ?px;`
-  const { x, y, isDragging, style } = useDraggable(playerRef, {
-    initialValue: { x: 0, y: 0 },
-    onMove: position => {
-      const rect = fieldWrapperRef.value!.getBoundingClientRect()
-      position.x = position.x - rect.left
-      position.y = position.y - rect.top
-      position.x = Math.max(0, Math.min(position.x, rect.width))
-      position.y = Math.max(0, Math.min(position.y, rect.height))
-    },
-  })
-
-  const player1 = PlayerJohn
+  }
 
 </script>
 

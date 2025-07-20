@@ -28,6 +28,8 @@ export class BoardPlayer implements BoardItem {
 
 /**
  * The position of an item in the board.
+ * @param x the coordinate from [0, 1] in the board where 0 is the left side of the pitch.
+ * @param y the coordinate from [0, 1] in the board where 0 is where the opponent team goal is.
  */
 export class BoardPosition {
   public x: number

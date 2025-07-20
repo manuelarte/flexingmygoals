@@ -3,7 +3,7 @@
     <div
       class="player"
       :class="{ myTeam: color === 'myTeam',
-                opponent: color === 'opponent',
+                opponent: color === 'opponentTeam',
                 draggable: isDraggable,
                 dragging: isDragging,
       }"
