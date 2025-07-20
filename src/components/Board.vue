@@ -11,7 +11,7 @@
           <Player
             id="player1"
             :color="player1.item.color"
-            :is-draggable="true"
+            :is-draggable="false"
             :is-dragging="isDragging"
             :player="player1.item"
           />

@@ -62,16 +62,6 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
 .draggable
   cursor: move
 
-@keyframes scaleAnimation
-  0%
-    margin-right: 100%
-    transform: scale(1) translate(0, -50%)
-  100%
-    transform: scale(1.2) translate(0, -50%)
-
-.dragging
-  animation: scaleAnimation 0.2s forwards
-
 .label
   margin-top: 4px
   font-size: $player_name_size
@@ -111,6 +101,13 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   margin-right: 100%
   border-radius: 50%
 
-.debug
-  border: 1px solid red
+.player:hover
+  animation: scaleAnimation 0.2s forwards
+
+@keyframes scaleAnimation
+  0%
+    margin-right: 100%
+    transform: scale(1) translate(0, -50%)
+  100%
+    transform: scale(1.2) translate(0, -50%)
 </style>
