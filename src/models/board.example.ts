@@ -44,7 +44,7 @@ export const Example1 = new BoardAction
   me,
   opponentKeeper,
   [
-    new BoardActorAction(
+    /* new BoardActorAction(
       new BoardPlayer('Center Back', 4, TeamSide.OpponentTeam),
       new BoardActorMoves(
         new BoardPosition(0.15, 0.17),
@@ -52,7 +52,7 @@ export const Example1 = new BoardAction
           new BoardMoveTimestamp(new BoardPosition(0.46, 0.15), 0.28),
         ],
       ),
-    ),
+    ), */
     new BoardActorAction(
       new BoardPlayer('John', 9, TeamSide.MyTeam),
       new BoardActorMoves(

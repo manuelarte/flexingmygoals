@@ -158,12 +158,20 @@ export class BoardActorMoves {
  * Holder for the board position in any particular moment in time [0, 1].
  */
 export class BoardActorAction<Type extends BoardActor> {
-  public item: Type
-  public moves: BoardActorMoves
+  private readonly _actor: Type
+  private readonly _moves: BoardActorMoves
 
-  constructor (item: Type, moves: BoardActorMoves) {
-    this.item = item
-    this.moves = moves
+  constructor (actor: Type, moves: BoardActorMoves) {
+    this._actor = actor
+    this._moves = moves
+  }
+
+  get actor (): Type {
+    return this._actor
+  }
+
+  get moves (): BoardActorMoves {
+    return this._moves
   }
 
   /**
@@ -186,18 +194,18 @@ export class BoardAction {
   /* The keeper board positions during the action. */
   private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
 
-  private readonly _other: Array<BoardActorAction<BoardPlayer>>
+  private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
     ball: BoardActorAction<BoardBall>,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
-    other: Array<BoardActorAction<BoardPlayer>>,
+    otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
     this._ball = ball
     this._playerMain = mainPlayer
     this._opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
-    this._other = other.slice()
+    this._otherPlayers = otherPlayers.slice()
   }
 
   get ball (): BoardActorAction<BoardBall> {
@@ -212,7 +220,7 @@ export class BoardAction {
     return this._opponentTeamKeeperPlayer
   }
 
-  get other (): Array<BoardActorAction<BoardPlayer>> {
-    return this._other
+  get otherPlayers (): Array<BoardActorAction<BoardPlayer>> {
+    return this._otherPlayers
   }
 }

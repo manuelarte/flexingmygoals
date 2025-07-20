@@ -4,6 +4,20 @@
       <Field class="field-container">
         <!-- Players -->
         <div
+          v-for="(playerAction, index) in action.otherPlayers"
+          :key="index"
+          class="player-wrapper"
+          style="position: absolute"
+          :style="{ left: `0px`, top: `0px` }"
+        >
+          <Player
+            :color="playerAction.actor.color"
+            :is-draggable="false"
+            :is-dragging="false"
+            :player="playerAction.actor"
+          />
+        </div>
+        <div
           ref="playerMainRef"
           class="player-wrapper"
           style="position: absolute"
@@ -11,10 +25,10 @@
         >
           <Player
             id="playerMain"
-            :color="action.playerMain.item.color"
+            :color="action.playerMain.actor.color"
             :is-draggable="false"
             :is-dragging="false"
-            :player="action.playerMain.item"
+            :player="action.playerMain.actor"
           />
         </div>
         <div
@@ -25,10 +39,10 @@
         >
           <Player
             id="playerOpponentTeamKeeper"
-            :color="action.opponentTeamKeeperPlayer.item.color"
+            :color="action.opponentTeamKeeperPlayer.actor.color"
             :is-draggable="false"
             :is-dragging="false"
-            :player="action.opponentTeamKeeperPlayer.item"
+            :player="action.opponentTeamKeeperPlayer.actor"
           />
         </div>
         <!-- End Players -->
