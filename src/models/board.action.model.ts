@@ -175,7 +175,7 @@ export class BoardActorAction<Type extends BoardActor> {
   }
 
   /**
-   * Returns the BoardPosition based on linear interpolation for an specific moment in time.
+   * Returns the BoardPosition based on linear interpolation for a specific moment in time.
    * @param time the moment in time [0, 1].
    */
   getPositionForTime (time: number): BoardPosition {

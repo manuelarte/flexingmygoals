@@ -5,12 +5,14 @@
     @time-changed="onTimeChanged"
     @toggle-play="onTogglePlay"
   />
-  <Board :time="time" />
+  <Board :action="Example1" :time="time" />
 </template>
 
 <script lang="ts" setup>
+  import { Example1 } from '@/models/board.example.ts'
+
   const isPlaying = ref(false)
-  const time = ref(0.1)
+  const time = ref(0)
 
   const onTimeChanged = (newValue: number) => {
     time.value = newValue

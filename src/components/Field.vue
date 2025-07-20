@@ -31,7 +31,7 @@ $line_border: 4px
 $field_outside_lines_percentage: 2%
 /* depending of the width of the field, the box, goals can look bigger */
 $field_width_max: 0.8
-/* Calculating the percentage that the box width has regarding the total width. For minimum field witdh is 90%, for maximum width is 45% */
+/* Calculating the percentage that the box width has regarding the total width. For minimum field width is 90%, for maximum width is 45% */
 $field_width_box_percentage: (-0.45 * $field_width_max + 0.9)*100%
 
 /* We only display 75% of the football field */
