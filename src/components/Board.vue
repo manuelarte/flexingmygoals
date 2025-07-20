@@ -11,10 +11,10 @@
         >
           <Player
             id="playerMain"
-            :color="playerMyTeamMain.item.color"
+            :color="action.playerMain.item.color"
             :is-draggable="false"
             :is-dragging="false"
-            :player="playerMyTeamMain.item"
+            :player="action.playerMain.item"
           />
         </div>
         <div
@@ -25,14 +25,18 @@
         >
           <Player
             id="playerOpponentTeamKeeper"
-            :color="playerOpponentTeamKeeper.item.color"
+            :color="action.opponentTeamKeeperPlayer.item.color"
             :is-draggable="false"
             :is-dragging="false"
-            :player="playerOpponentTeamKeeper.item"
+            :player="action.opponentTeamKeeperPlayer.item"
           />
         </div>
         <!-- End Players -->
-        <div ref="ballRef" class="ball-wrapper">
+        <div
+          ref="ballRef"
+          class="ball-wrapper"
+          :style="{ left: `${ballTimePos.x}px`, top: `${ballTimePos.y}px` }"
+        >
           <Ball />
         </div>
       </Field>
@@ -44,7 +48,7 @@
 <script setup lang="ts">
   import type { BoardPosition } from '@/models/board.action.model.ts'
   import Field from '@/components/Field.vue'
-  import { OpponentKeeper, PlayerManuel } from '@/models/board.example.ts'
+  import { Example1 } from '@/models/board.example.ts'
 
   interface RelativePos {
     x: number
@@ -61,21 +65,25 @@
     },
   })
 
+  const ballTimePos = computed (() => {
+    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    const normalizePos = action.ball.getPositionForTime(props.time)
+    return denormalizePos(normalizePos)
+  })
   const playerMyTeamMainTimePos = computed (() => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
-    const normalizePos = playerMyTeamMain.getPositionForTime(props.time)
+    const normalizePos = action.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerOpponentTeamKeeperTimePos = computed (() => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
-    const normalizePos = playerOpponentTeamKeeper.getPositionForTime(props.time)
+    const normalizePos = action.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
 
-  const playerMyTeamMain = PlayerManuel
-  const playerOpponentTeamKeeper = OpponentKeeper
+  const action = Example1
 
   const denormalizePos = (normalizePos: BoardPosition): RelativePos => {
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }

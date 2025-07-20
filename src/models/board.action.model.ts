@@ -5,11 +5,11 @@ export enum TeamSide {
   OpponentTeam = 'opponentTeam',
 }
 
-interface BoardPin {}
+interface BoardActor {}
 
-export class BoardBall implements BoardPin {}
+export class BoardBall implements BoardActor {}
 
-export class BoardPlayer implements BoardPin {
+export class BoardPlayer implements BoardActor {
   public name: string
   public number: number
   public color: TeamSide
@@ -27,7 +27,7 @@ export class BoardPlayer implements BoardPin {
 }
 
 /**
- * The normalized position of a pin (Player or Ball) in the board.
+ * The normalized position of an actor (Player or Ball) in the board.
  * @param x the coordinate from [0, 1] in the board where 0 is the left side of the pitch.
  * @param y the coordinate from [0, 1] in the board where 0 is where the opponent team goal is.
  */
@@ -47,9 +47,9 @@ export class BoardPosition {
 }
 
 /**
- * BoardActionTimestamp declares a board position for a particular moment in time.
+ * BoardMoveTimestamp declares a board position for a particular moment in time.
  */
-export class BoardActionTimestamp {
+export class BoardMoveTimestamp {
   /* The position at one particular moment on time */
   public position: BoardPosition
   /* The moment in time [0, 1] */
@@ -64,14 +64,15 @@ export class BoardActionTimestamp {
 }
 
 /**
- * BoardAction declares the initial board position and the rest of the board positions for a pin (player/ball).
+ * BoardActorMoves declares the initial board position and the rest of the board positions for an actor (player/ball).
  */
-export class BoardAction {
-  /* initialPosition of the object in time, t=0 */
+export class BoardActorMoves {
+  /* initialPosition of the actor in time, t=0 */
   public initialPosition: BoardPosition
-  /* other positions of the object for different times */
-  public other: Array<BoardActionTimestamp>
-  constructor (initialPosition: BoardPosition, other: Array<BoardActionTimestamp>) {
+  /* other positions of the actor for different times */
+  public other: Array<BoardMoveTimestamp>
+
+  constructor (initialPosition: BoardPosition, other: Array<BoardMoveTimestamp>) {
     this.initialPosition = initialPosition
     // TODO(manuelarte): validate that the time is not repeated
     this.other = other.slice().sort((a, b): number => {
@@ -80,7 +81,7 @@ export class BoardAction {
   }
 
   /**
-   * Returns the BoardPosition based on linear interpolation for an specific moment in time.
+   * Returns the BoardPosition based on linear interpolation for a specific moment in time.
    * @param time the moment in time [0, 1].
    */
   getPositionForTime (time: number): BoardPosition {
@@ -88,8 +89,8 @@ export class BoardAction {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
 
-    let previous: BoardActionTimestamp = new BoardActionTimestamp(this.initialPosition, 0)
-    let next: BoardActionTimestamp | null = null
+    let previous: BoardMoveTimestamp = new BoardMoveTimestamp(this.initialPosition, 0)
+    let next: BoardMoveTimestamp | null = null
 
     if (this.other.length > 0) {
       for (let i = 0; i < this.other.length; i++) {
@@ -121,13 +122,13 @@ export class BoardAction {
 /**
  * Holder for the board position in any particular moment in time [0, 1].
  */
-export class BoardPinAction<Type extends BoardPin> {
+export class BoardActorAction<Type extends BoardActor> {
   public item: Type
-  public actions: BoardAction
+  public moves: BoardActorMoves
 
-  constructor (item: Type, actions: BoardAction) {
+  constructor (item: Type, moves: BoardActorMoves) {
     this.item = item
-    this.actions = actions
+    this.moves = moves
   }
 
   /**
@@ -135,6 +136,21 @@ export class BoardPinAction<Type extends BoardPin> {
    * @param time the moment in time [0, 1].
    */
   getPositionForTime (time: number): BoardPosition {
-    return this.actions.getPositionForTime(time)
+    return this.moves.getPositionForTime(time)
+  }
+}
+
+/**
+ * All the board action with all the actors.
+ */
+export class BoardAction {
+  public ball: BoardActorAction<BoardBall>
+  public playerMain: BoardActorAction<BoardPlayer>
+  public opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+
+  constructor (ball: BoardActorAction<BoardBall>, mainPlayer: BoardActorAction<BoardPlayer>, opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>) {
+    this.ball = ball
+    this.playerMain = mainPlayer
+    this.opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
   }
 }
