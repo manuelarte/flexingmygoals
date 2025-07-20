@@ -27,6 +27,8 @@ $grass_color_primary: #3E7B3E
 $grass_color_secondary: #4A934A
 $line_border: 4px
 
+/* the amount of space of grass after the field lines */
+$field_outside_lines_percentage: 2%
 /* depending of the width of the field, the box, goals can look bigger */
 $field_width_max: 0.8
 /* Calculating the percentage that the box width has regarding the total width. For minimum field witdh is 90%, for maximum width is 45% */
@@ -49,7 +51,7 @@ $goal_width: 20%
 
 .field
   height: 100%
-  width: 98%
+  width: 100% - $field_outside_lines_percentage
   margin-left: auto
   margin-right: auto
   padding-top: 1%
@@ -79,7 +81,7 @@ $goal_width: 20%
       position: absolute
       transform: translateY(-50%)
       top: $field_length
-      width: 98%
+      width: 100% - $field_outside_lines_percentage
 
     .center-circle
       position: absolute
@@ -97,7 +99,7 @@ $goal_width: 20%
       border-left: $line_border solid white
       border-right: $line_border solid white
       border-bottom: $line_border solid white
-      margin-left: 50% - math.div($box_width, 2)
+      margin-left: 50% - $field_outside_lines_percentage - math.div($box_width, 2)
       width: $box_width
       height: $box_height
       .opponent-goal
@@ -105,20 +107,20 @@ $goal_width: 20%
         width: $goal_width
         height: $line_border
         background: white
-        margin-left: 50% - math.div($goal_width, 2)
+        margin-left: 51% - math.div($goal_width, 2)
         margin-top: -2 * $line_border
       .opponent-small-box
         position: absolute
         border-left: $line_border solid white
         border-right: $line_border solid white
         border-bottom: $line_border solid white
-        margin-left: 50% - math.div($small_box_width, 2)
+        margin-left: 51% - math.div($small_box_width, 2)
         width: $small_box_width
         height: $small_box_width * 0.8
       .opponent-penalty-point
         position: absolute
         border-radius: 50%
-        margin-left: 50%
+        margin-left: 50.2%
         margin-top: 0.75 * $box_height
         width: 5px
         height: 5px
