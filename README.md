@@ -21,6 +21,12 @@ pnpm dev
 
 After completing the commands, the application is running at [localhost:3000](http://localhost:3000).
 
+For the development of the app, we are using [husky][husky] pre-commit hooks. Remember to install them by:
+
+```bash
+husky install
+```
+
 ```text
 > Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
 ```
@@ -41,5 +47,6 @@ Here is a list of all the available features:
 
 + Replay action in board.
 
+[husky]: https://typicode.github.io/husky/
 [vuejs]: https://vuejs.org
 [vuetify]: https://vuetifyjs.com
