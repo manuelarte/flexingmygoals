@@ -46,6 +46,7 @@
             :color="action.opponentTeamKeeperPlayer.actor.color"
             :is-draggable="false"
             :is-dragging="false"
+            :is-keeper="true"
             :player="action.opponentTeamKeeperPlayer.actor"
           />
         </div>

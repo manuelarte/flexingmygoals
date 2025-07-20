@@ -1,11 +1,12 @@
 <template>
   <div class="player-wrapper">
     <div
-      class="player keeper"
+      class="player"
       :class="{ myTeam: color === 'myTeam',
                 opponentTeam: color === 'opponentTeam',
                 draggable: isDraggable,
                 dragging: isDragging,
+                keeper: isKeeper,
       }"
     >
       <div class="number">{{ player.number }}</div>
@@ -41,6 +42,10 @@
       default: false,
     },
     isDragging: {
+      type: Boolean,
+      default: false,
+    },
+    isKeeper: {
       type: Boolean,
       default: false,
     },
