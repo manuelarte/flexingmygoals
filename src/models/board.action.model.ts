@@ -10,19 +10,34 @@ interface BoardActor {}
 export class BoardBall implements BoardActor {}
 
 export class BoardPlayer implements BoardActor {
-  public name: string
-  public number: number
-  public color: TeamSide
+  private readonly _name: string
+  private readonly _number: number
+  private readonly _color: TeamSide
   constructor (name: string, number: number, color: TeamSide) {
     if (name.length < 2) {
       throw new ValidationException('name too short')
     }
+    if (name.length > 10) {
+      throw new ValidationException('name too long')
+    }
     if (!Number.isInteger(number) || number < 0 || number > 99) {
       throw new ValidationException('number not allowed')
     }
-    this.name = name
-    this.number = number
-    this.color = color
+    this._name = name
+    this._number = number
+    this._color = color
+  }
+
+  get name (): string {
+    return this._name
+  }
+
+  get number (): number {
+    return this._number
+  }
+
+  get color (): TeamSide {
+    return this._color
   }
 }
 
@@ -32,8 +47,8 @@ export class BoardPlayer implements BoardActor {
  * @param y the coordinate from [0, 1] in the board where 0 is where the opponent team goal is.
  */
 export class BoardPosition {
-  public x: number
-  public y: number
+  private readonly _x: number
+  private readonly _y: number
   constructor (x: number, y: number) {
     if (x < 0 || x > 1) {
       throw new ValidationException('x needs to be between [0.0, 1.0]')
@@ -41,8 +56,16 @@ export class BoardPosition {
     if (y < 0 || y > 1) {
       throw new ValidationException('y needs to be between [0.0, 1.0]')
     }
-    this.x = x
-    this.y = y
+    this._x = x
+    this._y = y
+  }
+
+  get x (): number {
+    return this._x
+  }
+
+  get y (): number {
+    return this._y
   }
 }
 
@@ -51,15 +74,23 @@ export class BoardPosition {
  */
 export class BoardMoveTimestamp {
   /* The position at one particular moment on time */
-  public position: BoardPosition
+  private readonly _position: BoardPosition
   /* The moment in time [0, 1] */
-  public time: number
+  private readonly _time: number
   constructor (position: BoardPosition, time: number) {
     if (time < 0 || time > 1) {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
-    this.position = position
-    this.time = time
+    this._position = position
+    this._time = time
+  }
+
+  get position (): BoardPosition {
+    return this._position
+  }
+
+  get time (): number {
+    return this._time
   }
 }
 
@@ -68,16 +99,20 @@ export class BoardMoveTimestamp {
  */
 export class BoardActorMoves {
   /* initialPosition of the actor in time, t=0 */
-  public initialPosition: BoardPosition
+  private readonly _initialPosition: BoardPosition
   /* other positions of the actor for different times */
-  public other: Array<BoardMoveTimestamp>
+  private readonly _other: Array<BoardMoveTimestamp>
 
   constructor (initialPosition: BoardPosition, other: Array<BoardMoveTimestamp>) {
-    this.initialPosition = initialPosition
+    this._initialPosition = initialPosition
     // TODO(manuelarte): validate that the time is not repeated
-    this.other = other.slice().sort((a, b): number => {
+    this._other = other.slice().sort((a, b): number => {
       return a.time - b.time
     })
+  }
+
+  get other (): Array<BoardMoveTimestamp> {
+    return this._other
   }
 
   /**
@@ -89,12 +124,12 @@ export class BoardActorMoves {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
 
-    let previous: BoardMoveTimestamp = new BoardMoveTimestamp(this.initialPosition, 0)
+    let previous: BoardMoveTimestamp = new BoardMoveTimestamp(this._initialPosition, 0)
     let next: BoardMoveTimestamp | null = null
 
-    if (this.other.length > 0) {
-      for (let i = 0; i < this.other.length; i++) {
-        const current = this.other[i]
+    if (this._other.length > 0) {
+      for (let i = 0; i < this._other.length; i++) {
+        const current = this._other[i]
         if (current.time >= time) {
           next = current
           break
@@ -144,13 +179,28 @@ export class BoardActorAction<Type extends BoardActor> {
  * All the board action with all the actors.
  */
 export class BoardAction {
-  public ball: BoardActorAction<BoardBall>
-  public playerMain: BoardActorAction<BoardPlayer>
-  public opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  /* The ball board positions during the action. */
+  private readonly _ball: BoardActorAction<BoardBall>
+  /* The main player board positions during the action. */
+  private readonly _playerMain: BoardActorAction<BoardPlayer>
+  /* The keeper board positions during the action. */
+  private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
 
   constructor (ball: BoardActorAction<BoardBall>, mainPlayer: BoardActorAction<BoardPlayer>, opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>) {
-    this.ball = ball
-    this.playerMain = mainPlayer
-    this.opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
+    this._ball = ball
+    this._playerMain = mainPlayer
+    this._opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
+  }
+
+  get ball (): BoardActorAction<BoardBall> {
+    return this._ball
+  }
+
+  get playerMain (): BoardActorAction<BoardPlayer> {
+    return this._playerMain
+  }
+
+  get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
+    return this._opponentTeamKeeperPlayer
   }
 }
