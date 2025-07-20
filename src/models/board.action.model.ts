@@ -17,7 +17,7 @@ export class BoardPlayer implements BoardActor {
     if (name.length < 2) {
       throw new ValidationException('name too short')
     }
-    if (name.length > 10) {
+    if (name.length > 15) {
       throw new ValidationException('name too long')
     }
     if (!Number.isInteger(number) || number < 0 || number > 99) {
@@ -186,10 +186,18 @@ export class BoardAction {
   /* The keeper board positions during the action. */
   private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
 
-  constructor (ball: BoardActorAction<BoardBall>, mainPlayer: BoardActorAction<BoardPlayer>, opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>) {
+  private readonly _other: Array<BoardActorAction<BoardPlayer>>
+
+  constructor (
+    ball: BoardActorAction<BoardBall>,
+    mainPlayer: BoardActorAction<BoardPlayer>,
+    opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
+    other: Array<BoardActorAction<BoardPlayer>>,
+  ) {
     this._ball = ball
     this._playerMain = mainPlayer
     this._opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
+    this._other = other.slice()
   }
 
   get ball (): BoardActorAction<BoardBall> {
@@ -202,5 +210,9 @@ export class BoardAction {
 
   get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
     return this._opponentTeamKeeperPlayer
+  }
+
+  get other (): Array<BoardActorAction<BoardPlayer>> {
+    return this._other
   }
 }
