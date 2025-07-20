@@ -44,21 +44,21 @@ export const Example1 = new BoardAction
   me,
   opponentKeeper,
   [
-    /* new BoardActorAction(
+    new BoardActorAction(
       new BoardPlayer('Center Back', 4, TeamSide.OpponentTeam),
       new BoardActorMoves(
-        new BoardPosition(0.15, 0.17),
+        new BoardPosition(0.35, 0.17),
         [
           new BoardMoveTimestamp(new BoardPosition(0.46, 0.15), 0.28),
         ],
       ),
-    ), */
+    ),
     new BoardActorAction(
       new BoardPlayer('John', 9, TeamSide.MyTeam),
       new BoardActorMoves(
-        new BoardPosition(0.3, 0.37),
+        new BoardPosition(0.3, 0.35),
         [
-          new BoardMoveTimestamp(new BoardPosition(0.6, 0.1), 0.3),
+          new BoardMoveTimestamp(new BoardPosition(0.55, 0.18), 0.3),
         ],
       ),
     ),

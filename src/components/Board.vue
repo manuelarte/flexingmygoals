@@ -9,7 +9,7 @@
           :key="index"
           class="player-wrapper"
           style="position: absolute"
-          :style="{ left: `0px`, top: `0px` }"
+          :style="{ left: `${otherPlayersTimePos[index].x}px`, top: `${otherPlayersTimePos[index].y}px` }"
         >
           <Player
             :id="`player${index}`"
@@ -99,6 +99,14 @@
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
     const normalizePos = props.action.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
+  })
+
+  const otherPlayersTimePos = computed(() => {
+    return props.action?.otherPlayers.map(player => {
+      if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+      const normalizePos = player.getPositionForTime(props.time)
+      return denormalizePos(normalizePos)
+    })
   })
 
   const fieldWrapperRef = useTemplateRef('fieldWrapperRef')
