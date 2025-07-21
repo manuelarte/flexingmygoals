@@ -1,10 +1,11 @@
 import {
-  BoardAction,
+  BoardActionInput,
   BoardActorAction, BoardActorMoves,
   BoardBall,
   BoardMoveTimestamp,
   BoardPlayer,
   BoardPosition,
+  SavedBoardAction,
   TeamSide,
 } from './board.action.model'
 
@@ -38,7 +39,7 @@ const opponentKeeper = new BoardActorAction(
   ),
 )
 
-export const Example1 = new BoardAction
+export const Example1 = new BoardActionInput
 (
   ball,
   me,
@@ -63,4 +64,14 @@ export const Example1 = new BoardAction
       ),
     ),
   ],
+)
+
+export const SavedExample1 = new SavedBoardAction(
+  '1',
+  new Date(),
+  'manuelarte',
+  Example1.ball,
+  Example1.playerMain,
+  Example1.opponentTeamKeeperPlayer,
+  Example1.otherPlayers,
 )

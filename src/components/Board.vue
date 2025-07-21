@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
   import Field from '@/components/Field.vue'
-  import { BoardAction, type BoardPosition } from '@/models/board.action.model.ts'
+  import { BoardActionInput, type BoardPosition } from '@/models/board.action.model.ts'
 
   interface RelativePos {
     x: number
@@ -81,7 +81,7 @@
       },
     },
     action: {
-      type: BoardAction,
+      type: BoardActionInput,
       required: true,
     },
   })

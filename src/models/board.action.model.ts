@@ -103,7 +103,10 @@ export class BoardActorMoves {
   /* other positions of the actor for different times */
   private readonly _other: Array<BoardMoveTimestamp>
 
-  constructor (initialPosition: BoardPosition, other: Array<BoardMoveTimestamp>) {
+  constructor (
+    initialPosition: BoardPosition,
+    other: Array<BoardMoveTimestamp>,
+  ) {
     this._initialPosition = initialPosition
     // TODO(manuelarte): validate that the time is not repeated
     this._other = other.slice().sort((a, b): number => {
@@ -124,7 +127,10 @@ export class BoardActorMoves {
       throw new ValidationException('time needs to be between [0.0, 1.0]')
     }
 
-    let previous: BoardMoveTimestamp = new BoardMoveTimestamp(this._initialPosition, 0)
+    let previous: BoardMoveTimestamp = new BoardMoveTimestamp(
+      this._initialPosition,
+      0,
+    )
     let next: BoardMoveTimestamp | null = null
 
     if (this._other.length > 0) {
@@ -147,8 +153,12 @@ export class BoardActorMoves {
       const mx = (next.position.x - previous.position.x) / (t2 - t1)
       const my = (next.position.y - previous.position.y) / (t2 - t1)
 
-      const newX = Number.parseFloat((mx * time + previous.position.x).toFixed(3))
-      const newY = Number.parseFloat((my * time + previous.position.y).toFixed(3))
+      const newX = Number.parseFloat(
+        (mx * time + previous.position.x).toFixed(3),
+      )
+      const newY = Number.parseFloat(
+        (my * time + previous.position.y).toFixed(3),
+      )
       return new BoardPosition(newX, newY)
     }
   }
@@ -186,7 +196,7 @@ export class BoardActorAction<Type extends BoardActor> {
 /**
  * All the board action with all the actors.
  */
-export class BoardAction {
+export class BoardActionInput {
   /* The ball board positions during the action. */
   private readonly _ball: BoardActorAction<BoardBall>
   /* The main player board positions during the action. */
@@ -222,5 +232,38 @@ export class BoardAction {
 
   get otherPlayers (): Array<BoardActorAction<BoardPlayer>> {
     return this._otherPlayers
+  }
+}
+
+export class SavedBoardAction extends BoardActionInput {
+  private readonly _id: string
+  private readonly _createdAt: Date
+  private readonly _createdBy: string
+
+  constructor (
+    id: string,
+    createdAt: Date,
+    createdBy: string,
+    ball: BoardActorAction<BoardBall>,
+    mainPlayer: BoardActorAction<BoardPlayer>,
+    opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
+    otherPlayers: Array<BoardActorAction<BoardPlayer>>,
+  ) {
+    super (ball, mainPlayer, opponentTeamKeeperPlayer, otherPlayers)
+    this._id = id
+    this._createdAt = createdAt
+    this._createdBy = createdBy
+  }
+
+  get id (): string {
+    return this._id
+  }
+
+  get createdAt (): Date {
+    return this._createdAt
+  }
+
+  get createdBy (): string {
+    return this._createdBy
   }
 }

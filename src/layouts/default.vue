@@ -1,8 +1,12 @@
 <template>
   <v-main>
+    <v-toolbar :elevation="8" title="Action">
+      <template #prepend>
+        <v-btn icon="mdi-arrow-left" />
+      </template>
+    </v-toolbar>
     <router-view />
   </v-main>
-
   <AppFooter />
 </template>
 
