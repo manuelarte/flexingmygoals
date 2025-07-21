@@ -23,6 +23,12 @@
 </template>
 
 <script setup lang="ts">
+  import { onBeforeUnmount, onMounted, ref } from 'vue'
+
+  // Constants - moved to top for better organization
+  const TIME_DURATION = 5000 // 5 seconds
+  const DELTA = 100 // 100 milliseconds
+
   const props = defineProps({
     isPlaying: {
       type: Boolean,
@@ -31,45 +37,22 @@
     time: {
       type: Number,
       required: true,
-      validator (value: number, _: any): boolean {
+      validator (value: number): boolean {
         return value >= 0 && value <= 1
       },
     },
   })
 
-  const emits = defineEmits(
-    {
-      'time-changed': (newTime: number) => {
-        return newTime >= 0 && newTime <= 1
-      },
-      'toggle-play': (_: boolean) => true,
-    },
-  )
+  const emits = defineEmits<{
+    'time-changed': [newTime: number]
+    'toggle-play': [isPlaying: boolean]
+  }>()
 
-  onBeforeUnmount(() => {
-    if (intervalId != null) {
-      clearInterval(intervalId)
-    }
-  })
-
-  onMounted(() => {
-    intervalId = setInterval(() => {
-      if (props.isPlaying && timeValue.value < 1) {
-        changeTime(timeValue.value + (delta / timeDuration))
-      }
-      if (timeValue.value >= 1) {
-        changeIsPlaying(false)
-        changeTime(1)
-      }
-    }, delta)
-  })
-
-  const timeDuration = 5000 // 5 seconds
-  const delta = 100 // 100 milliseconds
-
+  // Reactive state
   const timeValue = ref(props.time)
   let intervalId: ReturnType<typeof setInterval> | null = null
 
+  // Methods
   const changeIsPlaying = (newValue: boolean): void => {
     emits('toggle-play', newValue)
   }
@@ -87,7 +70,29 @@
     changeIsPlaying(false)
     changeTime(0)
   }
-</script>
 
-<style scoped lang="sass">
-</style>
+  // Lifecycle hooks
+  onMounted(() => {
+    intervalId = setInterval(() => {
+      if (props.isPlaying && timeValue.value < 1) {
+        changeTime(timeValue.value + (DELTA / TIME_DURATION))
+      }
+      if (timeValue.value >= 1) {
+        changeIsPlaying(false)
+        changeTime(1)
+      }
+    }, DELTA)
+  })
+
+  onBeforeUnmount(() => {
+    if (intervalId !== null) {
+      clearInterval(intervalId)
+      intervalId = null
+    }
+  })
+
+  // Watch for prop changes
+  watch(() => props.time, newTime => {
+    timeValue.value = newTime
+  })
+</script>

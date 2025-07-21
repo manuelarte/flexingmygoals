@@ -76,7 +76,7 @@
     time: {
       type: Number,
       required: true,
-      validator (value: number, _) {
+      validator (value: number, _): boolean {
         return value >= 0 && value <= 100
       },
     },
@@ -87,24 +87,24 @@
   })
 
   const ballTimePos = computed (() => {
-    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    if (!fieldWrapperRef.value) return { x: 0, y: 0 }
     const normalizePos = props.action.ball.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerMyTeamMainTimePos = computed (() => {
-    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    if (!fieldWrapperRef.value) return { x: 0, y: 0 }
     const normalizePos = props.action.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerOpponentTeamKeeperTimePos = computed (() => {
-    if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+    if (!fieldWrapperRef.value) return { x: 0, y: 0 }
     const normalizePos = props.action.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
 
   const otherPlayersTimePos = computed(() => {
     return props.action?.otherPlayers.map(player => {
-      if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
+      if (!fieldWrapperRef.value) return { x: 0, y: 0 }
       const normalizePos = player.getPositionForTime(props.time)
       return denormalizePos(normalizePos)
     })
