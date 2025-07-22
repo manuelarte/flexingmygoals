@@ -10,7 +10,7 @@ export interface AppState {
   page: Page | null
 }
 
-const backendAPI = createApiClient(import.meta.env.BACKEND_MOCK_API || true)
+const backendAPI = createApiClient(import.meta.env.VITE_BACKEND_BASE_URL, import.meta.env.VITE_BACKEND_MOCK_API)
 
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({

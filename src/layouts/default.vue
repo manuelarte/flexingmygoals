@@ -29,7 +29,7 @@
         return 'Home'
       }
       default: {
-        return 'Flexing My Goals'
+        return import.meta.env.VITE_APP_TITLE
       }
     }
   }

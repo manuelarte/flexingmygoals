@@ -8,16 +8,16 @@ export interface ApiClient {
   get: (page: number, size: number) => Promise<PageResponse<SavedBoardAction>>
 }
 
-export function createApiClient (isMock = false): ApiClient {
-  return isMock ? new MockClient() : new HttpClient()
+export function createApiClient (baseURL: string, isMock = false): ApiClient {
+  return isMock ? new MockClient() : new HttpClient(baseURL)
 }
 
 export class HttpClient implements ApiClient {
   private client: AxiosInstance
 
-  constructor () {
+  constructor (baseURL: string) {
     this.client = axios.create({
-      baseURL: import.meta.env.BACKEND_BASE_URL,
+      baseURL,
       headers: {
         'Content-Type': 'application/json',
       },
