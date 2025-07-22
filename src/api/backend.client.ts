@@ -1,0 +1,44 @@
+import type { AxiosInstance } from 'axios'
+import type { SavedBoardAction } from '@/models/board.action.model.ts'
+import axios from 'axios'
+import { SavedExample1 } from '@/models/board.example.ts'
+import { PageResponse } from '@/models/http.models.ts'
+
+export interface ApiClient {
+  get: (page: number, size: number) => Promise<PageResponse<SavedBoardAction>>
+}
+
+export function createApiClient (isMock = false): ApiClient {
+  return isMock ? new MockClient() : new HttpClient()
+}
+
+export class HttpClient implements ApiClient {
+  private client: AxiosInstance
+
+  constructor () {
+    this.client = axios.create({
+      baseURL: import.meta.env.BACKEND_BASE_URL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
+  async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {
+    const response = await this.client.get<PageResponse<SavedBoardAction>>('actions', { params: { page, size } })
+    return response.data
+  }
+}
+
+export class MockClient implements ApiClient {
+  private mockData: Array<SavedBoardAction> = [
+    SavedExample1,
+  ]
+
+  async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    return new PageResponse(page, size, Math.ceil(this.mockData.length / size), this.mockData.length, this.mockData.slice(page * size, size * (1 + page)))
+  }
+}

@@ -1,5 +1,6 @@
 // Utilities
 import { defineStore } from 'pinia'
+import { createApiClient } from '@/api/backend.client.ts'
 
 export enum Page {
   HOME, ACTION,
@@ -8,6 +9,8 @@ export enum Page {
 export interface AppState {
   page: Page | null
 }
+
+const backendAPI = createApiClient(import.meta.env.BACKEND_MOCK_API || true)
 
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({
@@ -19,6 +22,10 @@ export const useAppStore = defineStore('app', {
     },
     resetPage () {
       this.page = null
+    },
+
+    async fetchActionsPage (page: number, size: number) {
+      return backendAPI.get(page, size)
     },
   },
 })
