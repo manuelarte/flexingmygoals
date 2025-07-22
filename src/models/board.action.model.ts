@@ -7,8 +7,6 @@ export enum TeamSide {
 
 interface BoardActor {}
 
-export class BoardBall implements BoardActor {}
-
 export class BoardPlayer implements BoardActor {
   private static readonly MIN_NAME_LENGTH = 2
   private static readonly MAX_NAME_LENGTH = 15
@@ -38,6 +36,14 @@ export class BoardPlayer implements BoardActor {
 
   get color (): TeamSide {
     return this._color
+  }
+
+  static Mine (name: string, number: number): BoardPlayer {
+    return new BoardPlayer(name, number, TeamSide.MyTeam)
+  }
+
+  static Opponent (name: string, number: number): BoardPlayer {
+    return new BoardPlayer(name, number, TeamSide.OpponentTeam)
   }
 
   private validateName (name: string): void {
@@ -84,6 +90,10 @@ export class BoardPosition {
     return this._y
   }
 
+  static of (x: number, y: number): BoardPosition {
+    return new BoardPosition(x, y)
+  }
+
   private validateCoordinate (value: number, coordinate: string): void {
     if (value < BoardPosition.MIN_COORDINATE || value > BoardPosition.MAX_COORDINATE) {
       throw new ValidationException(
@@ -100,15 +110,15 @@ export class BoardMoveTimestamp {
   private static readonly MIN_TIME = 0
   private static readonly MAX_TIME = 1
 
-  /** The position at one particular moment on time */
-  private readonly _position: BoardPosition
   /** The moment in time [0, 1] */
   private readonly _time: number
+  /** The position at one particular moment on time */
+  private readonly _position: BoardPosition
 
-  constructor (position: BoardPosition, time: number) {
+  constructor (time: number, position: BoardPosition) {
     this.validateTime(time)
-    this._position = position
     this._time = time
+    this._position = position
   }
 
   get position (): BoardPosition {
@@ -149,6 +159,10 @@ export class BoardActorMoves {
     return this._other
   }
 
+  static from (initialPosition: BoardPosition, ...other: Array<BoardMoveTimestamp>): BoardActorMoves {
+    return new BoardActorMoves(initialPosition, other)
+  }
+
   /**
    * Returns the BoardPosition based on linear interpolation for a specific moment in time.
    * @param time the moment in time [0, 1].
@@ -175,7 +189,7 @@ export class BoardActorMoves {
     previous: BoardMoveTimestamp
     next: BoardMoveTimestamp | null
   } {
-    let previous = new BoardMoveTimestamp(this._initialPosition, 0)
+    let previous = new BoardMoveTimestamp(0, this._initialPosition)
     let next: BoardMoveTimestamp | null = null
 
     for (const current of this._other) {
@@ -257,7 +271,7 @@ export class BoardActorAction<Type extends BoardActor> {
  */
 export class BoardActionInput {
   /** The ball board positions during the action. */
-  private readonly _ball: BoardActorAction<BoardBall>
+  private readonly _ball: BoardActorMoves
   /** The main player board positions during the action. */
   private readonly _playerMain: BoardActorAction<BoardPlayer>
   /** The keeper board positions during the action. */
@@ -265,7 +279,7 @@ export class BoardActionInput {
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
-    ball: BoardActorAction<BoardBall>,
+    ball: BoardActorMoves,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
@@ -276,7 +290,7 @@ export class BoardActionInput {
     this._otherPlayers = [...otherPlayers]
   }
 
-  get ball (): BoardActorAction<BoardBall> {
+  get ball (): BoardActorMoves {
     return this._ball
   }
 
@@ -302,7 +316,7 @@ export class SavedBoardAction extends BoardActionInput {
     id: string,
     createdAt: Date,
     createdBy: string,
-    ball: BoardActorAction<BoardBall>,
+    ball: BoardActorMoves,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
