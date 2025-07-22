@@ -8,6 +8,7 @@
       color="primary"
       rounded="xl"
       :value="action"
+      @click="router.push('/actions')"
     >
       <template #prepend>
         <v-icon icon="mdi-soccer" />
@@ -23,6 +24,7 @@
   import type { SavedBoardAction } from '@/models/board.action.model.ts'
   import type { Page } from '@/models/http.models.ts'
   import { SavedExample1 } from '@/models/board.example.ts'
+  import router from '@/router'
 
   const page: Page<SavedBoardAction> = {
     page: 0,
