@@ -33,7 +33,7 @@
 
 <style scoped lang="sass">
   .board
-    height: 80vh
+    height: 70vh
     width: 100%
   .slider
     width: 100%
