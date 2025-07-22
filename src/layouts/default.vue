@@ -3,7 +3,7 @@
     <v-toolbar :elevation="8" :title="getTitle()">
       <template #prepend>
         <v-btn
-          v-if="appStore.page != null && appStore.page != Page.HOME"
+          v-if="isBackEnabled()"
           icon="mdi-arrow-left"
           @click="onBackClicked()"
         />
@@ -32,6 +32,10 @@
         return 'Flexing My Goals'
       }
     }
+  }
+
+  const isBackEnabled = (): boolean => {
+    return appStore.page != null && appStore.page != Page.HOME
   }
 
   const onBackClicked = (): void => {
