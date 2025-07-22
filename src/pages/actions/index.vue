@@ -1,8 +1,8 @@
 <template>
   <v-container class="fill-height">
-    <v-row no-gutters rows="12">
+    <v-row v-if="getAction() != null" no-gutters rows="12">
       <div class="board">
-        <Board :action="Example1" :time="time" />
+        <Board :action="getAction()" :time="time" />
       </div>
       <div class="slider">
         <PlayBar
@@ -17,14 +17,18 @@
 </template>
 
 <script lang="ts" setup>
+  import type { SavedBoardAction } from '@/models/board.action.model'
   import { onMounted, onUnmounted } from 'vue'
-  import { Example1 } from '@/models/board.example.ts'
   import { Page, useAppStore } from '@/stores/app.ts'
 
   const appStore = useAppStore()
 
   const isPlaying = ref(false)
   const time = ref(0)
+
+  const getAction = (): SavedBoardAction | undefined | null => {
+    return appStore.action
+  }
 
   const onTimeChanged = (newValue: number) => {
     time.value = newValue
@@ -40,6 +44,7 @@
 
   onUnmounted(() => {
     appStore.resetPage()
+    appStore.setAction(null)
   })
 </script>
 

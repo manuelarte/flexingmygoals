@@ -9,25 +9,7 @@ import {
   TeamSide,
 } from './board.action.model'
 
-const ball = new BoardActorAction(
-  new BoardBall(),
-  new BoardActorMoves(
-    new BoardPosition(0.18, 0.38),
-    [
-      new BoardMoveTimestamp(new BoardPosition(0.1, 0.17), 0.2),
-    ],
-  ),
-)
-
-const me = new BoardActorAction(
-  new BoardPlayer('Manuel', 12, TeamSide.MyTeam),
-  new BoardActorMoves(
-    new BoardPosition(0.2, 0.4),
-    [
-      new BoardMoveTimestamp(new BoardPosition(0.1, 0.2), 0.2),
-    ],
-  ),
-)
+const me = new BoardPlayer('Manuel', 12, TeamSide.MyTeam)
 
 const opponentKeeper = new BoardActorAction(
   new BoardPlayer('Keeper', 1, TeamSide.OpponentTeam),
@@ -40,8 +22,24 @@ const opponentKeeper = new BoardActorAction(
 )
 
 export const Example1 = new BoardActionInput(
-  ball,
-  me,
+  new BoardActorAction(
+    new BoardBall(),
+    new BoardActorMoves(
+      new BoardPosition(0.18, 0.38),
+      [
+        new BoardMoveTimestamp(new BoardPosition(0.1, 0.17), 0.2),
+      ],
+    ),
+  ),
+  new BoardActorAction(
+    me,
+    new BoardActorMoves(
+      new BoardPosition(0.2, 0.4),
+      [
+        new BoardMoveTimestamp(new BoardPosition(0.1, 0.2), 0.2),
+      ],
+    ),
+  ),
   opponentKeeper,
   [
     new BoardActorAction(
@@ -73,4 +71,51 @@ export const SavedExample1 = new SavedBoardAction(
   Example1.playerMain,
   Example1.opponentTeamKeeperPlayer,
   Example1.otherPlayers,
+)
+
+export const SavedExample2 = new SavedBoardAction(
+  '2',
+  new Date(),
+  'manuelarte',
+  new BoardActorAction(
+    new BoardBall(),
+    new BoardActorMoves(
+      new BoardPosition(0.68, 0.45),
+      [
+        new BoardMoveTimestamp(new BoardPosition(0.85, 0.18), 0.5),
+        new BoardMoveTimestamp(new BoardPosition(0.38, 0.18), 0.8),
+        new BoardMoveTimestamp(new BoardPosition(0.56, 0), 1),
+      ],
+    ),
+  ),
+  new BoardActorAction(
+    me,
+    new BoardActorMoves(
+      new BoardPosition(0.4, 0.35),
+      [
+        new BoardMoveTimestamp(new BoardPosition(0.37, 0.2), 0.7),
+      ],
+    ),
+  ),
+  Example1.opponentTeamKeeperPlayer,
+  [
+    new BoardActorAction(
+      new BoardPlayer('Center Back', 4, TeamSide.OpponentTeam),
+      new BoardActorMoves(
+        new BoardPosition(0.35, 0.17),
+        [
+          new BoardMoveTimestamp(new BoardPosition(0.46, 0.15), 0.28),
+        ],
+      ),
+    ),
+    new BoardActorAction(
+      new BoardPlayer('John', 9, TeamSide.MyTeam),
+      new BoardActorMoves(
+        new BoardPosition(0.7, 0.45),
+        [
+          new BoardMoveTimestamp(new BoardPosition(0.88, 0.18), 0.5),
+        ],
+      ),
+    ),
+  ],
 )

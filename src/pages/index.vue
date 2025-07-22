@@ -2,7 +2,7 @@
   <v-container class="fill-height">
     <v-row>
       <v-col>
-        <ActionList :error="error" :is-loading="isLoading" :page="pageResponse" />
+        <ActionList :error="error" :is-loading="isLoading" :page-response="pageResponse" />
       </v-col>
     </v-row>
   </v-container>
