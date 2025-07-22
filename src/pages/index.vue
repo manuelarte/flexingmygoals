@@ -27,7 +27,7 @@
   const error = ref<ErrorResponse | undefined>()
 
   const pageResponse = computed(() => {
-    return new PageResponse<SavedBoardAction>(page.value, size.value, _data)
+    return new PageResponse<SavedBoardAction>(page.value, size.value, 1, 0, _data)
   })
 
   onMounted(() => {
