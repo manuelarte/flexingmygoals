@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { SavedBoardAction } from '@/models/board.action.model.ts'
-  import { ErrorResponse, PageResponse } from '@/models/http.models.ts'
+  import type { SavedBoardAction } from '@/models/board.action.model'
+  import { ErrorResponse, PageResponse } from '@/models/http.models'
   import router from '@/router'
 
   defineProps({

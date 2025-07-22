@@ -39,8 +39,7 @@ const opponentKeeper = new BoardActorAction(
   ),
 )
 
-export const Example1 = new BoardActionInput
-(
+export const Example1 = new BoardActionInput(
   ball,
   me,
   opponentKeeper,

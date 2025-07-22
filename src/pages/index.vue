@@ -9,18 +9,18 @@
 </template>
 
 <script lang="ts" setup>
-  import type { SavedBoardAction } from '@/models/board.action.model.ts'
-  import type { ErrorResponse } from '@/models/http.models.ts'
-  import { onMounted, onUnmounted } from 'vue'
+  import type { SavedBoardAction } from '@/models/board.action.model'
+  import type { ErrorResponse } from '@/models/http.models'
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
   import ActionList from '@/components/ActionList.vue'
-  import { SavedExample1 } from '@/models/board.example.ts'
-  import { PageResponse } from '@/models/http.models.ts'
-  import { Page, useAppStore } from '@/stores/app.ts'
+  import { SavedExample1 } from '@/models/board.example'
+  import { PageResponse } from '@/models/http.models'
+  import { Page, useAppStore } from '@/stores/app'
 
   const appStore = useAppStore()
 
   const page = ref(0)
-  const size = ref(0)
+  const size = ref(10)
 
   const _data: Array<SavedBoardAction> = [SavedExample1]
   const isLoading = ref(false)
