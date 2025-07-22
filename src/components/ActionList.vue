@@ -1,5 +1,5 @@
 <template>
-  <v-list density="compact">
+  <v-list v-if="!isLoading && page != null" density="compact">
     <v-list-subheader>My Actions</v-list-subheader>
 
     <v-list-item
@@ -18,21 +18,33 @@
       <v-list-item-subtitle>{{ action.createdBy }}</v-list-item-subtitle>
     </v-list-item>
   </v-list>
+
+  <div v-if="isLoading">
+    <v-skeleton-loader type="list-item-avatar" />
+    <v-skeleton-loader type="list-item-avatar" />
+    <v-skeleton-loader type="list-item-avatar" />
+  </div>
 </template>
 
 <script setup lang="ts">
   import type { SavedBoardAction } from '@/models/board.action.model.ts'
-  import type { Page } from '@/models/http.models.ts'
-  import { SavedExample1 } from '@/models/board.example.ts'
+  import { ErrorResponse, PageResponse } from '@/models/http.models.ts'
   import router from '@/router'
 
-  const page: Page<SavedBoardAction> = {
-    page: 0,
-    size: 1,
-    data: [
-      SavedExample1,
-    ],
-  }
+  defineProps({
+    isLoading: {
+      type: Boolean,
+      default: true,
+    },
+    page: {
+      type: PageResponse<SavedBoardAction>,
+      default: null,
+    },
+    error: {
+      type: ErrorResponse,
+      default: null,
+    },
+  })
 </script>
 
 <style scoped lang="sass">
