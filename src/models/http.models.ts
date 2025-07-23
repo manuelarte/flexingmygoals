@@ -1,3 +1,5 @@
+import { ValidationException } from '@/models/validation.model.ts'
+
 export class PageResponse<Type> {
   private readonly _page: number
   private readonly _size: number
@@ -49,5 +51,29 @@ export class ErrorResponse {
 
   get message (): string {
     return this._message
+  }
+}
+
+export class PageRequest {
+  private readonly _page: number
+  private readonly _size: number
+
+  constructor (page: number, size: number) {
+    if (page < 0) {
+      throw new ValidationException('Page must be greater than or equal to 0')
+    }
+    if (size < 0) {
+      throw new ValidationException('Size must be greater than or equal to 0')
+    }
+    this._page = page
+    this._size = size
+  }
+
+  get page (): number {
+    return this._page
+  }
+
+  get size (): number {
+    return this._size
   }
 }

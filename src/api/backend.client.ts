@@ -38,7 +38,6 @@ export class MockClient implements ApiClient {
   async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500))
-
     return new PageResponse(page, size, Math.ceil(this.mockData.length / size), this.mockData.length, this.mockData.slice(page * size, size * (1 + page)))
   }
 }
