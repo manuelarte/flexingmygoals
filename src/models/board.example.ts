@@ -98,18 +98,20 @@ export const SavedExample3 = new SavedBoardAction(
   new Date(Date.parse('2025-04-05 14:30:00')),
   'manuelarte',
   BoardActorMoves.from(
-    BoardPosition.of(0, 0.55),
-    new BoardMoveTimestamp(0.4, BoardPosition.of(0.38, 0.47)),
-    new BoardMoveTimestamp(0.6, BoardPosition.of(0.45, 0.27)),
-    new BoardMoveTimestamp(0.85, BoardPosition.of(0.6, 0.17)),
+    BoardPosition.of(0, 0.65),
+    new BoardMoveTimestamp(0.4, BoardPosition.of(0.38, 0.57)), // Wesley's pass to Manuel
+    new BoardMoveTimestamp(0.7, BoardPosition.of(0.49, 0.25)), // Ball arriving in front of Manuel
+    new BoardMoveTimestamp(0.78, BoardPosition.of(0.51, 0.18)),
+    new BoardMoveTimestamp(0.9, BoardPosition.of(0.61, 0.12)),
     new BoardMoveTimestamp(1, BoardPosition.of(0.53, 0)),
   ),
   new BoardActorAction(
     me,
     BoardActorMoves.from(
-      BoardPosition.of(0.4, 0.35),
-      new BoardMoveTimestamp(0.7, BoardPosition.of(0.46, 0.27)),
-      new BoardMoveTimestamp(0.85, BoardPosition.of(0.58, 0.17)),
+      BoardPosition.of(0.4, 0.45),
+      new BoardMoveTimestamp(0.62, BoardPosition.of(0.46, 0.37)),
+      new BoardMoveTimestamp(0.8, BoardPosition.of(0.5, 0.17)),
+      new BoardMoveTimestamp(0.9, BoardPosition.of(0.6, 0.12)),
     ),
   ),
   new BoardActorAction(
@@ -124,15 +126,51 @@ export const SavedExample3 = new SavedBoardAction(
     new BoardActorAction(
       BoardPlayer.Opponent('Center Back', 4),
       BoardActorMoves.from(
-        BoardPosition.of(0.35, 0.27),
-        new BoardMoveTimestamp(0.8, BoardPosition.of(0.46, 0.15)),
+        BoardPosition.of(0.35, 0.4),
+        new BoardMoveTimestamp(0.5, BoardPosition.of(0.36, 0.4)),
+        new BoardMoveTimestamp(0.9, BoardPosition.of(0.46, 0.25)),
       ),
     ),
     new BoardActorAction(
       BoardPlayer.Mine('Wesley', 9),
       BoardActorMoves.from(
-        BoardPosition.of(0.45, 0.47),
-        new BoardMoveTimestamp(0.4, BoardPosition.of(0.38, 0.47)),
+        BoardPosition.of(0.45, 0.57),
+        new BoardMoveTimestamp(0.4, BoardPosition.of(0.38, 0.57)),
+      ),
+    ),
+  ],
+)
+
+export const TestingLimits = new SavedBoardAction(
+  '2',
+  new Date(),
+  'manuelarte',
+  BoardActorMoves.from(
+    BoardPosition.of(0, 0),
+  ),
+  new BoardActorAction(
+    me,
+    BoardActorMoves.from(
+      BoardPosition.of(1, 0),
+    ),
+  ),
+  new BoardActorAction(
+    BoardPlayer.Opponent('Keeper', 1),
+    BoardActorMoves.from(
+      BoardPosition.of(0.5, 0),
+    ),
+  ),
+  [
+    new BoardActorAction(
+      BoardPlayer.Opponent('Center Back', 4),
+      BoardActorMoves.from(
+        BoardPosition.of(0, 0.75),
+      ),
+    ),
+    new BoardActorAction(
+      BoardPlayer.Mine('Wesley', 9),
+      BoardActorMoves.from(
+        BoardPosition.of(1, 0.75),
       ),
     ),
   ],

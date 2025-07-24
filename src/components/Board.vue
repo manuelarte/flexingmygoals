@@ -116,7 +116,8 @@
     if (fieldWrapperRef.value == null) return { x: 0, y: 0 }
     const rect = fieldWrapperRef.value!.getBoundingClientRect()
     const width = rect.width
-    const height = rect.height
+    // 75% of the field is shown
+    const height = rect.height * 1.25
     return {
       x: normalizePos.x * width,
       y: normalizePos.y * height,
