@@ -79,13 +79,12 @@ $goal_width: 20%
       height: $line_border
       left: 1%
       position: absolute
-      transform: translateY(-50%)
-      top: $field_length
+      top: $field_length - $field_outside_lines_percentage
       width: 100% - $field_outside_lines_percentage
 
     .center-circle
       position: absolute
-      top: $field_length
+      top: $field_length - $field_outside_lines_percentage
       left: 50%
       width: 0.5*$box_width
       height: 0.5*$box_width

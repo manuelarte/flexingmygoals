@@ -168,6 +168,12 @@ export const TestingLimits = new SavedBoardAction(
       ),
     ),
     new BoardActorAction(
+      BoardPlayer.Opponent('Midfield', 6),
+      BoardActorMoves.from(
+        BoardPosition.of(0.5, 0.5),
+      ),
+    ),
+    new BoardActorAction(
       BoardPlayer.Mine('Wesley', 9),
       BoardActorMoves.from(
         BoardPosition.of(1, 0.75),
