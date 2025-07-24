@@ -27,7 +27,7 @@
 
   // Constants - moved to top for better organization
   const TIME_DURATION = 5000 // 5 seconds
-  const DELTA = 100 // 100 milliseconds
+  const DELTA = 10 // 10 milliseconds
 
   const props = defineProps({
     isPlaying: {

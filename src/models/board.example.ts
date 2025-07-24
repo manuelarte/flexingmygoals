@@ -1,5 +1,4 @@
 import {
-  BoardActionInput,
   BoardActorAction, BoardActorMoves,
   BoardMoveTimestamp,
   BoardPlayer,
@@ -17,44 +16,60 @@ const opponentKeeper = new BoardActorAction(
   ),
 )
 
-export const Example1 = new BoardActionInput(
+export const SavedExample1 = new SavedBoardAction(
+  '1',
+  new Date(),
+  'manuelarte',
   BoardActorMoves.from(
-    BoardPosition.of(0.18, 0.38),
-    new BoardMoveTimestamp(0.2, BoardPosition.of(0.1, 0.17))),
+    BoardPosition.of(0.6, 0.35),
+    new BoardMoveTimestamp(0.2, BoardPosition.of(0.62, 0.28)), // foul
+    new BoardMoveTimestamp(0.4, BoardPosition.of(0.66, 0.28)),
+    new BoardMoveTimestamp(0.55, BoardPosition.of(0.66, 0.28)),
+    new BoardMoveTimestamp(0.56, BoardPosition.of(0.62, 0.28)), // free-kick start
+    new BoardMoveTimestamp(0.7, BoardPosition.of(0.62, 0.28)), // free-kick shooting
+    new BoardMoveTimestamp(0.8, BoardPosition.of(0.45, 0.01)),
+  ),
   new BoardActorAction(
     me,
     BoardActorMoves.from(
-      BoardPosition.of(0.2, 0.4),
-      new BoardMoveTimestamp(0.2, BoardPosition.of(0.1, 0.2)),
+      BoardPosition.of(0.6, 0.38),
+      new BoardMoveTimestamp(0.2, BoardPosition.of(0.62, 0.29)),
+      new BoardMoveTimestamp(0.21, BoardPosition.of(0.63, 0.29)),
+      new BoardMoveTimestamp(0.55, BoardPosition.of(0.63, 0.29)),
+      new BoardMoveTimestamp(0.56, BoardPosition.of(0.64, 0.32)), // free-kick start
+      new BoardMoveTimestamp(0.65, BoardPosition.of(0.64, 0.32)),
+      new BoardMoveTimestamp(0.7, BoardPosition.of(0.62, 0.28)), // free-kick shooting
     ),
   ),
-  opponentKeeper,
+  new BoardActorAction(
+    BoardPlayer.Opponent('Keeper', 1),
+    BoardActorMoves.from(
+      BoardPosition.of(0.5, 0.07),
+      new BoardMoveTimestamp(0.2, BoardPosition.of(0.52, 0.05)),
+      new BoardMoveTimestamp(0.55, BoardPosition.of(0.52, 0.05)),
+      new BoardMoveTimestamp(0.56, BoardPosition.of(0.48, 0.05)), // free-kick start
+      new BoardMoveTimestamp(0.65, BoardPosition.of(0.48, 0.05)),
+      new BoardMoveTimestamp(0.71, BoardPosition.of(0.5, 0.05)), // free-kick shooting
+    ),
+  ),
   [
     new BoardActorAction(
       BoardPlayer.Opponent('Center Back', 4),
       BoardActorMoves.from(
-        BoardPosition.of(0.35, 0.17),
-        new BoardMoveTimestamp(0.28, BoardPosition.of(0.46, 0.15)),
+        BoardPosition.of(0.5, 0.27),
+        new BoardMoveTimestamp(0.21, BoardPosition.of(0.62, 0.3)),
+        new BoardMoveTimestamp(0.55, BoardPosition.of(0.62, 0.3)),
+        new BoardMoveTimestamp(0.56, BoardPosition.of(0.6, 0.2)),
       ),
     ),
     new BoardActorAction(
       BoardPlayer.Mine('John', 9),
       BoardActorMoves.from(
         BoardPosition.of(0.3, 0.35),
-        new BoardMoveTimestamp(0.3, BoardPosition.of(0.55, 0.18)),
+        new BoardMoveTimestamp(0.25, BoardPosition.of(0.5, 0.25)),
       ),
     ),
   ],
-)
-
-export const SavedExample1 = new SavedBoardAction(
-  '1',
-  new Date(),
-  'manuelarte',
-  Example1.ball,
-  Example1.playerMain,
-  Example1.opponentTeamKeeperPlayer,
-  Example1.otherPlayers,
 )
 
 export const SavedExample2 = new SavedBoardAction(
@@ -74,7 +89,7 @@ export const SavedExample2 = new SavedBoardAction(
       new BoardMoveTimestamp(0.7, BoardPosition.of(0.37, 0.2)),
     ),
   ),
-  Example1.opponentTeamKeeperPlayer,
+  opponentKeeper,
   [
     new BoardActorAction(
       BoardPlayer.Opponent('Center Back', 4),
@@ -99,7 +114,8 @@ export const SavedExample3 = new SavedBoardAction(
   'manuelarte',
   BoardActorMoves.from(
     BoardPosition.of(0, 0.65),
-    new BoardMoveTimestamp(0.4, BoardPosition.of(0.38, 0.57)), // Wesley's pass to Manuel
+    new BoardMoveTimestamp(0.38, BoardPosition.of(0.38, 0.57)), // Wesley's pass to Manuel
+    new BoardMoveTimestamp(0.42, BoardPosition.of(0.38, 0.57)), // Wesley's pass to Manuel
     new BoardMoveTimestamp(0.7, BoardPosition.of(0.49, 0.25)), // Ball arriving in front of Manuel
     new BoardMoveTimestamp(0.78, BoardPosition.of(0.51, 0.18)),
     new BoardMoveTimestamp(0.9, BoardPosition.of(0.61, 0.12)),
