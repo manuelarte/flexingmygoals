@@ -1,0 +1,6 @@
+markdownlint-cli2 ./**/*.md
+yamllint .
+codespell .
+typos .
+pnpm lint
+pnpm test
