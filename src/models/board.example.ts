@@ -143,7 +143,7 @@ export const SavedExample3 = new SavedBoardAction(
       BoardPlayer.Opponent('Center Back', 4),
       BoardActorMoves.from(
         BoardPosition.of(0.35, 0.4),
-        new BoardMoveTimestamp(0.5, BoardPosition.of(0.36, 0.4)),
+        new BoardMoveTimestamp(0.5, BoardPosition.of(0.36, 0.35)),
         new BoardMoveTimestamp(0.9, BoardPosition.of(0.46, 0.25)),
       ),
     ),
