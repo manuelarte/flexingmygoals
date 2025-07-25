@@ -28,21 +28,25 @@ field is 90/120, but we give 3 units extra on each side
     <linearGradient id="grass2">
       <stop stop-color="#4A934A"/>
     </linearGradient>
+    <pattern id="net" x="0" y="0" width="0.02" height="0.02">
+      <path stroke-width="0.01" stroke="yellow" d="M 0 0 L 7.32 0"/>
+      <path stroke-width="0.01" stroke="yellow" d="M 0 0 L 0 2.44"/>
+    </pattern>
   </defs>
 
   <rect id="field-part1" width="100%" height="10" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 10)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 20)" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 30)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 40)" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 50)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 60)" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 70)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 80)" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 90)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 100)" fill="url(#grass1)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 110)" fill="url(#grass2)"/>
-  <rect id="field-part1" width="100%" height="10" transform="translate(0 120)" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="10" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="20" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="30" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="40" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="50" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="60" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="70" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="80" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="90" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="100" fill="url(#grass1)"/>
+  <rect id="field-part1" width="100%" height="10" y="110" fill="url(#grass2)"/>
+  <rect id="field-part1" width="100%" height="10" y="120" fill="url(#grass1)"/>
 
   <!--
   Grouping all the fields
@@ -69,7 +73,29 @@ field is 90/120, but we give 3 units extra on each side
     -->
     <circle id="center-point" r="0.5" cx="45" cy="60"/>
 
-    <g id="penalty-up">
+    <g id="penalty-up" >
+      <g id="goal" transform="translate(41.34 -2.5)">
+        <!--
+        @field-change: x="($field_height/2-7.32/2)" y="-3"
+        -->
+        <path id="goal-frame" fill="url(#net)" stroke-width="0.2" d="M 0 2.44 L 0 0 L 7.32 0 L 7.32 2.44" />
+        <!--
+        <path id="goal-net-1" stroke-width="0.1" d="M 0 0 L 1 2.44 "/>
+        <use xlink:href="#goal-net-1" transform="translate(1, 0)" />
+        <use xlink:href="#goal-net-1" transform="translate(2, 0)" />
+        <use xlink:href="#goal-net-1" transform="translate(3, 0)" />
+        <use xlink:href="#goal-net-1" transform="translate(4, 0)" />
+        <use xlink:href="#goal-net-1" transform="translate(5, 0)" />
+        <use xlink:href="#goal-net-1" transform="translate(6, 0)" />
+        <path id="goal-net-2" stroke-width="0.1" d="M 7.32 0 L 6 2.44 "/>
+        <use xlink:href="#goal-net-2" transform="translate(-1, 0)" />
+        <use xlink:href="#goal-net-2" transform="translate(-2, 0)" />
+        <use xlink:href="#goal-net-2" transform="translate(-3, 0)" />
+        <use xlink:href="#goal-net-2" transform="translate(-4, 0)" />
+        <use xlink:href="#goal-net-2" transform="translate(-5, 0)" />
+        <use xlink:href="#goal-net-2" transform="translate(-6, 0)" />
+        -->
+      </g>
       <!--
       @field-change: d="M ($field_height/2 - 40.32/2) 0 v 16.5 h 40.32 v -16.5"
       -->

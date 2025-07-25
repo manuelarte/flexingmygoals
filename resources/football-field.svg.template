@@ -2,7 +2,7 @@
 <!--
 Measurement based on https://www.youtube.com/watch?v=rJg9wOQ7Qtg
 -->
-TODO(manuelarte): Add goals, and add script to template the generation of svg depending on constants.
+TODO(manuelarte): add script to template the generation of svg depending on constants.
 <!--
 Constants:
   $field_width: 120
