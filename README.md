@@ -6,12 +6,20 @@
 Welcome to **Flexing My Goals**, a web application to recreate your goals using a board like a football field.
 The technologies used to build this web app are:
 
-+ [VueJS][vuejs]
-+ [Vuetify][vuetify]
+- [VueJS][vuejs]
+- [Vuetify][vuetify]
 
 ## ⬇️ Starting the Development Server
 
 The app is built using [pnpm](https://pnpm.io/).
+Before let's see the environment variables needed to run locally:
+
+```environment
+VITE_APP_TITLE="Flexing My App"
+VITE_BACKEND_BASE_URL=""
+VITE_BACKEND_MOCK_API=true
+```
+
 Run the following commands to start the application:
 
 ```bash
@@ -45,7 +53,7 @@ Once the build process is completed, your application will be ready for deployme
 
 Here is a list of all the available features:
 
-+ Replay action in board.
+- Replay action in board.
 
 [husky]: https://typicode.github.io/husky/
 [vuejs]: https://vuejs.org
