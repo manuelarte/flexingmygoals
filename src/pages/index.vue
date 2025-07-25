@@ -39,7 +39,7 @@
     fetchActions(newPageRequest)
   }
 
-  const fetchActions = (pageRequest: PageRequest): void => {
+  const fetchActions = (pageRequest: Readonly<PageRequest>): void => {
     isLoading.value = true
     appStore.fetchActionsPage(pageRequest.page, pageRequest.size).then(
       result => {

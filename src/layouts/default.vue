@@ -22,7 +22,7 @@
 
   const getTitle = (): string => {
     switch (appStore.page) {
-      case Page.ACTION: {
+      case Page.BOARD_ACTION: {
         return 'Action'
       }
       case Page.HOME: {
@@ -40,7 +40,7 @@
 
   const onBackClicked = (): void => {
     switch (appStore.page) {
-      case Page.ACTION: {
+      case Page.BOARD_ACTION: {
         router.push('/')
       }
     }

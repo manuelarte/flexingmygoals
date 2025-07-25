@@ -5,7 +5,7 @@
         <!-- Players -->
         <!-- Other players -->
         <div
-          v-for="(playerAction, index) in action.otherPlayers"
+          v-for="(playerAction, index) in boardAction.otherPlayers"
           :key="index"
           class="player-wrapper"
           style="position: absolute"
@@ -28,10 +28,10 @@
         >
           <Player
             id="playerMain"
-            :color="action.playerMain.actor.color"
+            :color="boardAction.playerMain.actor.color"
             :is-draggable="false"
             :is-dragging="false"
-            :player="action.playerMain.actor"
+            :player="boardAction.playerMain.actor"
           />
         </div>
         <!-- Opponent Team keeper player -->
@@ -43,11 +43,11 @@
         >
           <Player
             id="playerOpponentTeamKeeper"
-            :color="action.opponentTeamKeeperPlayer.actor.color"
+            :color="boardAction.opponentTeamKeeperPlayer.actor.color"
             :is-draggable="false"
             :is-dragging="false"
             :is-keeper="true"
-            :player="action.opponentTeamKeeperPlayer.actor"
+            :player="boardAction.opponentTeamKeeperPlayer.actor"
           />
         </div>
         <!-- End Players -->
@@ -80,7 +80,7 @@
         return value >= 0 && value <= 100
       },
     },
-    action: {
+    boardAction: {
       type: SavedBoardAction,
       required: true,
     },
@@ -88,22 +88,22 @@
 
   const ballTimePos = computed (() => {
     if (!fieldWrapperRef.value) return { x: 0, y: 0 }
-    const normalizePos = props.action.ball.getPositionForTime(props.time)
+    const normalizePos = props.boardAction.ball.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerMyTeamMainTimePos = computed (() => {
     if (!fieldWrapperRef.value) return { x: 0, y: 0 }
-    const normalizePos = props.action.playerMain.getPositionForTime(props.time)
+    const normalizePos = props.boardAction.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerOpponentTeamKeeperTimePos = computed (() => {
     if (!fieldWrapperRef.value) return { x: 0, y: 0 }
-    const normalizePos = props.action.opponentTeamKeeperPlayer.getPositionForTime(props.time)
+    const normalizePos = props.boardAction.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
 
   const otherPlayersTimePos = computed(() => {
-    return props.action?.otherPlayers.map(player => {
+    return props.boardAction?.otherPlayers.map(player => {
       if (!fieldWrapperRef.value) return { x: 0, y: 0 }
       const normalizePos = player.getPositionForTime(props.time)
       return denormalizePos(normalizePos)

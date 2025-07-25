@@ -78,7 +78,7 @@ export const SavedExample2 = new SavedBoardAction(
   'manuelarte',
   BoardActorMoves.from(
     BoardPosition.of(0.68, 0.45),
-    new BoardMoveTimestamp(0.5, BoardPosition.of(0.85, 0.18)),
+    new BoardMoveTimestamp(0.5, BoardPosition.of(0.86, 0.18)),
     new BoardMoveTimestamp(0.8, BoardPosition.of(0.38, 0.18)),
     new BoardMoveTimestamp(1, BoardPosition.of(0.56, 0)),
   ),
