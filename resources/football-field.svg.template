@@ -1,0 +1,12 @@
+To add here the template, and to run and change values:
+  # Field height
+  $field_height: 90
+  $field_width 120
+  $field_grass_cut_width: 10
+  $extra_space: 3
+
+            field-width
+  |-----------------------------|
+  |                             | field-height
+  |                             |
+  |-----------------------------|
