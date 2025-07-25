@@ -70,7 +70,7 @@
   const currentPage = ref(props.pageResponse?.page)
 
   const onActionClicked = (action: SavedBoardAction): void => {
-    appStore.setAction(action)
+    appStore.setBoardAction(action)
     router.push('/actions')
   }
 

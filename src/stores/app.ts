@@ -4,12 +4,12 @@ import { defineStore } from 'pinia'
 import { createApiClient } from '@/api/backend.client'
 
 export enum Page {
-  HOME, ACTION,
+  HOME, BOARD_ACTION,
 }
 
 export interface AppState {
   page: Page | null
-  action: SavedBoardAction | undefined | null
+  boardAction: SavedBoardAction | undefined | null
 }
 
 const backendAPI = createApiClient(import.meta.env.VITE_BACKEND_BASE_URL, import.meta.env.VITE_BACKEND_MOCK_API)
@@ -17,7 +17,7 @@ const backendAPI = createApiClient(import.meta.env.VITE_BACKEND_BASE_URL, import
 export const useAppStore = defineStore('app', {
   state: (): AppState => ({
     page: null,
-    action: null,
+    boardAction: null,
   }),
   actions: {
     setPage (page: Page | null) {
@@ -27,11 +27,11 @@ export const useAppStore = defineStore('app', {
       this.page = null
     },
 
-    setAction (action: SavedBoardAction | null) {
-      this.action = action
+    setBoardAction (action: SavedBoardAction | null) {
+      this.boardAction = action
     },
-    resetAction () {
-      this.action = null
+    resetBoardAction () {
+      this.boardAction = null
     },
 
     async fetchActionsPage (page: number, size: number) {
