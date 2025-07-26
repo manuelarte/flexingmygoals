@@ -32,7 +32,7 @@ After completing the commands, the application is running at [localhost:3000](ht
 For the development of the app, we are using [husky][husky] pre-commit hooks. Remember to install them by:
 
 ```bash
-husky install
+pnpm exec husky init
 ```
 
 ```text
