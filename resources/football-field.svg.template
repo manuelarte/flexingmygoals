@@ -3,12 +3,12 @@
 Measurement based on https://www.youtube.com/watch?v=rJg9wOQ7Qtg
 
 Constants:
-  $field_width: {{ $field_width }}
-  $field_height: {{ $field_height }}
-  $field_grass_cut_height: {{ $field_grass_cut_height }}
-  $extra_space: {{ $extra_space }}
-field is {{ $field_height }}/{{ $field_width }}, but we give {{ $extra_space }} units extra on each side.
-$viewBox = "0 0 ($field_height + 2*$extra_space) ($field_width + 2*$extra_space)"
+  $field_length: The length of the field
+  $field_width: The width of the field
+  $field_grass_cut_width: The roller mower's width that produces a different color effect in the grass
+  $extra_space: Extra space between the side lines and the end of the pitch
+field is {{ $field_width }}/{{ $field_length }}, but we give {{ $extra_space }} units extra on each side.
+$viewBox = "0 0 ($field_width + 2*$extra_space) ($field_length + 2*$extra_space)"
 -->
 <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@ $viewBox = "0 0 ($field_height + 2*$extra_space) ($field_width + 2*$extra_space)
   role="img"
   aria-labelledby="title"
   preserveAspectRatio="xMidYMid meet"
-  viewBox="0 0 {{ eval({{ $field_height }} + 2*{{ $extra_space }}) }} {{ eval({{ $field_width }} + 2*{{ $extra_space }}) }}">
+  viewBox="0 0 {{ eval({{ $field_width }} + 2*{{ $extra_space }}) }} {{ eval({{ $field_length }} + 2*{{ $extra_space }}) }}">
   <title id="title">Football field</title>
 
   <defs>
@@ -55,50 +55,50 @@ $viewBox = "0 0 ($field_height + 2*$extra_space) ($field_width + 2*$extra_space)
    -->
   <g id="field-lines" fill="none" stroke="white" transform="translate({{ $extra_space }} {{ $extra_space }})">
     <!--
-    @field-change: d="M 0 0 h $field_height v $field_width h -90 Z"
+    @field-change: d="M 0 0 h $field_width v $field_length h -90 Z"
     -->
-    <path id="border" d="M 0 0 h {{ $field_height }} v {{ $field_width }} h -{{ $field_height }} Z" />
+    <path id="border" d="M 0 0 h {{ $field_width }} v {{ $field_length }} h -{{ $field_width }} Z" />
     <!--
-    @field-change: d="M 0 $field_width/2 h $field_height"
+    @field-change: d="M 0 $field_length/2 h $field_width"
     -->
-    <path id="center-line" d="M 0 {{ eval({{ $field_width }}/2) }} h {{ $field_height }}" />
+    <path id="center-line" d="M 0 {{ eval({{ $field_length }}/2) }} h {{ $field_width }}" />
     <!--
-    @field-change: cx="$field_height/2" cy="$field_width/2"
+    @field-change: cx="$field_width/2" cy="$field_length/2"
     -->
-    <circle id="center-circle" r="9.1" cx="{{ eval({{ $field_height }}/2) }}" cy="{{ eval({{ $field_width }}/2) }}" />
+    <circle id="center-circle" r="9.1" cx="{{ eval({{ $field_width }}/2) }}" cy="{{ eval({{ $field_length }}/2) }}" />
     <!--
-    @field-change: cx="($field_height/2" cy="$field_width/2"
+    @field-change: cx="($field_width/2" cy="$field_length/2"
     -->
-    <circle id="center-point" r="0.5" cx="{{ eval({{ $field_height }}/2) }}" cy="{{ eval({{ $field_width }}/2) }}" />
+    <circle id="center-point" r="0.5" cx="{{ eval({{ $field_width }}/2) }}" cy="{{ eval({{ $field_length }}/2) }}" />
 
     <g id="penalty-up" >
       <!--
-      @field-change: x="transform: translate($field_height/2-7.32/2), -.2.5)"
+      @field-change: x="transform: translate($field_width/2-7.32/2), -.2.5)"
       -->
-      <g id="goal" transform="translate({{ eval({{ $field_height }}/2-7.32/2) }} -2.5)">
+      <g id="goal" transform="translate({{ eval({{ $field_width }}/2-7.32/2) }} -2.5)">
         <path id="goal-frame" fill="url(#net)" stroke-width="0.2" d="M 0 2.44 L 0 0 L 7.32 0 L 7.32 2.44" />
       </g>
       <!--
-      @field-change: d="M ($field_height/2 - 40.32/2) 0 v 16.5 h 40.32 v -16.5"
+      @field-change: d="M ($field_width/2 - 40.32/2) 0 v 16.5 h 40.32 v -16.5"
       -->
-      <path id="penalty-area" d="M {{ eval({{ $field_height }}/2 - 40.32/2) }} 0 v 16.5 h 40.32 v -16.5" />
+      <path id="penalty-area" d="M {{ eval({{ $field_width }}/2 - 40.32/2) }} 0 v 16.5 h 40.32 v -16.5" />
       <!--
-      @field-change: d="M ($field_height/2 - 18.32/2) 0 v 16.5 h 40.32 v -16.5"
+      @field-change: d="M ($field_width/2 - 18.32/2) 0 v 16.5 h 40.32 v -16.5"
       -->
-      <path id="penalty-goal-area" d="M {{ eval({{ $field_height }}/2 - 18.32/2) }} 0 v 5.5 h 18.32 v -5.5" />
+      <path id="penalty-goal-area" d="M {{ eval({{ $field_width }}/2 - 18.32/2) }} 0 v 5.5 h 18.32 v -5.5" />
       <!--
-      @field-change: cx="$field_height/2"
+      @field-change: cx="$field_width/2"
       -->
-      <circle id="penalty-spot" r="0.5" cx="{{ eval({{ $field_height }}/2) }}" cy="11" stroke="none" />
+      <circle id="penalty-spot" r="0.5" cx="{{ eval({{ $field_width }}/2) }}" cy="11" stroke="none" />
       <!--
-      No idea how to center the arc based on the $field_height
+      No idea how to center the arc based on the $field_width
       -->
       <path id="penalty-arc" d="M 37.5 16.5 a 9.1 9.1 0 0 0 15 0" />
     </g>
     <!--
-    @field-change: transform="rotate(180, $field_height/2, $field_width/2)"
+    @field-change: transform="rotate(180, $field_width/2, $field_length/2)"
     -->
-    <use xlink:href="#penalty-up" transform="rotate(180, {{ eval({{ $field_height }}/2) }}, {{ eval({{ $field_width }}/2) }})" />
+    <use xlink:href="#penalty-up" transform="rotate(180, {{ eval({{ $field_width }}/2) }}, {{ eval({{ $field_length }}/2) }})" />
     <g id="corner-arcs" fill="none" stroke="white">
       <!--
       @field-change: d="M 0 $extra_space a $extra_space $extra_space 0 0 0 $extra_space -$extra_spaceM"

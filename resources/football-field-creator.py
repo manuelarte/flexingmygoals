@@ -2,14 +2,14 @@ import re
 
 
 class FootballFieldVars:
+    field_length: int
     field_width: int
-    field_height: int
-    field_grass_cut_height: int
+    field_grass_cut_width: int
     extra_space: int
     def __init__(self):
-        self.field_width = 120
-        self.field_height = 90
-        self.field_grass_cut_height = 10
+        self.field_length = 120
+        self.field_width = 90
+        self.field_grass_cut_width = 10
         self.extra_space = 3
 
 def main():
@@ -28,7 +28,7 @@ def main():
             evaled = eval(s)
             print(f"Evaluating {s} = {evaled}")
             template = template.replace(f"{{{{ eval({s}) }}}}", str(evaled))
-        with open(f"football-field-parsed-{template_vars.field_width}_{template_vars.field_height}.svg", "w") as text_file:
+        with open(f"football-field-parsed-{template_vars.field_length}_{template_vars.field_width}.svg", "w") as text_file:
             text_file.write(template)
             print("SVG file created")
 
