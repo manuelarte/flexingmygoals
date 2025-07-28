@@ -15,7 +15,7 @@
 </script>
 
 <style scoped lang="sass">
-$ball_size: 20px
+$ball_size: 1.5vw
 
 @keyframes scaleAnimation
   0%
