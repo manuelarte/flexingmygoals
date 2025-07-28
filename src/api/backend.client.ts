@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
 import type { SavedBoardAction } from '@/models/board.action.model.ts'
 import axios from 'axios'
-import { SavedExample1, SavedExample2, SavedExample3 } from '@/models/board.example.ts'
+import {SavedExample1, SavedExample2, SavedExample3, TestingLimits} from '@/models/board.example.ts'
 import { PageResponse } from '@/models/http.models.ts'
 
 export interface ApiClient {
@@ -32,7 +32,7 @@ export class HttpClient implements ApiClient {
 
 export class MockClient implements ApiClient {
   private mockData: Array<SavedBoardAction> = [
-    SavedExample1, SavedExample2, SavedExample3, // TestingLimits,
+    SavedExample1, SavedExample2, SavedExample3, TestingLimits,
   ]
 
   async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {

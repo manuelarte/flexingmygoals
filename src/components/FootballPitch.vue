@@ -1,22 +1,43 @@
 <template>
-  <div class="field-wrapper grass-gradient">
-    <div class="field">
-      <div class="field-lines">
-        <div class="opponent-box">
-          <div class="opponent-goal" />
-          <div class="opponent-small-box" />
-          <div class="opponent-penalty-point" />
-        </div>
-        <div class="center-line" />
-        <div class="center-circle" />
-      </div>
-      <slot />
-    </div>
+  <div class="field-wrapper">
+    <img alt="example football field" :src="`data:image/svg+xml;base64,${svgContent}`">
+    <slot />
   </div>
 </template>
 
 <script setup lang="ts">
+  import { FootballPitchTemplate } from '@/models/football.pitch.template.model.ts'
+  import { FootballPitchVariables } from '@/models/football.pitch.variables.model.ts'
 
+  const props = defineProps({
+    length: {
+      type: Number,
+      default: 105,
+      validator (value: number, _) {
+        return value >= 90 && value <= 120
+      },
+    },
+    width: {
+      type: Number,
+      default: 68,
+      validator (value: number, _) {
+        return value >= 45 && value <= 90
+      },
+    },
+    percentageShown: {
+      type: Number,
+      default: 0.5,
+      validator (value: number, _) {
+        return value >= 0.5 && value <= 1
+      },
+    },
+  })
+
+  const svgContent = computed(() => {
+    const vars = new FootballPitchVariables(props.length, props.width, 0.75, 3)
+    const content = new FootballPitchTemplate().apply(vars)
+    return btoa(content)
+  })
 </script>
 
 <style scoped lang="sass">

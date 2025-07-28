@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <div ref="fieldWrapperRef" class="field-wrapper">
-      <Field class="field-container">
+      <FootballPitch class="field-container">
         <!-- Players -->
         <!-- Other players -->
         <div
@@ -58,7 +58,7 @@
         >
           <Ball />
         </div>
-      </Field>
+      </FootballPitch>
     </div>
   </v-container>
 </template>
@@ -117,7 +117,7 @@
     const rect = fieldWrapperRef.value!.getBoundingClientRect()
     const width = rect.width
     // 75% of the field is shown
-    const height = rect.height * 1.25
+    const height = rect.height * 1.5
     return {
       x: normalizePos.x * width,
       y: normalizePos.y * height,
