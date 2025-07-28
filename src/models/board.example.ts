@@ -113,10 +113,10 @@ export const SavedExample3 = new SavedBoardAction(
   new Date(Date.parse('2025-04-05 14:30:00')),
   'manuelarte',
   BoardActorMoves.from(
-    BoardPosition.of(0, 0.55),
+    BoardPosition.of(0, 0.45),
     new BoardMoveTimestamp(0.38, BoardPosition.of(0.38, 0.47)), // Wesley controls the ball
     new BoardMoveTimestamp(0.42, BoardPosition.of(0.38, 0.47)), // Wesley's pass to Manuel
-    new BoardMoveTimestamp(0.7, BoardPosition.of(0.49, 0.30)), // Ball arriving in front of Manuel
+    new BoardMoveTimestamp(0.7, BoardPosition.of(0.49, 0.3)), // Ball arriving in front of Manuel
     new BoardMoveTimestamp(0.78, BoardPosition.of(0.51, 0.18)),
     new BoardMoveTimestamp(0.9, BoardPosition.of(0.61, 0.12)),
     new BoardMoveTimestamp(1, BoardPosition.of(0.53, 0)),
