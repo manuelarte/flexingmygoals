@@ -1,7 +1,9 @@
 <template>
-  <div class="field-wrapper">
-    <img alt="example football field" :src="`data:image/svg+xml;base64,${svgContent}`">
-    <slot />
+  <div class="wrapper">
+    <img alt="football pitch" class="img" :src="`data:image/svg+xml;base64,${svgContent}`">
+    <div ref="actorsRectRef" class="actors">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -33,12 +35,32 @@
     },
   })
 
+  const emits = defineEmits(
+    ['actors-area'],
+  )
+
+  const actorsRectRef = useTemplateRef('actorsRectRef')
+
   const svgContent = computed(() => {
-    const vars = new FootballPitchVariables(props.length, props.width, 0.75, 3)
+    const vars = new FootballPitchVariables(props.length, props.width, props.percentageShown, 3)
     const content = new FootballPitchTemplate().apply(vars)
     return btoa(content)
+  })
+
+  onMounted(() => {
+    emits('actors-area', actorsRectRef.value?.getBoundingClientRect())
   })
 </script>
 
 <style scoped lang="sass">
+  .wrapper
+    position: relative
+    .img
+      position: absolute
+    .actors
+      position: absolute
+      width: 94%
+      aspect-ratio: 1.3 // width/length * 1/percentageShown
+      margin-left: 3%
+      margin-top: 3%
 </style>
