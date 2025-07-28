@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
 import type { SavedBoardAction } from '@/models/board.action.model.ts'
 import axios from 'axios'
-import {SavedExample1, SavedExample2, SavedExample3, TestingLimits} from '@/models/board.example.ts'
+import { SavedExample1, SavedExample2, SavedExample3, TestingLimits } from '@/models/board.example.ts'
 import { PageResponse } from '@/models/http.models.ts'
 
 export interface ApiClient {
