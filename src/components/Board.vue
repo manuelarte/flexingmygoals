@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-  import { type BoardPosition, SavedBoardAction } from '@/models/board.action.model'
+  import { BoardAction, type BoardPosition } from '@/models/board.action.model'
 
   interface RelativePos {
     x: number
@@ -82,7 +82,7 @@
       },
     },
     boardAction: {
-      type: SavedBoardAction,
+      type: BoardAction,
       required: true,
     },
   })

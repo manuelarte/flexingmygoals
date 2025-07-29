@@ -1,4 +1,4 @@
-import type { SavedBoardAction } from '@/models/board.action.model'
+import type { BoardAction } from '@/models/board.action.model'
 // Utilities
 import { defineStore } from 'pinia'
 import { createApiClient } from '@/api/backend.client'
@@ -9,7 +9,7 @@ export enum Page {
 
 export interface AppState {
   page: Page | null
-  boardAction: SavedBoardAction | undefined | null
+  boardAction: BoardAction | undefined | null
 }
 
 const backendAPI = createApiClient(import.meta.env.VITE_BACKEND_BASE_URL, import.meta.env.VITE_BACKEND_MOCK_API)
@@ -27,7 +27,7 @@ export const useAppStore = defineStore('app', {
       this.page = null
     },
 
-    setBoardAction (action: SavedBoardAction | null) {
+    setBoardAction (action: BoardAction | null) {
       this.boardAction = action
     },
     resetBoardAction () {

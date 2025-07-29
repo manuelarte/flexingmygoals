@@ -1,11 +1,11 @@
 import type { AxiosInstance } from 'axios'
-import type { SavedBoardAction } from '@/models/board.action.model.ts'
+import type { BoardAction } from '@/models/board.action.model'
 import axios from 'axios'
-import { SavedExample1, SavedExample2, SavedExample3 } from '@/models/board.example.ts'
-import { PageResponse } from '@/models/http.models.ts'
+import { SavedExample1, SavedExample2, SavedExample3 } from '@/models/board.example'
+import { PageResponse } from '@/models/http.models'
 
 export interface ApiClient {
-  get: (page: number, size: number) => Promise<PageResponse<SavedBoardAction>>
+  get: (page: number, size: number) => Promise<PageResponse<BoardAction>>
 }
 
 export function createApiClient (baseURL: string, isMock = false): ApiClient {
@@ -24,18 +24,18 @@ export class HttpClient implements ApiClient {
     })
   }
 
-  async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {
-    const response = await this.client.get<PageResponse<SavedBoardAction>>('actions', { params: { page, size } })
+  async get (page: number, size: number): Promise<PageResponse<BoardAction>> {
+    const response = await this.client.get<PageResponse<BoardAction>>('actions', { params: { page, size } })
     return response.data
   }
 }
 
 export class MockClient implements ApiClient {
-  private mockData: Array<SavedBoardAction> = [
+  private mockData: Array<BoardAction> = [
     SavedExample1, SavedExample2, SavedExample3, // TestingLimits,
   ]
 
-  async get (page: number, size: number): Promise<PageResponse<SavedBoardAction>> {
+  async get (page: number, size: number): Promise<PageResponse<BoardAction>> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500))
     return new PageResponse(page, size, Math.ceil(this.mockData.length / size), this.mockData.length, this.mockData.slice(page * size, size * (1 + page)))

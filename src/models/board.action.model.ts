@@ -1,5 +1,33 @@
 import { ValidationException } from '@/models/validation.model'
 
+export class FootballResult {
+  private readonly _myTeam: number
+  private readonly _opponentTeam: number
+
+  constructor (myTeam: number, opponentTeam: number) {
+    if (!Number.isInteger(myTeam) || myTeam < 0 || myTeam > 99) {
+      throw new ValidationException(`myTeam goals not allowed: ${myTeam}`)
+    }
+    if (!Number.isInteger(opponentTeam) || opponentTeam < 0 || opponentTeam > 99) {
+      throw new ValidationException(`opponentTeam goals not allowed: ${opponentTeam}`)
+    }
+    this._myTeam = myTeam
+    this._opponentTeam = opponentTeam
+  }
+
+  get myTeam (): number {
+    return this._myTeam
+  }
+
+  get opponentTeam (): number {
+    return this._opponentTeam
+  }
+
+  static of (myTeam: number, opponentTeam: number): FootballResult {
+    return new FootballResult(myTeam, opponentTeam)
+  }
+}
+
 export enum TeamSide {
   MyTeam = 'myTeam',
   OpponentTeam = 'opponentTeam',
@@ -38,11 +66,11 @@ export class BoardPlayer implements BoardActor {
     return this._color
   }
 
-  static Mine (name: string, number: number): BoardPlayer {
+  static myTeam (name: string, number: number): BoardPlayer {
     return new BoardPlayer(name, number, TeamSide.MyTeam)
   }
 
-  static Opponent (name: string, number: number): BoardPlayer {
+  static opponentTeam (name: string, number: number): BoardPlayer {
     return new BoardPlayer(name, number, TeamSide.OpponentTeam)
   }
 
@@ -270,6 +298,12 @@ export class BoardActorAction<Type extends BoardActor> {
  * All the board action with all the actors.
  */
 export class BoardActionInput {
+  /** Highlight small one line of the action */
+  private readonly _highlight: string | null
+  /** Summary describing of the action. */
+  private readonly _summary: string | null
+  /** Partial result when the action happened */
+  private readonly _partialResult: FootballResult
   /** The ball board positions during the action. */
   private readonly _ball: BoardActorMoves
   /** The main player board positions during the action. */
@@ -279,15 +313,39 @@ export class BoardActionInput {
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
+    highlight: string | null,
+    summary: string | null,
+    partialResult: FootballResult,
     ball: BoardActorMoves,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
+    if (highlight && highlight.length > 0 && highlight.length > 40) {
+      throw new ValidationException(`Invalid highlight length: 40 < ${highlight.length}`)
+    }
+    if (summary && summary.length > 0 && summary.length > 200) {
+      throw new ValidationException(`Invalid summary length: 200 < ${summary.length}`)
+    }
+    this._highlight = highlight
+    this._summary = summary
+    this._partialResult = partialResult
     this._ball = ball
     this._playerMain = mainPlayer
     this._opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
     this._otherPlayers = [...otherPlayers]
+  }
+
+  get highlight (): string | null {
+    return this._highlight
+  }
+
+  get summary (): string | null {
+    return this._summary
+  }
+
+  get partialResult (): FootballResult {
+    return this._partialResult
   }
 
   get ball (): BoardActorMoves {
@@ -307,7 +365,10 @@ export class BoardActionInput {
   }
 }
 
-export class SavedBoardAction extends BoardActionInput {
+/**
+ * The board action containing all the movements from the ball and players.
+ */
+export class BoardAction extends BoardActionInput {
   private readonly _id: string
   private readonly _createdAt: Date
   private readonly _createdBy: string
@@ -316,12 +377,15 @@ export class SavedBoardAction extends BoardActionInput {
     id: string,
     createdAt: Date,
     createdBy: string,
+    highlight: string | null,
+    summary: string | null,
+    partialResult: FootballResult,
     ball: BoardActorMoves,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
-    super (ball, mainPlayer, opponentTeamKeeperPlayer, otherPlayers)
+    super (highlight, summary, partialResult, ball, mainPlayer, opponentTeamKeeperPlayer, otherPlayers)
     this._id = id
     this._createdAt = createdAt
     this._createdBy = createdBy
