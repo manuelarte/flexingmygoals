@@ -14,9 +14,11 @@
             <template #prepend>
               <v-icon icon="mdi-soccer" />
             </template>
-
-            <v-list-item-title>{{ action.createdAt }}</v-list-item-title>
-            <v-list-item-subtitle>{{ action.createdBy }}</v-list-item-subtitle>
+            <v-list-item-title>
+              {{ action.highlight }}: {{ action.partialResult.myTeam }} - {{ action.partialResult.opponentTeam }}
+            </v-list-item-title>
+            <v-list-item-subtitle>{{ action.createdAt }}</v-list-item-subtitle>
+            <v-tooltip activator="parent" text="Go to action" />
           </v-list-item>
         </v-list>
       </v-card-text>
@@ -41,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { SavedBoardAction } from '@/models/board.action.model'
+  import type { BoardAction } from '@/models/board.action.model'
   import { ErrorResponse, PageRequest, PageResponse } from '@/models/http.models'
   import router from '@/router'
   import { useAppStore } from '@/stores/app'
@@ -52,7 +54,7 @@
       default: true,
     },
     pageResponse: {
-      type: PageResponse<SavedBoardAction>,
+      type: PageResponse<BoardAction>,
       default: null,
     },
     error: {
@@ -69,7 +71,7 @@
 
   const currentPage = ref(props.pageResponse?.page)
 
-  const onActionClicked = (action: SavedBoardAction): void => {
+  const onActionClicked = (action: BoardAction): void => {
     appStore.setBoardAction(action)
     router.push('/actions')
   }

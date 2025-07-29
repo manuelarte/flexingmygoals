@@ -56,9 +56,9 @@
 @use 'sass:math'
 @use 'sass:color'
 
-$player_size: 2vw
+$player_size: 2dvw
 $player_number_size: $player_size * 0.5
-$player_name_size: math.max($player_size * 0.3, 2.5vw)
+$player_name_size: $player_size * 0.3
 
 $myTeam_color: #1E90FF
 $myTeam_color_dark: color.scale($myTeam_color, $lightness: -80%)

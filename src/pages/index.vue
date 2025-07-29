@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-  import type { SavedBoardAction } from '@/models/board.action.model'
+  import type { BoardAction } from '@/models/board.action.model'
   import type { ErrorResponse, PageResponse } from '@/models/http.models'
   import { onMounted, onUnmounted, ref } from 'vue'
   import ActionList from '@/components/ActionList.vue'
@@ -28,7 +28,7 @@
   const isLoading = ref(true)
   const error = ref<ErrorResponse | undefined>()
 
-  const pageResponse = ref<PageResponse<SavedBoardAction>>()
+  const pageResponse = ref<PageResponse<BoardAction>>()
 
   onMounted(() => {
     appStore.setPage(Page.HOME)
