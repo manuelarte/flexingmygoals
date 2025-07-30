@@ -1,8 +1,12 @@
 <template>
-  <v-card>
-    <v-card-title>
-      {{ modified.actor.name }}
-    </v-card-title>
+  <v-card :title="modified.actor.name">
+    <template #prepend>
+      <Player color="myTeam" :player="modified.actor" />
+    </template>
+
+    <v-card-text>
+      {{ modified }}
+    </v-card-text>
 
     <template #actions>
       <v-btn text="Save" />
@@ -15,7 +19,7 @@
   import { BoardActorAction } from '@/models/board.action.model'
 
   const props = defineProps({
-    player: {
+    playerMoves: {
       type: BoardActorAction<BoardPlayer>,
       required: true,
     },
@@ -25,7 +29,7 @@
     },
   })
 
-  const modified = ref(props.player)
+  const modified = toRef(props, 'playerMoves')
 </script>
 
 <style scoped lang="sass">

@@ -38,7 +38,7 @@
           <v-card v-if="!playerSelected">
             <v-card-title>Select an actor...</v-card-title>
           </v-card>
-          <PlayerForm v-if="playerSelected" :player="playerSelected.player" />
+          <PlayerForm v-if="playerSelected" :can-delete="false" :player-moves="playerSelected.player" />
         </v-col>
       </v-row>
     </div>
@@ -90,8 +90,10 @@
     appStore.setBoardAction(null)
   })
 
-  const onPlayerSelected = (player: { player: BoardActorAction<BoardPlayer>, id: string }) => {
-    playerSelected.value = playerSelected?.value?.id === player.id ? null : player
+  const onPlayerSelected = (event: { player: BoardActorAction<BoardPlayer>, id: string }) => {
+    console.log('player selected before', event.id)
+    playerSelected.value = playerSelected?.value?.id === event.id ? null : event
+    console.log('player selected after', event.id)
   }
 
   // Check if it's a boolean string
