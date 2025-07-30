@@ -1,31 +1,32 @@
 <template>
-  <v-card>
-    <template #title>
-      <div>
+  <v-form v-model="valid">
+    <v-card>
+      <template #title>
         <v-text-field
-          v-model="modified.actor.name"
+          v-model="name"
           hide-details="auto"
           label="Player's name"
+          :rules="nameRules"
         />
-      </div>
-    </template>
-    <template #prepend>
-      <PlayerBadge :is-keeper="false" :player="modified.actor" />
-    </template>
+      </template>
+      <template #prepend>
+        <PlayerBadge :color="color" :is-keeper="false" :number="number" />
+      </template>
 
-    <v-card-text>
-      {{ modified }}
-    </v-card-text>
+      <v-card-text>
+        Other actions
+      </v-card-text>
 
-    <template #actions>
-      <v-btn text="Save" />
-    </template>
-  </v-card>
+      <template #actions>
+        valid: {{ valid }}
+        <v-btn :disabled="isSaveDisabled()" text="Save" />
+      </template>
+    </v-card>
+  </v-form>
 </template>
 
 <script setup lang="ts">
-  import type { BoardPlayer } from '@/models/board.action.model'
-  import { BoardActorAction } from '@/models/board.action.model'
+  import { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
 
   const props = defineProps({
     playerMoves: {
@@ -38,7 +39,27 @@
     },
   })
 
-  const modified = toRef(props, 'playerMoves')
+  const name = ref(props.playerMoves.actor.name)
+  const number = ref(props.playerMoves.actor.number)
+  const color = ref(props.playerMoves.actor.color)
+  const valid = ref(false)
+  const modified: ComputedRef<BoardPlayer | null> = computed(() => {
+    if (valid.value) {
+      console.log('valid', valid.value)
+      return new BoardPlayer(name.value, number.value, color.value)
+    }
+    return null
+  })
+
+  const nameRules: Array<(value: string) => string | boolean> = [
+    value => !!value || 'Required.',
+    value => (value && value.length >= BoardPlayer.MIN_NAME_LENGTH) || `Min ${BoardPlayer.MIN_NAME_LENGTH} characters`,
+    value => (value && value.length <= BoardPlayer.MAX_NAME_LENGTH) || `Max ${BoardPlayer.MAX_NAME_LENGTH} characters`,
+  ]
+
+  const isSaveDisabled = function (): boolean {
+    return !valid.value || props.playerMoves.actor.equals(modified.value)
+  }
 </script>
 
 <style scoped lang="sass">

@@ -1,22 +1,16 @@
 <template>
-  <div class="player-wrapper">
-    <div
-      class="player"
-      :class="{ myTeam: color === 'myTeam',
-                opponentTeam: color === 'opponentTeam',
-                draggable: isDraggable,
-                dragging: isDragging,
-                keeper: isKeeper,
-      }"
-    >
-      <div class="number">{{ player.number }}</div>
-    </div>
+  <div
+    class="player-wrapper"
+    :class="{ draggable: isDraggable,
+              dragging: isDragging,
+    }"
+  >
+    <PlayerBadge :color="player.color" :is-keeper="isKeeper" :number="player.number" />
     <div class="label">{{ player.name }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type { TeamSide } from '@/models/board.action.model.ts'
   import { BoardPlayer } from '@/models/board.action.model.ts'
 
   defineProps({
@@ -29,13 +23,6 @@
         return name.length >= 3
           && Number.isInteger(number) && number > 0 && number < 100
       },
-    },
-    color: {
-      type: String,
-      validator (value: TeamSide, _) {
-        return ['myTeam', 'opponentTeam'].includes(value)
-      },
-      required: true,
     },
     isDraggable: {
       type: Boolean,
@@ -56,14 +43,7 @@
 @use 'sass:math'
 @use 'sass:color'
 
-$player_size: 2dvw
-$player_number_size: $player_size * 0.5
-$player_name_size: $player_size * 0.3
-
-$myTeam_color: #1E90FF
-$myTeam_color_dark: color.scale($myTeam_color, $lightness: -80%)
-$opponent_color: #FF0000
-$opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
+$player_name_size: 3dvh
 
 .draggable
   cursor: move
@@ -77,15 +57,6 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   white-space: nowrap
   transform: translate(-50%, -50%)
 
-.myTeam
-  background: $myTeam_color radial-gradient(circle at 30% 30%, $myTeam_color, $myTeam_color_dark)
-
-.opponentTeam
-  background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color, $opponent_color_dark)
-
-  &.keeper
-    background: $opponent_color radial-gradient(circle at 30% 30%, $opponent_color_dark, #660000)
-
 .player-wrapper
   position: relative
   display: flex
@@ -96,19 +67,8 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   user-select: none
 
 .player
-  width: $player_size
-  height: $player_size
-  display: flex
-  align-items: center
-  justify-content: center
-  color: white
-  font-weight: bold
-  font-size: $player_number_size
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
-  transition: background-color 0.3s
   transform: translate(0%, -50%)
   margin-right: 100%
-  border-radius: 50%
 
 .player:hover
   animation: scaleAnimation 0.2s forwards

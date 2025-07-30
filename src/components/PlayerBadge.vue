@@ -1,21 +1,24 @@
 <template>
   <div
     class="player"
-    :class="{ myTeam: player.color === 'myTeam',
-              opponentTeam: player.color === 'opponentTeam',
+    :class="{ myTeam: color === 'myTeam',
+              opponentTeam: color === 'opponentTeam',
               keeper: isKeeper,
     }"
   >
-    <div class="number">{{ player.number }}</div>
+    <div class="number">{{ number }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { BoardPlayer } from '@/models/board.action.model'
 
   defineProps({
-    player: {
-      type: BoardPlayer,
+    number: {
+      type: Number,
+      required: true,
+    },
+    color: {
+      type: String,
       required: true,
     },
     isKeeper: {
@@ -47,6 +50,7 @@ $opponent_color_dark: color.scale($opponent_color, $lightness: -80%)
   font-size: $player_number_size
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25)
   border-radius: 50%
+  user-select: none
 
 .myTeam
   background: $myTeam_color radial-gradient(circle at 30% 30%, $myTeam_color, $myTeam_color_dark)

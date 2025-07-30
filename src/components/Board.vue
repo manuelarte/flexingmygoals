@@ -14,7 +14,6 @@
           >
             <Player
               :id="`player-${index}`"
-              :color="playerAction.actor.color"
               :is-draggable="false"
               :is-dragging="false"
               :player="playerAction.actor"
@@ -30,7 +29,6 @@
           >
             <Player
               id="playerMain"
-              :color="boardAction.playerMain.actor.color"
               :is-draggable="false"
               :is-dragging="false"
               :player="boardAction.playerMain.actor"
@@ -46,7 +44,6 @@
           >
             <Player
               id="playerOpponentTeamKeeper"
-              :color="boardAction.opponentTeamKeeperPlayer.actor.color"
               :is-draggable="false"
               :is-dragging="false"
               :is-keeper="true"

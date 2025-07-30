@@ -36,10 +36,10 @@ export enum TeamSide {
 interface BoardActor {}
 
 export class BoardPlayer implements BoardActor {
-  private static readonly MIN_NAME_LENGTH = 2
-  private static readonly MAX_NAME_LENGTH = 15
-  private static readonly MIN_NUMBER = 0
-  private static readonly MAX_NUMBER = 99
+  static readonly MIN_NAME_LENGTH = 2
+  static readonly MAX_NAME_LENGTH = 15
+  static readonly MIN_NUMBER = 0
+  static readonly MAX_NUMBER = 99
 
   private readonly _name: string
   private readonly _number: number
@@ -72,6 +72,28 @@ export class BoardPlayer implements BoardActor {
 
   static opponentTeam (name: string, number: number): BoardPlayer {
     return new BoardPlayer(name, number, TeamSide.OpponentTeam)
+  }
+
+  equals (other: unknown): boolean {
+    // Check if it's the same reference
+    if (this === other) {
+      return true
+    }
+
+    // Check if other is null/undefined
+    if (other == null) {
+      return false
+    }
+
+    // Check if other is an instance of BoardPlayer
+    if (!(other instanceof BoardPlayer)) {
+      return false
+    }
+
+    // Compare all significant properties
+    return this._name === other._name
+      && this._number === other._number
+      && this._color === other._color
   }
 
   private validateName (name: string): void {
