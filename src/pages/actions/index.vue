@@ -1,31 +1,67 @@
 <template>
   <v-container class="fill-height">
-    <v-row no-gutters rows="12">
-      <div class="board">
-        <Board :board-action="boardAction" :time="time" />
-      </div>
-      <div class="slider">
-        <PlayBar
-          :is-playing="isPlaying"
-          :time="time"
-          @time-changed="onTimeChanged"
-          @toggle-play="onTogglePlay"
-        />
-      </div>
-    </v-row>
+    <div v-if="!isEdit">
+      <v-row no-gutters rows="12">
+        <div class="board">
+          <Board :board-action="boardAction" :time="time" />
+        </div>
+        <div class="slider">
+          <PlayBar
+            :is-playing="isPlaying"
+            :time="time"
+            @time-changed="onTimeChanged"
+            @toggle-play="onTogglePlay"
+          />
+        </div>
+      </v-row>
+    </div>
+    <div v-if="isEdit">
+      <v-row no-gutters rows="12">
+        <v-col cols="8" style="width: 80dvh">
+          <div class="board">
+            <Board
+              :board-action="boardAction"
+              :time="time"
+              @edit:player-selected="onPlayerSelected"
+            />
+          </div>
+          <div class="slider">
+            <PlayBar
+              :is-playing="isPlaying"
+              :time="time"
+              @time-changed="onTimeChanged"
+              @toggle-play="onTogglePlay"
+            />
+          </div>
+        </v-col>
+        <v-col cols="4" style="width: 40dvh">
+          <v-card v-if="!playerSelected">
+            <v-card-title>Select an actor...</v-card-title>
+          </v-card>
+          <PlayerForm v-if="playerSelected" :player="playerSelected.player" />
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>
 
 <script lang="ts" setup>
+  import type { LocationQueryValue } from 'vue-router'
+  import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model.ts'
   import { onBeforeMount, onUnmounted } from 'vue'
+  import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
-  import { Page, useAppStore } from '@/stores/app.ts'
+  import { Page, useAppStore } from '@/stores/app'
 
   const appStore = useAppStore()
 
   const boardAction = ref()
   const isPlaying = ref(false)
   const time = ref(0)
+
+  const route = useRoute()
+  const isEdit = ref(false)
+  const playerSelected: Ref<{ player: BoardActorAction<BoardPlayer>, id: string } | null | undefined> = ref()
 
   const onTimeChanged = (newValue: number) => {
     time.value = newValue
@@ -36,6 +72,7 @@
   }
 
   onBeforeMount(() => {
+    appStore.boardAction = SavedExample1
     if (appStore.boardAction == null) {
       router.push('/')
     } else {
@@ -45,12 +82,25 @@
 
   onMounted(() => {
     appStore.setPage(Page.BOARD_ACTION)
+    isEdit.value = toBoolean(route.query.edit)
   })
 
   onUnmounted(() => {
     appStore.resetPage()
     appStore.setBoardAction(null)
   })
+
+  const onPlayerSelected = (player: { player: BoardActorAction<BoardPlayer>, id: string }) => {
+    playerSelected.value = playerSelected?.value?.id === player.id ? null : player
+  }
+
+  // Check if it's a boolean string
+  const toBoolean = (value: LocationQueryValue | LocationQueryValue[]) => {
+    if (typeof value === 'string') {
+      return value === 'true'
+    }
+    return false
+  }
 </script>
 
 <style scoped lang="sass">

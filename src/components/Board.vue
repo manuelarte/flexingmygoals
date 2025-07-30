@@ -13,11 +13,12 @@
             :style="{ left: `${otherPlayersTimePos[index].x}px`, top: `${otherPlayersTimePos[index].y}px` }"
           >
             <Player
-              :id="`player${index}`"
+              :id="`player-${index}`"
               :color="playerAction.actor.color"
               :is-draggable="false"
               :is-dragging="false"
               :player="playerAction.actor"
+              @click="emits('edit:player-selected', {player: playerAction, id:`player-${index}` })"
             />
           </div>
           <!-- Main Player -->
@@ -33,6 +34,7 @@
               :is-draggable="false"
               :is-dragging="false"
               :player="boardAction.playerMain.actor"
+              @click="emits('edit:player-selected', {player: boardAction.playerMain, id:`me` })"
             />
           </div>
           <!-- Opponent Team keeper player -->
@@ -49,6 +51,7 @@
               :is-dragging="false"
               :is-keeper="true"
               :player="boardAction.opponentTeamKeeperPlayer.actor"
+              @click="emits('edit:player-selected', {player: boardAction.opponentTeamKeeperPlayer, id:`opponentTeamKeeperPlayer` })"
             />
           </div>
           <!-- End Players -->
@@ -86,6 +89,8 @@
       required: true,
     },
   })
+
+  const emits = defineEmits(['edit:player-selected'])
 
   const ballTimePos = computed (() => {
     if (!actorsArea.value) return { x: 0, y: 0 }
