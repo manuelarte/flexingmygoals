@@ -1,7 +1,16 @@
 <template>
-  <v-card :title="modified.actor.name">
+  <v-card>
+    <template #title>
+      <div>
+        <v-text-field
+          v-model="modified.actor.name"
+          hide-details="auto"
+          label="Player's name"
+        />
+      </div>
+    </template>
     <template #prepend>
-      <Player color="myTeam" :player="modified.actor" />
+      <PlayerBadge :is-keeper="false" :player="modified.actor" />
     </template>
 
     <v-card-text>
@@ -33,5 +42,4 @@
 </script>
 
 <style scoped lang="sass">
-
 </style>

@@ -16,6 +16,7 @@ declare module 'vue' {
     FootballPitch: typeof import('./components/FootballPitch.vue')['default']
     PlayBar: typeof import('./components/PlayBar.vue')['default']
     Player: typeof import('./components/Player.vue')['default']
+    PlayerBadge: typeof import('./components/PlayerBadge.vue')['default']
     PlayerForm: typeof import('./components/PlayerForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
