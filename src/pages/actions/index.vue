@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fill-height">
-    <div v-if="!isEdit">
+  <div v-if="!isEdit">
+    <v-container class="fill-height">
       <v-row no-gutters rows="12">
         <div class="board">
           <Board :board-action="boardAction" :time="time" />
@@ -14,8 +14,10 @@
           />
         </div>
       </v-row>
-    </div>
-    <div v-if="isEdit">
+    </v-container>
+  </div>
+  <div v-if="isEdit">
+    <v-container class="fill-height">
       <v-row no-gutters rows="12">
         <v-col cols="8" style="width: 80dvh">
           <div class="board">
@@ -41,8 +43,8 @@
           <PlayerForm v-if="playerSelected" :can-delete="false" :player-moves="playerSelected.player" />
         </v-col>
       </v-row>
-    </div>
-  </v-container>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts" setup>
