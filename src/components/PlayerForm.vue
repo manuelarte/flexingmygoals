@@ -2,11 +2,12 @@
   <v-form v-model="valid">
     <v-card>
       <template #prepend>
-        <PlayerBadge :color="color" :is-keeper="false" :number="number" />
+        <PlayerBadge :color="color" :is-keeper="isKeeper" :number="number" />
         <v-number-input
           v-model="number"
           class="align-content-center"
           control-variant="split"
+          hide-details
           :hide-input="true"
           :inset="true"
           :max="99"
@@ -39,19 +40,23 @@
   import { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
 
   const props = defineProps({
-    playerMoves: {
-      type: BoardActorAction<BoardPlayer>,
-      required: true,
-    },
     canDelete: {
       type: Boolean,
       default: false,
     },
+    isKeeper: {
+      type: Boolean,
+      default: false,
+    },
+    playerMoves: {
+      type: BoardActorAction<BoardPlayer>,
+      required: true,
+    },
   })
 
-  const name = ref(props.playerMoves.actor.name)
-  const number = ref(props.playerMoves.actor.number)
-  const color = ref(props.playerMoves.actor.color)
+  const name = toRef(props.playerMoves.actor.name)
+  const number = toRef(props.playerMoves.actor.number)
+  const color = toRef(props.playerMoves.actor.color)
   const valid = ref(false)
   const modified = computed(() => {
     if (valid.value) {

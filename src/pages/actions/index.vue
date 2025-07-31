@@ -40,7 +40,7 @@
           <v-card v-if="!playerSelected">
             <v-card-title>Select an actor...</v-card-title>
           </v-card>
-          <PlayerForm v-if="playerSelected" :can-delete="false" :player-moves="playerSelected.player" />
+          <PlayerForm v-if="playerSelected" :can-delete="false" :is-keeper="playerSelected.id === 'opponentTeamKeeperPlayer'" :player-moves="playerSelected.player" />
         </v-col>
       </v-row>
     </v-container>
