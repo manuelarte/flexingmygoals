@@ -44,7 +44,11 @@
   const valid = ref(false)
   const modified = computed(() => {
     if (valid.value) {
-      return new BoardPlayer(name.value, number.value, color.value)
+      try {
+        return new BoardPlayer(name.value, number.value, color.value)
+      } catch {
+        return null
+      }
     }
     return null
   })
