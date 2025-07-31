@@ -1,6 +1,20 @@
 <template>
   <v-form v-model="valid">
     <v-card>
+      <template #prepend>
+        <PlayerBadge :color="color" :is-keeper="false" :number="number" />
+        <v-number-input
+          v-model="number"
+          class="align-content-center"
+          control-variant="split"
+          :hide-input="true"
+          :inset="true"
+          :max="99"
+          :min="1"
+          :step="1"
+        />
+      </template>
+
       <template #title>
         <v-text-field
           v-model="name"
@@ -8,9 +22,6 @@
           label="Player's name"
           :rules="nameRules"
         />
-      </template>
-      <template #prepend>
-        <PlayerBadge :color="color" :is-keeper="false" :number="number" />
       </template>
 
       <v-card-text>
@@ -65,4 +76,6 @@
 </script>
 
 <style scoped lang="sass">
+.card :deep(.v-number-input)
+  padding: 50px
 </style>
