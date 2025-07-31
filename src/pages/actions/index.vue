@@ -93,9 +93,7 @@
   })
 
   const onPlayerSelected = (event: { player: BoardActorAction<BoardPlayer>, id: string }) => {
-    console.log('player selected before', event.id)
     playerSelected.value = playerSelected?.value?.id === event.id ? null : event
-    console.log('player selected after', event.id)
   }
 
   // Check if it's a boolean string

@@ -18,7 +18,6 @@
       </v-card-text>
 
       <template #actions>
-        valid: {{ valid }}
         <v-btn :disabled="isSaveDisabled()" text="Save" />
       </template>
     </v-card>
@@ -43,9 +42,8 @@
   const number = ref(props.playerMoves.actor.number)
   const color = ref(props.playerMoves.actor.color)
   const valid = ref(false)
-  const modified: ComputedRef<BoardPlayer | null> = computed(() => {
+  const modified = computed(() => {
     if (valid.value) {
-      console.log('valid', valid.value)
       return new BoardPlayer(name.value, number.value, color.value)
     }
     return null
