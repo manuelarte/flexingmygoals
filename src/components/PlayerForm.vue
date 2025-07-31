@@ -76,6 +76,4 @@
 </script>
 
 <style scoped lang="sass">
-.card :deep(.v-number-input)
-  padding: 50px
 </style>
