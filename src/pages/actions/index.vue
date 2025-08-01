@@ -55,15 +55,20 @@
   import router from '@/router'
   import { Page, useAppStore } from '@/stores/app'
 
+  interface SelectedPlayer {
+    player: BoardActorAction<BoardPlayer>
+    id: string
+  }
+
   const appStore = useAppStore()
 
   const boardAction = ref()
   const isPlaying = ref(false)
   const time = ref(0)
+  const playerSelected = ref<SelectedPlayer | null>()
 
   const route = useRoute()
   const isEdit = ref(false)
-  const playerSelected: Ref<{ player: BoardActorAction<BoardPlayer>, id: string } | null | undefined> = ref()
 
   const onTimeChanged = (newValue: number) => {
     time.value = newValue
@@ -92,8 +97,9 @@
     appStore.setBoardAction(null)
   })
 
-  const onPlayerSelected = (event: { player: BoardActorAction<BoardPlayer>, id: string }) => {
+  const onPlayerSelected = (event: SelectedPlayer) => {
     playerSelected.value = playerSelected?.value?.id === event.id ? null : event
+    console.log('player-selected', playerSelected.value)
   }
 
   // Check if it's a boolean string
