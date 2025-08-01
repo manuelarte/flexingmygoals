@@ -37,7 +37,7 @@
           <v-list-subheader>Positions</v-list-subheader>
         </v-list>
         <v-list-item
-          v-for="(timePosition, i) in playerMoves.moves.getTimePositions()"
+          v-for="(timePosition, i) in moves.getTimePositions()"
           :key="i"
           color="primary"
           rounded="xl"
@@ -47,7 +47,7 @@
             {{ timePosition.time*100 }}%<v-icon icon="mdi-clock" />
           </template>
           <template #append>
-            <v-btn density="compact" icon="mdi-delete" />
+            <v-btn :disabled="i==0" icon="mdi-delete" variant="plain" />
           </template>
           <template #default>
             <v-text-field
@@ -92,10 +92,10 @@
     },
   })
 
-  // TODO(manuelarte) bug: name and number not updated
   const name = toRef(props.playerMoves.actor.name)
   const number = toRef(props.playerMoves.actor.number)
   const color = toRef(props.playerMoves.actor.color)
+  const moves = toRef(props.playerMoves.moves)
   const valid = ref(false)
   const modified = computed(() => {
     if (valid.value) {
@@ -113,6 +113,13 @@
     value => (value && value.length >= BoardPlayer.MIN_NAME_LENGTH) || `Min ${BoardPlayer.MIN_NAME_LENGTH} characters`,
     value => (value && value.length <= BoardPlayer.MAX_NAME_LENGTH) || `Max ${BoardPlayer.MAX_NAME_LENGTH} characters`,
   ]
+
+  watchEffect(() => {
+    name.value = props.playerMoves.actor.name
+    number.value = props.playerMoves.actor.number
+    color.value = props.playerMoves.actor.color
+    moves.value = props.playerMoves.moves
+  })
 
   const changeColor = function (): void {
     color.value = color.value === TeamSide.MyTeam ? TeamSide.OpponentTeam : TeamSide.MyTeam
