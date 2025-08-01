@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BoardPlayer } from '@/models/board.action.model.ts'
+  import { BoardPlayer } from '@/models/board.action.model'
 
   defineProps({
     player: {

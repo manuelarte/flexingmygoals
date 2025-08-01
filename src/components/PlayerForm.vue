@@ -2,7 +2,14 @@
   <v-form v-model="valid">
     <v-card>
       <template #prepend>
-        <PlayerBadge :color="color" :is-keeper="isKeeper" :number="number" />
+        <div class="player-badge">
+          <PlayerBadge
+            :color="color"
+            :is-keeper="isKeeper"
+            :number="number"
+            @click="changeColor()"
+          />
+        </div>
         <v-number-input
           v-model="number"
           class="align-content-center"
@@ -37,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-  import { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
+  import { BoardActorAction, BoardPlayer, TeamSide } from '@/models/board.action.model'
 
   const props = defineProps({
     canDelete: {
@@ -75,10 +82,24 @@
     value => (value && value.length <= BoardPlayer.MAX_NAME_LENGTH) || `Max ${BoardPlayer.MAX_NAME_LENGTH} characters`,
   ]
 
+  const changeColor = function (): void {
+    color.value = color.value === TeamSide.MyTeam ? TeamSide.OpponentTeam : TeamSide.MyTeam
+  }
+
   const isSaveDisabled = function (): boolean {
     return !valid.value || props.playerMoves.actor.equals(modified.value)
   }
 </script>
 
 <style scoped lang="sass">
+.player-badge :deep(.player)
+  margin-right: 4px
+  &:hover
+    animation: scaleAnimation 0.2s forwards
+
+@-webkit-keyframes scaleAnimation
+  0%
+    transform: scale(1)
+  100%
+    transform: scale(1.2)
 </style>

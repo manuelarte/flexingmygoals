@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
   import router from '@/router'
-  import { Page, useAppStore } from '@/stores/app.ts'
+  import { Page, useAppStore } from '@/stores/app'
 
   const appStore = useAppStore()
 
