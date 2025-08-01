@@ -235,6 +235,15 @@ export class BoardActorMoves {
     return this.interpolatePosition(previous, next, time)
   }
 
+  getTimePositions (): Array<BoardMoveTimestamp> {
+    const toReturn = [new BoardMoveTimestamp(0, this._initialPosition)]
+    for (const other of this._other) {
+      toReturn.push(other)
+    }
+
+    return toReturn
+  }
+
   private findSurroundingTimestamps (time: number): {
     previous: BoardMoveTimestamp
     next: BoardMoveTimestamp | null

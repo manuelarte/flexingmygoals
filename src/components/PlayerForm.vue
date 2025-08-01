@@ -33,7 +33,38 @@
       </template>
 
       <v-card-text>
-        Other actions
+        <v-list>
+          <v-list-subheader>Positions</v-list-subheader>
+        </v-list>
+        <v-list-item
+          v-for="(timePosition, i) in playerMoves.moves.getTimePositions()"
+          :key="i"
+          color="primary"
+          rounded="xl"
+          :value="timePosition"
+        >
+          <template #prepend>
+            {{ timePosition.time*100 }}%<v-icon icon="mdi-clock" />
+          </template>
+          <template #append>
+            <v-btn density="compact" icon="mdi-delete" />
+          </template>
+          <template #default>
+            <v-text-field
+              v-model="timePosition.position.x"
+              disabled
+              hide-details="auto"
+              label="x"
+            />
+            <v-text-field
+              v-model="timePosition.position.y"
+              disabled
+              hide-details="auto"
+              label="y"
+            />
+          </template>
+        </v-list-item>
+
       </v-card-text>
 
       <template #actions>
@@ -61,6 +92,7 @@
     },
   })
 
+  // TODO(manuelarte) bug: name and number not updated
   const name = toRef(props.playerMoves.actor.name)
   const number = toRef(props.playerMoves.actor.number)
   const color = toRef(props.playerMoves.actor.color)
