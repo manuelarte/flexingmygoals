@@ -99,7 +99,6 @@
 
   const onPlayerSelected = (event: SelectedPlayer) => {
     playerSelected.value = playerSelected?.value?.id === event.id ? null : event
-    console.log('player-selected', playerSelected.value)
   }
 
   // Check if it's a boolean string
