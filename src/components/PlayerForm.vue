@@ -135,9 +135,7 @@
 
 <style scoped lang="sass">
 .card-prepend
-  width: 4rem
-  max-width: 4rem
-  min-width: 4rem
+  width: 10dvw
 .player-badge :deep(.player)
   margin-right: 4px
   &:hover
