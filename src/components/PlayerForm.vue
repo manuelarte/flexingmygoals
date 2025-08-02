@@ -45,7 +45,7 @@
         >
           <template #prepend>
             <div class="card-prepend">
-              <v-icon icon="mdi-clock" />{{ timePosition.time*100 }}%
+              <v-icon icon="mdi-clock" />{{ Math.trunc(timePosition.time*100) }}%
             </div>
 
           </template>
@@ -134,16 +134,19 @@
 </script>
 
 <style scoped lang="sass">
-.card-prepend
-  width: 10dvw
-.player-badge :deep(.player)
-  margin-right: 4px
-  &:hover
-    animation: scaleAnimation 0.2s forwards
+  .card-prepend
+    width: 5dvw
+    min-width: 60px
+    max-width: 100px
 
-@-webkit-keyframes scaleAnimation
-  0%
-    transform: scale(1)
-  100%
-    transform: scale(1.2)
+  .player-badge :deep(.player)
+    margin-right: 4px
+    &:hover
+      animation: scaleAnimation 0.2s forwards
+
+  @-webkit-keyframes scaleAnimation
+    0%
+      transform: scale(1)
+    100%
+      transform: scale(1.2)
 </style>

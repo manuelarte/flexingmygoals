@@ -56,7 +56,7 @@
   import type { LocationQueryValue } from 'vue-router'
   import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
   import { onBeforeMount, onUnmounted } from 'vue'
-  import { TestingLimits } from '@/models/board.example'
+  import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
   import { Page, useAppStore } from '@/stores/app'
 
@@ -84,7 +84,7 @@
   }
 
   onBeforeMount(() => {
-    appStore.boardAction = TestingLimits
+    appStore.boardAction = SavedExample1
     if (appStore.boardAction == null) {
       router.push('/')
     } else {
