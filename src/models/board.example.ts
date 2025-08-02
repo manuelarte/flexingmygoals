@@ -181,7 +181,7 @@ export const TestingLimits = new BoardAction(
   new BoardActorAction(
     me,
     BoardActorTimePositions.from(
-      BoardPosition.of(1, 0),
+      BoardPosition.of(1, 0.5),
     ),
   ),
   new BoardActorAction(
@@ -194,7 +194,7 @@ export const TestingLimits = new BoardAction(
     new BoardActorAction(
       BoardPlayer.opponentTeam('Left Down', 4),
       BoardActorTimePositions.from(
-        BoardPosition.of(0, 0.75),
+        BoardPosition.of(0, 0.5),
       ),
     ),
     new BoardActorAction(
@@ -206,7 +206,7 @@ export const TestingLimits = new BoardAction(
     new BoardActorAction(
       BoardPlayer.myTeam('Right Down', 9),
       BoardActorTimePositions.from(
-        BoardPosition.of(1, 0.75),
+        BoardPosition.of(1, 0),
       ),
     ),
   ],

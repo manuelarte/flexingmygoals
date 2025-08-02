@@ -1,7 +1,7 @@
 <template>
   <div class="pitch-wrapper">
-    <img alt="football pitch" class="img" :src="`data:image/svg+xml;base64,${svgContent}`">
-    <div ref="actorsRectRef" class="actors">
+    <img ref="actorsRectRef" alt="football pitch" class="pitch" :src="`data:image/svg+xml;base64,${svgContent}`">
+    <div class="actors" :style="actorsStyle">
       <slot />
     </div>
   </div>
@@ -35,11 +35,15 @@
     },
   })
 
+  const actorsRectRef = useTemplateRef('actorsRectRef')
+  const actorsArea = ref<{ width: number, height: number }>({ width: 0, height: 0 })
+  const actorsStyle = computed(() => {
+    return { width: `${actorsArea.value.width}px`, height: `${actorsArea.value.height}px` }
+  })
+
   const emits = defineEmits(
     ['actors-area'],
   )
-
-  const actorsRectRef = useTemplateRef('actorsRectRef')
 
   const svgContent = computed(() => {
     const vars = new FootballPitchVariables(props.length, props.width, props.percentageShown, 3)
@@ -48,7 +52,9 @@
   })
 
   onMounted(() => {
-    emits('actors-area', actorsRectRef.value?.getBoundingClientRect())
+    const rect = actorsRectRef.value?.getBoundingClientRect()
+    actorsArea.value = { width: 0.93 * rect!.width, height: 0.98 * rect!.height }
+    emits('actors-area', actorsArea.value)
   })
 </script>
 
@@ -60,15 +66,15 @@
     height: 100%
     max-height: 100%
     overflow: hidden
-    .img
+    .pitch
       position: absolute
-      width: auto
-      max-width: 100%
+      height: 100%
+      left: 50%
+      translate: -50%
       aspect-ratio: auto
     .actors
       position: absolute
-      width: 94%
-      aspect-ratio: 1.3 // width/length * 1/percentageShown
-      margin-left: 3%
-      margin-top: 3%
+      left: 50%
+      top: 3%
+      translate: -50%
 </style>
