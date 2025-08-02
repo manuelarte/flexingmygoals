@@ -86,16 +86,16 @@
       type: Boolean,
       default: false,
     },
-    playerMoves: {
+    playerAction: {
       type: BoardActorAction<BoardPlayer>,
       required: true,
     },
   })
 
-  const name = toRef(props.playerMoves.actor.name)
-  const number = toRef(props.playerMoves.actor.number)
-  const color = toRef(props.playerMoves.actor.color)
-  const moves = toRef(props.playerMoves.moves)
+  const name = toRef(props.playerAction.actor.name)
+  const number = toRef(props.playerAction.actor.number)
+  const color = toRef(props.playerAction.actor.color)
+  const moves = toRef(props.playerAction.moves)
   const valid = ref(false)
   const modified = computed(() => {
     if (valid.value) {
@@ -115,10 +115,10 @@
   ]
 
   watchEffect(() => {
-    name.value = props.playerMoves.actor.name
-    number.value = props.playerMoves.actor.number
-    color.value = props.playerMoves.actor.color
-    moves.value = props.playerMoves.moves
+    name.value = props.playerAction.actor.name
+    number.value = props.playerAction.actor.number
+    color.value = props.playerAction.actor.color
+    moves.value = props.playerAction.moves
   })
 
   const changeColor = function (): void {
@@ -126,7 +126,7 @@
   }
 
   const isSaveDisabled = function (): boolean {
-    return !valid.value || props.playerMoves.actor.equals(modified.value)
+    return !valid.value || props.playerAction.actor.equals(modified.value)
   }
 </script>
 
