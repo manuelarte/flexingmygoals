@@ -44,7 +44,10 @@
           :value="timePosition"
         >
           <template #prepend>
-            {{ timePosition.time*100 }}%<v-icon icon="mdi-clock" />
+            <div class="card-prepend">
+              <v-icon icon="mdi-clock" />{{ timePosition.time*100 }}%
+            </div>
+
           </template>
           <template #append>
             <v-btn :disabled="i==0" icon="mdi-delete" variant="plain" />
@@ -131,6 +134,10 @@
 </script>
 
 <style scoped lang="sass">
+.card-prepend
+  width: 4rem
+  max-width: 4rem
+  min-width: 4rem
 .player-badge :deep(.player)
   margin-right: 4px
   &:hover
