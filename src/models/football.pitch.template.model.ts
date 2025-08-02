@@ -4,17 +4,16 @@ export class FootballPitchTemplate {
   constructor () {}
 
   apply (vars: FootballPitchVariables): string {
-    return templateSVG(vars.length, vars.width, vars.percentageShown, vars.linesWidth, vars.extraSpace)
+    return templateSVG(vars)
   }
 }
 
-const templateSVG = (
-  pitch_length: number,
-  pitch_width: number,
-  pitch_percentage_shown = 1,
-  pitch_lines_width: number,
-  extra_space: number,
-): string => {
+const templateSVG = (vars: FootballPitchVariables): string => {
+  const pitch_length = vars.length
+  const pitch_width = vars.width
+  const pitch_percentage_shown = vars.percentageShown
+  const pitch_lines_width = vars.linesWidth
+  const extra_space = vars.extraSpace
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Measurement based on https://www.youtube.com/watch?v=rJg9wOQ7Qtg

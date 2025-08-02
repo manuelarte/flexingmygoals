@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="pitch-wrapper">
     <img alt="football pitch" class="img" :src="`data:image/svg+xml;base64,${svgContent}`">
     <div ref="actorsRectRef" class="actors">
       <slot />
@@ -53,14 +53,17 @@
 </script>
 
 <style scoped lang="sass">
-  .wrapper
+  .pitch-wrapper
     position: relative
     width: 100%
+    max-width: 100%
     height: 100%
+    max-height: 100%
+    overflow: hidden
     .img
       position: absolute
       width: auto
-      height: auto
+      max-width: 100%
       aspect-ratio: auto
     .actors
       position: absolute

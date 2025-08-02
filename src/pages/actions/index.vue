@@ -117,7 +117,7 @@
 
 <style scoped lang="sass">
   .board
-    height: 80dvh
+    height: 68dvh
     width: 100%
   .slider
     width: 100%
