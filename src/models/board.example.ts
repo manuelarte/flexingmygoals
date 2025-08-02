@@ -1,9 +1,9 @@
 import {
   BoardAction, BoardActorAction,
   BoardActorTimePositions,
-  BoardPositionTimestamp,
   BoardPlayer,
-  BoardPosition, FootballResult,
+  BoardPosition,
+  BoardPositionTimestamp, FootballResult,
 } from './board.action.model'
 
 const me = BoardPlayer.myTeam('Manuel', 12)

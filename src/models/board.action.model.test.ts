@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { BoardActorTimePositions, BoardPositionTimestamp, BoardPosition } from './board.action.model.ts'
+import { BoardActorTimePositions, BoardPosition, BoardPositionTimestamp } from './board.action.model'
 
 test('ActionPositions check sort in constructor', () => {
   const initialPosition = BoardPosition.of(0, 0)
