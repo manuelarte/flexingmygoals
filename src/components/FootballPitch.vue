@@ -55,8 +55,13 @@
 <style scoped lang="sass">
   .wrapper
     position: relative
+    width: 100%
+    height: 100%
     .img
       position: absolute
+      width: auto
+      height: auto
+      aspect-ratio: auto
     .actors
       position: absolute
       width: 94%
