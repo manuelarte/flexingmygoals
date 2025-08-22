@@ -80,6 +80,11 @@
 <script setup lang="ts">
   import { BoardActorAction, BoardPlayer, TeamSide } from '@/models/board.action.model'
 
+  interface SelectedPlayer {
+    player: BoardActorAction<BoardPlayer>
+    id: string
+  }
+
   const props = defineProps({
     canDelete: {
       type: Boolean,
@@ -90,7 +95,7 @@
       default: false,
     },
     playerAction: {
-      type: { id: String, player: BoardActorAction<BoardPlayer> },
+      type: Object as PropType<SelectedPlayer>,
       required: true,
     },
   })
