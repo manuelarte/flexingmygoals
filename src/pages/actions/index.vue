@@ -3,7 +3,7 @@
     <v-container class="fill-height">
       <v-row no-gutters rows="12">
         <div class="board">
-          <Board :board-action="boardAction" :time="time" />
+          <Board :board-action="getBoardAction()" :time="time" />
         </div>
         <div class="slider">
           <PlayBar
@@ -22,7 +22,7 @@
         <v-col cols="8" style="width: 80dvh">
           <div class="board">
             <Board
-              :board-action="boardAction"
+              :board-action="boardAction!"
               :time="time"
               @edit:player-selected="onPlayerSelected"
             />
@@ -45,7 +45,8 @@
             v-if="playerSelected"
             :can-delete="false"
             :is-keeper="playerSelected.id === 'opponentTeamKeeperPlayer'"
-            :player-action="playerSelected.player"
+            :player-action="playerSelected"
+            @edit:player-saved="onPlayerSaved"
           />
         </v-col>
       </v-row>
@@ -55,7 +56,8 @@
 
 <script lang="ts" setup>
   import type { LocationQueryValue } from 'vue-router'
-  import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
+  import type { BoardAction, BoardActorAction, BoardPlayer } from '@/models/board.action.model'
+
   import { onBeforeMount, onUnmounted } from 'vue'
   import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
@@ -68,7 +70,7 @@
 
   const appStore = useAppStore()
 
-  const boardAction = ref()
+  const boardAction = ref<BoardAction>()
   const isPlaying = ref(false)
   const time = ref(0)
   const playerSelected = ref<SelectedPlayer | null>()
@@ -82,6 +84,10 @@
 
   const onTogglePlay = (newValue: boolean) => {
     isPlaying.value = newValue
+  }
+
+  const onPlayerSaved = (newPlayer: SelectedPlayer): void => {
+    console.log('saved', newPlayer)
   }
 
   onBeforeMount(() => {
@@ -113,6 +119,10 @@
       return value === 'true'
     }
     return false
+  }
+
+  const getBoardAction = (): BoardAction => {
+    return boardAction.value!
   }
 </script>
 

@@ -71,7 +71,7 @@
       </v-card-text>
 
       <template #actions>
-        <v-btn :disabled="isSaveDisabled()" text="Save" />
+        <v-btn :disabled="isSaveDisabled()" text="Save" @click="playerSaved()" />
       </template>
     </v-card>
   </v-form>
@@ -90,15 +90,17 @@
       default: false,
     },
     playerAction: {
-      type: BoardActorAction<BoardPlayer>,
+      type: { id: String, player: BoardActorAction<BoardPlayer> },
       required: true,
     },
   })
 
-  const name = toRef(props.playerAction.actor.name)
-  const number = toRef(props.playerAction.actor.number)
-  const color = toRef(props.playerAction.actor.color)
-  const moves = toRef(props.playerAction.moves)
+  const emits = defineEmits(['edit:player-saved'])
+
+  const name = toRef(props.playerAction.player.actor.name)
+  const number = toRef(props.playerAction.player.actor.number)
+  const color = toRef(props.playerAction.player.actor.color)
+  const moves = toRef(props.playerAction.player.moves)
   const valid = ref(false)
   const modified = computed(() => {
     if (valid.value) {
@@ -118,18 +120,22 @@
   ]
 
   watchEffect(() => {
-    name.value = props.playerAction.actor.name
-    number.value = props.playerAction.actor.number
-    color.value = props.playerAction.actor.color
-    moves.value = props.playerAction.moves
+    name.value = props.playerAction.player.actor.name
+    number.value = props.playerAction.player.actor.number
+    color.value = props.playerAction.player.actor.color
+    moves.value = props.playerAction.player.moves
   })
 
-  const changeColor = function (): void {
+  const changeColor = (): void => {
     color.value = color.value === TeamSide.MyTeam ? TeamSide.OpponentTeam : TeamSide.MyTeam
   }
 
-  const isSaveDisabled = function (): boolean {
-    return !valid.value || props.playerAction.actor.equals(modified.value)
+  const isSaveDisabled = (): boolean => {
+    return !valid.value || props.playerAction.player.actor.equals(modified.value)
+  }
+
+  const playerSaved = (): void => {
+    emits('edit:player-saved', { id: props.playerAction.id, player: modified.value })
   }
 </script>
 
