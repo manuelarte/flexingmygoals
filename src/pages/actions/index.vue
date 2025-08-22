@@ -30,6 +30,7 @@
           <div class="slider">
             <PlayBar
               :is-playing="isPlaying"
+              :player-selected="playerSelected?.player"
               :time="time"
               @time-changed="onTimeChanged"
               @toggle-play="onTogglePlay"

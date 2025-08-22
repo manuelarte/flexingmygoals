@@ -5,7 +5,9 @@
       max="1"
       min="0"
       :model-value="timeValue"
+      show-ticks="always"
       thumb-label="always"
+      :ticks="getTimePositions(playerSelected)"
       @click:append="resetTime"
       @update:model-value="changeTime"
     >
@@ -23,7 +25,9 @@
 </template>
 
 <script setup lang="ts">
+  import type { BoardPlayer } from '@/models/board.action.model.ts'
   import { onBeforeUnmount, onMounted, ref } from 'vue'
+  import { BoardActorAction } from '@/models/board.action.model.ts'
 
   // Constants - moved to top for better organization
   const TIME_DURATION = 5000 // 5 seconds
@@ -33,6 +37,10 @@
     isPlaying: {
       type: Boolean,
       required: true,
+    },
+    playerSelected: {
+      type: BoardActorAction<BoardPlayer>,
+      required: false,
     },
     time: {
       type: Number,
@@ -57,13 +65,17 @@
     emits('toggle-play', newValue)
   }
 
+  const changeTime = (newValue: number): void => {
+    timeValue.value = Number.parseFloat(newValue.toFixed(2))
+    emits('time-changed', newValue)
+  }
+
   const getPlayBarIcon = (): string => {
     return props.isPlaying ? 'mdi-pause' : 'mdi-play'
   }
 
-  const changeTime = (newValue: number): void => {
-    timeValue.value = Number.parseFloat(newValue.toFixed(2))
-    emits('time-changed', newValue)
+  const getTimePositions = (p: BoardActorAction<BoardPlayer> | undefined): Array<number> | undefined => {
+    return p?.moves.getTimePositions().map(p => p.time)
   }
 
   const resetTime = (): void => {
