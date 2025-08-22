@@ -99,7 +99,7 @@
     if (appStore.boardAction == null) {
       router.push('/')
     } else {
-      boardAction.value = appStore.boardAction!
+      boardAction.value = appStore.boardAction! as BoardAction
     }
   })
 
