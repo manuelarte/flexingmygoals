@@ -354,9 +354,9 @@ export class BoardActionInput {
   /** The ball board positions during the action. */
   private readonly _ball: BoardActorTimePositions
   /** The main player board positions during the action. */
-  private readonly _playerMain: BoardActorAction<BoardPlayer>
+  private _playerMain: BoardActorAction<BoardPlayer>
   /** The keeper board positions during the action. */
-  private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  private _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
@@ -403,12 +403,12 @@ export class BoardActionInput {
     return this._playerMain
   }
 
-  get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
-    return this._opponentTeamKeeperPlayer
-  }
-
   get otherPlayers (): Array<BoardActorAction<BoardPlayer>> {
     return this._otherPlayers
+  }
+
+  get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
+    return this._opponentTeamKeeperPlayer
   }
 }
 
@@ -428,11 +428,11 @@ export class BoardAction extends BoardActionInput {
     summary: string | null,
     partialResult: FootballResult,
     ball: BoardActorTimePositions,
-    mainPlayer: BoardActorAction<BoardPlayer>,
+    playerMain: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
-    super (highlight, summary, partialResult, ball, mainPlayer, opponentTeamKeeperPlayer, otherPlayers)
+    super (highlight, summary, partialResult, ball, playerMain, opponentTeamKeeperPlayer, otherPlayers)
     this._id = id
     this._createdAt = createdAt
     this._createdBy = createdBy
@@ -448,5 +448,22 @@ export class BoardAction extends BoardActionInput {
 
   get createdBy (): string {
     return this._createdBy
+  }
+
+  replacePlayer (id: string, player: BoardActorAction<BoardPlayer>): BoardAction {
+    let newPlayerMain = this.playerMain
+    let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
+    switch (id) {
+      case 'me': {
+        newPlayerMain = player
+        break
+      }
+      case 'opponentTeamKeeperPlayer': {
+        newOpponentTeamKeeperPlayer = player
+        break
+      }
+    }
+
+    return new BoardAction(this.id, this.createdAt, this.createdBy, this.highlight, this.summary, this.partialResult, this.ball, newPlayerMain, newOpponentTeamKeeperPlayer, this.otherPlayers)
   }
 }

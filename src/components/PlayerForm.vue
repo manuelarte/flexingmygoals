@@ -102,10 +102,10 @@
   const color = toRef(props.playerAction.player.actor.color)
   const moves = toRef(props.playerAction.player.moves)
   const valid = ref(false)
-  const modified = computed(() => {
+  const modified = computed<BoardActorAction<BoardPlayer> | null>(() => {
     if (valid.value) {
       try {
-        return new BoardPlayer(name.value, number.value, color.value)
+        return new BoardActorAction<BoardPlayer>(new BoardPlayer(name.value, number.value, color.value), props.playerAction.player.moves)
       } catch {
         return null
       }

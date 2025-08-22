@@ -86,8 +86,12 @@
     isPlaying.value = newValue
   }
 
+  const onPlayerSelected = (event: SelectedPlayer) => {
+    playerSelected.value = playerSelected?.value?.id === event.id ? null : event
+  }
+
   const onPlayerSaved = (newPlayer: SelectedPlayer): void => {
-    console.log('saved', newPlayer)
+    boardAction.value = boardAction.value?.replacePlayer(newPlayer.id, newPlayer.player)
   }
 
   onBeforeMount(() => {
@@ -108,10 +112,6 @@
     appStore.resetPage()
     appStore.setBoardAction(null)
   })
-
-  const onPlayerSelected = (event: SelectedPlayer) => {
-    playerSelected.value = playerSelected?.value?.id === event.id ? null : event
-  }
 
   // Check if it's a boolean string
   const toBoolean = (value: LocationQueryValue | LocationQueryValue[]) => {

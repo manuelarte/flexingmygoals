@@ -91,7 +91,7 @@
     return denormalizePos(normalizePos)
   })
   const playerMyTeamMainTimePos = computed (() => {
-    if (!actorsArea.value) return { x: 0, y: 0 }
+    if (!actorsArea.value || props.boardAction.playerMain == null) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
