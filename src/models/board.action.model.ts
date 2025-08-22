@@ -1,5 +1,8 @@
 import { ValidationException } from '@/models/validation.model'
 
+/** Class holding a football result, like 1-1, or 2-5.
+ * There is no concept of home-away, it's just my team and opponent team.
+ */
 export class FootballResult {
   private readonly _myTeam: number
   private readonly _opponentTeam: number
@@ -35,11 +38,17 @@ export enum TeamSide {
 
 interface BoardActor {}
 
+/**
+ * A player to be represented in the Board.
+ * @param name The name of the player, between [2, 15] characters.
+ * @param number The number of the player, between [1, 99].
+ * @param color Whether is from my team or the opponent.
+ */
 export class BoardPlayer implements BoardActor {
-  private static readonly MIN_NAME_LENGTH = 2
-  private static readonly MAX_NAME_LENGTH = 15
-  private static readonly MIN_NUMBER = 0
-  private static readonly MAX_NUMBER = 99
+  static readonly MIN_NAME_LENGTH = 2
+  static readonly MAX_NAME_LENGTH = 15
+  static readonly MIN_NUMBER = 0
+  static readonly MAX_NUMBER = 99
 
   private readonly _name: string
   private readonly _number: number
@@ -72,6 +81,28 @@ export class BoardPlayer implements BoardActor {
 
   static opponentTeam (name: string, number: number): BoardPlayer {
     return new BoardPlayer(name, number, TeamSide.OpponentTeam)
+  }
+
+  equals (other: unknown): boolean {
+    // Check if it's the same reference
+    if (this === other) {
+      return true
+    }
+
+    // Check if other is null/undefined
+    if (other == null) {
+      return false
+    }
+
+    // Check if other is an instance of BoardPlayer
+    if (!(other instanceof BoardPlayer)) {
+      return false
+    }
+
+    // Compare all significant properties
+    return this._name === other._name
+      && this._number === other._number
+      && this._color === other._color
   }
 
   private validateName (name: string): void {
@@ -132,9 +163,11 @@ export class BoardPosition {
 }
 
 /**
- * BoardMoveTimestamp declares a board position for a particular moment in time.
+ * BoardPositionTimestamp declares a board position for a particular moment in time.
+ * @param time The moment in time between [0, 1]
+ * @param position The position in the field.
  */
-export class BoardMoveTimestamp {
+export class BoardPositionTimestamp {
   private static readonly MIN_TIME = 0
   private static readonly MAX_TIME = 1
 
@@ -158,37 +191,37 @@ export class BoardMoveTimestamp {
   }
 
   private validateTime (time: number): void {
-    if (time < BoardMoveTimestamp.MIN_TIME || time > BoardMoveTimestamp.MAX_TIME) {
+    if (time < BoardPositionTimestamp.MIN_TIME || time > BoardPositionTimestamp.MAX_TIME) {
       throw new ValidationException(
-        `Time needs to be between [${BoardMoveTimestamp.MIN_TIME}, ${BoardMoveTimestamp.MAX_TIME}]`,
+        `Time needs to be between [${BoardPositionTimestamp.MIN_TIME}, ${BoardPositionTimestamp.MAX_TIME}]`,
       )
     }
   }
 }
 
 /**
- * BoardActorMoves declares the initial board position and the rest of the board positions for an actor (player/ball).
+ * BoardActorTimePositions declares the initial board position and the rest of the board positions for an actor.
  */
-export class BoardActorMoves {
+export class BoardActorTimePositions {
   /** initialPosition of the actor in time, t=0 */
   private readonly _initialPosition: BoardPosition
   /** other positions of the actor for different times */
-  private readonly _other: Array<BoardMoveTimestamp>
+  private readonly _other: Array<BoardPositionTimestamp>
 
   constructor (
     initialPosition: BoardPosition,
-    other: Array<BoardMoveTimestamp>,
+    other: Array<BoardPositionTimestamp>,
   ) {
     this._initialPosition = initialPosition
     this._other = this.sortAndValidateTimestamps(other)
   }
 
-  get other (): Array<BoardMoveTimestamp> {
+  get other (): Array<BoardPositionTimestamp> {
     return this._other
   }
 
-  static from (initialPosition: BoardPosition, ...other: Array<BoardMoveTimestamp>): BoardActorMoves {
-    return new BoardActorMoves(initialPosition, other)
+  static from (initialPosition: BoardPosition, ...other: Array<BoardPositionTimestamp>): BoardActorTimePositions {
+    return new BoardActorTimePositions(initialPosition, other)
   }
 
   /**
@@ -213,12 +246,24 @@ export class BoardActorMoves {
     return this.interpolatePosition(previous, next, time)
   }
 
+  /**
+   * Returns all the board positions by time.
+   */
+  getTimePositions (): Array<BoardPositionTimestamp> {
+    const toReturn = [new BoardPositionTimestamp(0, this._initialPosition)]
+    for (const other of this._other) {
+      toReturn.push(other)
+    }
+
+    return toReturn
+  }
+
   private findSurroundingTimestamps (time: number): {
-    previous: BoardMoveTimestamp
-    next: BoardMoveTimestamp | null
+    previous: BoardPositionTimestamp
+    next: BoardPositionTimestamp | null
   } {
-    let previous = new BoardMoveTimestamp(0, this._initialPosition)
-    let next: BoardMoveTimestamp | null = null
+    let previous = new BoardPositionTimestamp(0, this._initialPosition)
+    let next: BoardPositionTimestamp | null = null
 
     for (const current of this._other) {
       if (current.time >= time) {
@@ -232,8 +277,8 @@ export class BoardActorMoves {
   }
 
   private interpolatePosition (
-    previous: BoardMoveTimestamp,
-    next: BoardMoveTimestamp,
+    previous: BoardPositionTimestamp,
+    next: BoardPositionTimestamp,
     time: number,
   ): BoardPosition {
     const timeDiff = next.time - previous.time
@@ -249,7 +294,7 @@ export class BoardActorMoves {
     return new BoardPosition(newX, newY)
   }
 
-  private sortAndValidateTimestamps (timestamps: Array<BoardMoveTimestamp>): Array<BoardMoveTimestamp> {
+  private sortAndValidateTimestamps (timestamps: Array<BoardPositionTimestamp>): Array<BoardPositionTimestamp> {
     const sorted = timestamps.slice().sort((a, b) => a.time - b.time)
 
     // Check for duplicate times
@@ -267,12 +312,14 @@ export class BoardActorMoves {
 
 /**
  * Holder for the board position in any particular moment in time [0, 1].
+ * @param actor the actor that performs the action.
+ * @param moves the different time positions.
  */
 export class BoardActorAction<Type extends BoardActor> {
   private readonly _actor: Type
-  private readonly _moves: BoardActorMoves
+  private readonly _moves: BoardActorTimePositions
 
-  constructor (actor: Type, moves: BoardActorMoves) {
+  constructor (actor: Type, moves: BoardActorTimePositions) {
     this._actor = actor
     this._moves = moves
   }
@@ -281,7 +328,7 @@ export class BoardActorAction<Type extends BoardActor> {
     return this._actor
   }
 
-  get moves (): BoardActorMoves {
+  get moves (): BoardActorTimePositions {
     return this._moves
   }
 
@@ -305,18 +352,18 @@ export class BoardActionInput {
   /** Partial result when the action happened */
   private readonly _partialResult: FootballResult
   /** The ball board positions during the action. */
-  private readonly _ball: BoardActorMoves
+  private readonly _ball: BoardActorTimePositions
   /** The main player board positions during the action. */
-  private readonly _playerMain: BoardActorAction<BoardPlayer>
+  private _playerMain: BoardActorAction<BoardPlayer>
   /** The keeper board positions during the action. */
-  private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  private _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
     highlight: string | null,
     summary: string | null,
     partialResult: FootballResult,
-    ball: BoardActorMoves,
+    ball: BoardActorTimePositions,
     mainPlayer: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
@@ -348,7 +395,7 @@ export class BoardActionInput {
     return this._partialResult
   }
 
-  get ball (): BoardActorMoves {
+  get ball (): BoardActorTimePositions {
     return this._ball
   }
 
@@ -356,12 +403,12 @@ export class BoardActionInput {
     return this._playerMain
   }
 
-  get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
-    return this._opponentTeamKeeperPlayer
-  }
-
   get otherPlayers (): Array<BoardActorAction<BoardPlayer>> {
     return this._otherPlayers
+  }
+
+  get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
+    return this._opponentTeamKeeperPlayer
   }
 }
 
@@ -380,12 +427,12 @@ export class BoardAction extends BoardActionInput {
     highlight: string | null,
     summary: string | null,
     partialResult: FootballResult,
-    ball: BoardActorMoves,
-    mainPlayer: BoardActorAction<BoardPlayer>,
+    ball: BoardActorTimePositions,
+    playerMain: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
-    super (highlight, summary, partialResult, ball, mainPlayer, opponentTeamKeeperPlayer, otherPlayers)
+    super (highlight, summary, partialResult, ball, playerMain, opponentTeamKeeperPlayer, otherPlayers)
     this._id = id
     this._createdAt = createdAt
     this._createdBy = createdBy
@@ -401,5 +448,22 @@ export class BoardAction extends BoardActionInput {
 
   get createdBy (): string {
     return this._createdBy
+  }
+
+  replacePlayer (id: string, player: BoardActorAction<BoardPlayer>): BoardAction {
+    let newPlayerMain = this.playerMain
+    let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
+    switch (id) {
+      case 'me': {
+        newPlayerMain = player
+        break
+      }
+      case 'opponentTeamKeeperPlayer': {
+        newOpponentTeamKeeperPlayer = player
+        break
+      }
+    }
+
+    return new BoardAction(this.id, this.createdAt, this.createdBy, this.highlight, this.summary, this.partialResult, this.ball, newPlayerMain, newOpponentTeamKeeperPlayer, this.otherPlayers)
   }
 }

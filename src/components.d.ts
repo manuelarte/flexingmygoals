@@ -12,10 +12,11 @@ declare module 'vue' {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     Ball: typeof import('./components/Ball.vue')['default']
     Board: typeof import('./components/Board.vue')['default']
-    Field: typeof import('./components/Field.vue')['default']
     FootballPitch: typeof import('./components/FootballPitch.vue')['default']
     PlayBar: typeof import('./components/PlayBar.vue')['default']
     Player: typeof import('./components/Player.vue')['default']
+    PlayerBadge: typeof import('./components/PlayerBadge.vue')['default']
+    PlayerForm: typeof import('./components/PlayerForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

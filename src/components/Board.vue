@@ -1,68 +1,64 @@
 <template>
-  <v-container class="fill-height">
-    <div ref="fieldWrapperRef" class="field-wrapper">
-      <FootballPitch class="field-container" @actors-area="actorsArea = $event">
-        <div v-if="actorsArea">
-          <!-- Players -->
-          <!-- Other players -->
-          <div
-            v-for="(playerAction, index) in boardAction.otherPlayers"
-            :key="index"
-            class="player-wrapper"
-            style="position: absolute"
-            :style="{ left: `${otherPlayersTimePos[index].x}px`, top: `${otherPlayersTimePos[index].y}px` }"
-          >
-            <Player
-              :id="`player${index}`"
-              :color="playerAction.actor.color"
-              :is-draggable="false"
-              :is-dragging="false"
-              :player="playerAction.actor"
-            />
-          </div>
-          <!-- Main Player -->
-          <div
-            ref="playerMainRef"
-            class="player-wrapper"
-            style="position: absolute"
-            :style="{ left: `${playerMyTeamMainTimePos.x}px`, top: `${playerMyTeamMainTimePos.y}px` }"
-          >
-            <Player
-              id="playerMain"
-              :color="boardAction.playerMain.actor.color"
-              :is-draggable="false"
-              :is-dragging="false"
-              :player="boardAction.playerMain.actor"
-            />
-          </div>
-          <!-- Opponent Team keeper player -->
-          <div
-            ref="playerOpponentTeamKeeperRef"
-            class="player-wrapper"
-            style="position: absolute"
-            :style="{ left: `${playerOpponentTeamKeeperTimePos.x}px`, top: `${playerOpponentTeamKeeperTimePos.y}px` }"
-          >
-            <Player
-              id="playerOpponentTeamKeeper"
-              :color="boardAction.opponentTeamKeeperPlayer.actor.color"
-              :is-draggable="false"
-              :is-dragging="false"
-              :is-keeper="true"
-              :player="boardAction.opponentTeamKeeperPlayer.actor"
-            />
-          </div>
-          <!-- End Players -->
-          <div
-            ref="ballRef"
-            class="ball-wrapper"
-            :style="{ left: `${ballTimePos.x}px`, top: `${ballTimePos.y}px` }"
-          >
-            <Ball />
-          </div>
-        </div>
-      </FootballPitch>
+  <FootballPitch @actors-area="actorsArea = $event">
+    <div v-if="actorsArea">
+      <!-- Players -->
+      <!-- Other players -->
+      <div
+        v-for="(playerAction, index) in boardAction.otherPlayers"
+        :key="index"
+        class="player-wrapper"
+        style="position: absolute"
+        :style="{ left: `${otherPlayersTimePos[index].x}px`, top: `${otherPlayersTimePos[index].y}px` }"
+      >
+        <Player
+          :id="`player-${index}`"
+          :is-draggable="false"
+          :is-dragging="false"
+          :player="playerAction.actor"
+          @click="emits('edit:player-selected', {player: playerAction, id:`player-${index}` })"
+        />
+      </div>
+      <!-- Main Player -->
+      <div
+        ref="playerMainRef"
+        class="player-wrapper"
+        style="position: absolute"
+        :style="{ left: `${playerMyTeamMainTimePos.x}px`, top: `${playerMyTeamMainTimePos.y}px` }"
+      >
+        <Player
+          id="playerMain"
+          :is-draggable="false"
+          :is-dragging="false"
+          :player="boardAction.playerMain.actor"
+          @click="emits('edit:player-selected', {player: boardAction.playerMain, id:`me` })"
+        />
+      </div>
+      <!-- Opponent Team keeper player -->
+      <div
+        ref="playerOpponentTeamKeeperRef"
+        class="player-wrapper"
+        style="position: absolute"
+        :style="{ left: `${playerOpponentTeamKeeperTimePos.x}px`, top: `${playerOpponentTeamKeeperTimePos.y}px` }"
+      >
+        <Player
+          id="playerOpponentTeamKeeper"
+          :is-draggable="false"
+          :is-dragging="false"
+          :is-keeper="true"
+          :player="boardAction.opponentTeamKeeperPlayer.actor"
+          @click="emits('edit:player-selected', {player: boardAction.opponentTeamKeeperPlayer, id:`opponentTeamKeeperPlayer` })"
+        />
+      </div>
+      <!-- End Players -->
+      <div
+        ref="ballRef"
+        class="ball-wrapper"
+        :style="{ left: `${ballTimePos.x}px`, top: `${ballTimePos.y}px` }"
+      >
+        <Ball />
+      </div>
     </div>
-  </v-container>
+  </FootballPitch>
 </template>
 
 <script setup lang="ts">
@@ -87,13 +83,15 @@
     },
   })
 
+  const emits = defineEmits(['edit:player-selected'])
+
   const ballTimePos = computed (() => {
     if (!actorsArea.value) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.ball.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
   const playerMyTeamMainTimePos = computed (() => {
-    if (!actorsArea.value) return { x: 0, y: 0 }
+    if (!actorsArea.value || props.boardAction.playerMain == null) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
@@ -132,10 +130,9 @@
   position: absolute
   top: 0
   left: 0
-.field-wrapper
+.board-wrapper
   height: 100%
   width: 100%
-.field-container
   position: relative
 .player-wrapper
   position: absolute
