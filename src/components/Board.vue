@@ -85,8 +85,14 @@
   })
 
   const emits = defineEmits<{
+    // Event to notify the parent component that the player selected has changed
     'edit:player-selected': [playerSelected: SelectedPlayer]
   }>()
+
+  /**
+   * The area, football pitch, where the actors can move.
+   */
+  const actorsArea: Ref<Rect | null> = ref(null)
 
   const ballTimePos = computed ((): RelativePos => {
     if (!actorsArea.value) return { x: 0, y: 0 }
@@ -110,8 +116,6 @@
       return denormalizePos(normalizePos)
     }) ?? []
   })
-
-  const actorsArea: Ref<Rect | null> = ref(null)
 
   const denormalizePos = (normalizePos: BoardPosition): RelativePos => {
     if (actorsArea.value == null) return { x: 0, y: 0 }

@@ -1,7 +1,8 @@
 import type { PlayerId } from '@/models/transfer.model'
 import { ValidationException } from '@/models/validation.model'
 
-/** Class holding a football result, like 1-1, or 2-5.
+/**
+ * Class holding a football result, like 1-1, or 2-5.
  * There is no concept of home-away, it's just my team and opponent team.
  */
 export class FootballResult {
@@ -32,6 +33,9 @@ export class FootballResult {
   }
 }
 
+/**
+ * The two options for a team side.
+ */
 export enum TeamSide {
   MyTeam = 'myTeam',
   OpponentTeam = 'opponentTeam',

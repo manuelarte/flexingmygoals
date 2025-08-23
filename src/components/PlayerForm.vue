@@ -97,6 +97,7 @@
   })
 
   const emits = defineEmits<{
+    // Event to notify the parent component that the player has been updated.
     'edit:player-saved': [playerSaved: SelectedPlayer]
   }>()
 

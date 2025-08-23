@@ -36,15 +36,16 @@
     },
   })
 
+  const emits = defineEmits<{
+    // Event to notify the parent component that the actors area has changed
+    'actors-area': [area: Rect]
+  }>()
+
   const actorsRectRef = useTemplateRef('actorsRectRef')
   const actorsArea = ref<Rect>({ width: 0, height: 0 })
   const actorsStyle = computed(() => {
     return { width: `${actorsArea.value.width}px`, height: `${actorsArea.value.height}px` }
   })
-
-  const emits = defineEmits<{
-    'actors-area': [area: Rect]
-  }>()
 
   const svgContent = computed(() => {
     const vars = new FootballPitchVariables(props.length, props.width, props.percentageShown, 3)

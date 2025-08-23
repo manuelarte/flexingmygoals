@@ -51,7 +51,9 @@
   })
 
   const emits = defineEmits<{
+    // Event to notify the parent component that the time has changed
     'time-changed': [newTime: number]
+    // Event to notify the parent component that the play state has changed
     'toggle-play': [isPlaying: boolean]
   }>()
 
@@ -59,7 +61,40 @@
   const timeValue = ref(props.time)
   let intervalId: ReturnType<typeof setInterval> | null = null
 
+  // Lifecycle hooks
+
+  /**
+   * Starts the timer.
+   */
+  onMounted(() => {
+    intervalId = setInterval(() => {
+      if (props.isPlaying && timeValue.value < 1) {
+        changeTime(timeValue.value + (DELTA / TIME_DURATION))
+      }
+      if (timeValue.value >= 1) {
+        changeIsPlaying(false)
+        changeTime(1)
+      }
+    }, DELTA)
+  })
+
+  /**
+   * Stops the timer.
+   */
+  onBeforeUnmount(() => {
+    if (intervalId !== null) {
+      clearInterval(intervalId)
+      intervalId = null
+    }
+  })
+
+  // Watch for prop changes
+  watch(() => props.time, newTime => {
+    timeValue.value = newTime
+  })
+
   // Methods
+
   const changeIsPlaying = (newValue: boolean): void => {
     emits('toggle-play', newValue)
   }
@@ -81,29 +116,4 @@
     changeIsPlaying(false)
     changeTime(0)
   }
-
-  // Lifecycle hooks
-  onMounted(() => {
-    intervalId = setInterval(() => {
-      if (props.isPlaying && timeValue.value < 1) {
-        changeTime(timeValue.value + (DELTA / TIME_DURATION))
-      }
-      if (timeValue.value >= 1) {
-        changeIsPlaying(false)
-        changeTime(1)
-      }
-    }, DELTA)
-  })
-
-  onBeforeUnmount(() => {
-    if (intervalId !== null) {
-      clearInterval(intervalId)
-      intervalId = null
-    }
-  })
-
-  // Watch for prop changes
-  watch(() => props.time, newTime => {
-    timeValue.value = newTime
-  })
 </script>
