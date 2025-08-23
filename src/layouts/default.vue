@@ -8,6 +8,9 @@
           @click="onBackClicked()"
         />
       </template>
+
+      <v-btn v-if="isEditEnabled()" icon="mdi-pencil" @click="emits('button:edit-clicked')" />
+      <v-btn v-if="isSaveEnabled()" icon="mdi-save" @click="emits('button:save-clicked')" />
     </v-toolbar>
     <router-view />
   </v-main>
@@ -17,6 +20,13 @@
 <script lang="ts" setup>
   import router from '@/router'
   import { Page, useAppStore } from '@/stores/app'
+
+  const emits = defineEmits<{
+    // Event to notify the parent component that the edit button has been clicked
+    'button:edit-clicked': [void]
+    // Event to notify the parent component that the save button has been clicked
+    'button:save-clicked': [void]
+  }>()
 
   const appStore = useAppStore()
 
@@ -35,9 +45,24 @@
   }
 
   const isBackEnabled = (): boolean => {
-    return appStore.page != null && appStore.page != Page.HOME
+    return isPage(Page.HOME)
   }
 
+  const isEditEnabled = (): boolean => {
+    return isPage(Page.BOARD_ACTION)
+  }
+
+  const isSaveEnabled = (): boolean => {
+    return isPage(Page.BOARD_ACTION_EDIT)
+  }
+
+  const isPage = (page: Page): boolean => {
+    return appStore?.page == page
+  }
+
+  /**
+   * Method to handle the back button click event.
+   */
   const onBackClicked = (): void => {
     switch (appStore.page) {
       case Page.BOARD_ACTION: {
