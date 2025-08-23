@@ -359,9 +359,10 @@ export class BoardActionInput {
   /** The ball board positions during the action. */
   private readonly _ball: BoardActorTimePositions
   /** The main player board positions during the action. */
-  private _playerMain: BoardActorAction<BoardPlayer>
+  private readonly _playerMain: BoardActorAction<BoardPlayer>
   /** The keeper board positions during the action. */
-  private _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  /** Other players board positions during the action. */
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
