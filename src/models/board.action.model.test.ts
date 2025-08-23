@@ -49,10 +49,10 @@ test('ActionPositions get position for time 0.0', () => {
 
 test('ActionPositions get position for an exact other time 0.5', () => {
   const initialPosition = BoardPosition.of(0, 0)
-  const other = [
+  const other: Array<BoardPositionTimestamp> = [
     new BoardPositionTimestamp(0.5, BoardPosition.of(0.5, 0.6)),
     new BoardPositionTimestamp(1, BoardPosition.of(1, 1)),
   ]
   const actionPositions = new BoardActorTimePositions(initialPosition, other)
-  expect(actionPositions.getPositionForTime(0.5)).toStrictEqual(other[0].position)
+  expect(actionPositions.getPositionForTime(0.5)).toStrictEqual(other[0]!.position)
 })

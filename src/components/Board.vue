@@ -8,7 +8,7 @@
         :key="index"
         class="player-wrapper"
         style="position: absolute"
-        :style="{ left: `${otherPlayersTimePos[index].x}px`, top: `${otherPlayersTimePos[index].y}px` }"
+        :style="{ left: `${otherPlayersTimePos[index]!.x}px`, top: `${otherPlayersTimePos[index]!.y}px` }"
       >
         <Player
           :id="`player-${index}`"
@@ -88,27 +88,27 @@
     'edit:player-selected': [playerSelected: SelectedPlayer]
   }>()
 
-  const ballTimePos = computed (() => {
+  const ballTimePos = computed ((): RelativePos => {
     if (!actorsArea.value) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.ball.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
-  const playerMyTeamMainTimePos = computed (() => {
+  const playerMyTeamMainTimePos = computed ((): RelativePos => {
     if (!actorsArea.value || props.boardAction.playerMain == null) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.playerMain.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
-  const playerOpponentTeamKeeperTimePos = computed (() => {
+  const playerOpponentTeamKeeperTimePos = computed ((): RelativePos => {
     if (!actorsArea.value) return { x: 0, y: 0 }
     const normalizePos = props.boardAction.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
-  const otherPlayersTimePos = computed(() => {
+  const otherPlayersTimePos = computed((): Array<RelativePos> => {
     return props.boardAction?.otherPlayers.map(player => {
       if (!actorsArea.value) return { x: 0, y: 0 }
       const normalizePos = player.getPositionForTime(props.time)
       return denormalizePos(normalizePos)
-    })
+    }) ?? []
   })
 
   const actorsArea: Ref<Rect | null> = ref(null)
