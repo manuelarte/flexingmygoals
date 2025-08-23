@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-
   defineProps({
     number: {
       type: Number,

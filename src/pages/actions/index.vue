@@ -56,17 +56,13 @@
 
 <script lang="ts" setup>
   import type { LocationQueryValue } from 'vue-router'
-  import type { BoardAction, BoardActorAction, BoardPlayer } from '@/models/board.action.model'
+  import type { BoardAction } from '@/models/board.action.model'
 
+  import type { SelectedPlayer } from '@/models/transfer.model.ts'
   import { onBeforeMount, onUnmounted } from 'vue'
   import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
   import { Page, useAppStore } from '@/stores/app'
-
-  interface SelectedPlayer {
-    player: BoardActorAction<BoardPlayer>
-    id: string
-  }
 
   const appStore = useAppStore()
 
@@ -114,7 +110,7 @@
   })
 
   // Check if it's a boolean string
-  const toBoolean = (value: LocationQueryValue | LocationQueryValue[]) => {
+  const toBoolean = (value: LocationQueryValue | LocationQueryValue[] | undefined) => {
     if (typeof value === 'string') {
       return value === 'true'
     }

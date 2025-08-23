@@ -1,3 +1,4 @@
+import type { PlayerId } from '@/models/transfer.model'
 import { ValidationException } from '@/models/validation.model'
 
 /** Class holding a football result, like 1-1, or 2-5.
@@ -450,7 +451,7 @@ export class BoardAction extends BoardActionInput {
     return this._createdBy
   }
 
-  replacePlayer (id: string, player: BoardActorAction<BoardPlayer>): BoardAction {
+  replacePlayer (id: PlayerId, player: BoardActorAction<BoardPlayer>): BoardAction {
     let newPlayerMain = this.playerMain
     let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
     switch (id) {

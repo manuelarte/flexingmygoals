@@ -25,9 +25,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { BoardPlayer } from '@/models/board.action.model.ts'
+  import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
   import { onBeforeUnmount, onMounted, ref } from 'vue'
-  import { BoardActorAction } from '@/models/board.action.model.ts'
 
   // Constants - moved to top for better organization
   const TIME_DURATION = 5000 // 5 seconds
@@ -39,7 +38,7 @@
       required: true,
     },
     playerSelected: {
-      type: BoardActorAction<BoardPlayer>,
+      type: Object as PropType<BoardActorAction<BoardPlayer>>,
       required: false,
     },
     time: {

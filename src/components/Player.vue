@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-  import { BoardPlayer } from '@/models/board.action.model'
+  import type { BoardPlayer } from '@/models/board.action.model'
 
   defineProps({
     player: {
-      type: BoardPlayer,
+      type: Object as PropType<BoardPlayer>,
       required: true,
       validator (player: BoardPlayer, _) {
         const name = player.name

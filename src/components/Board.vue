@@ -15,7 +15,7 @@
           :is-draggable="false"
           :is-dragging="false"
           :player="playerAction.actor"
-          @click="emits('edit:player-selected', {player: playerAction, id:`player-${index}` })"
+          @click="emits('edit:player-selected', {player: playerAction, id: index })"
         />
       </div>
       <!-- Main Player -->
@@ -62,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { Rect, SelectedPlayer } from '@/models/transfer.model'
   import { BoardAction, type BoardPosition } from '@/models/board.action.model'
 
   interface RelativePos {
@@ -83,7 +84,9 @@
     },
   })
 
-  const emits = defineEmits(['edit:player-selected'])
+  const emits = defineEmits<{
+    'edit:player-selected': [playerSelected: SelectedPlayer]
+  }>()
 
   const ballTimePos = computed (() => {
     if (!actorsArea.value) return { x: 0, y: 0 }
@@ -100,7 +103,6 @@
     const normalizePos = props.boardAction.opponentTeamKeeperPlayer.getPositionForTime(props.time)
     return denormalizePos(normalizePos)
   })
-
   const otherPlayersTimePos = computed(() => {
     return props.boardAction?.otherPlayers.map(player => {
       if (!actorsArea.value) return { x: 0, y: 0 }
@@ -109,7 +111,7 @@
     })
   })
 
-  const actorsArea: Ref<DOMRect | null> = ref(null)
+  const actorsArea: Ref<Rect | null> = ref(null)
 
   const denormalizePos = (normalizePos: BoardPosition): RelativePos => {
     if (actorsArea.value == null) return { x: 0, y: 0 }
@@ -122,7 +124,6 @@
       y: Math.min(normalizePos.y * height, rect.height),
     }
   }
-
 </script>
 
 <style lang="sass">
