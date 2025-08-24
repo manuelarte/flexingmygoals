@@ -45,7 +45,7 @@
   }
 
   const isBackEnabled = (): boolean => {
-    return isPage(Page.HOME)
+    return isPage(Page.BOARD_ACTION)
   }
 
   const isEditEnabled = (): boolean => {
