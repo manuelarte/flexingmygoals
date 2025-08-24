@@ -6,7 +6,7 @@
           :error="error"
           :is-loading="isLoading"
           :page-response="pageResponse"
-          @page-request-changed="onPageRequestChanged($event)"
+          @action-list:page-request-changed="onPageRequestChanged($event)"
         />
       </v-col>
     </v-row>
@@ -21,18 +21,28 @@
   import { PageRequest } from '@/models/http.models'
   import { Page, useAppStore } from '@/stores/app'
 
+  /** The pinia store, used to store the board action */
   const appStore = useAppStore()
 
   const pageRequest = ref(new PageRequest(0, 10))
 
   const isLoading = ref(true)
-  const error = ref<ErrorResponse | undefined>()
+  const error = ref<ErrorResponse | null>(null)
 
   const pageResponse = ref<PageResponse<BoardAction>>()
 
+  // Lifecycle Hooks
+
+  /**
+   * Sets the page to home and fetches the actions.
+   */
   onMounted(() => {
     appStore.setPage(Page.HOME)
     fetchActions(pageRequest.value)
+  })
+
+  onUnmounted(() => {
+    appStore.resetPage()
   })
 
   const onPageRequestChanged = (newPageRequest: PageRequest): void => {
@@ -51,10 +61,6 @@
       },
     ).finally(() => isLoading.value = false)
   }
-
-  onUnmounted(() => {
-    appStore.resetPage()
-  })
 </script>
 
 <style scoped lang="sass">

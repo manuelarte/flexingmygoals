@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { Rect } from '@/models/transfer.model.ts'
   import { FootballPitchTemplate } from '@/models/football.pitch.template.model'
   import { FootballPitchVariables } from '@/models/football.pitch.variables.model'
 
@@ -35,15 +36,16 @@
     },
   })
 
+  const emits = defineEmits<{
+    // Event to notify the parent component that the actors area has changed
+    'actors-area': [area: Rect]
+  }>()
+
   const actorsRectRef = useTemplateRef('actorsRectRef')
-  const actorsArea = ref<{ width: number, height: number }>({ width: 0, height: 0 })
+  const actorsArea = ref<Rect>({ width: 0, height: 0 })
   const actorsStyle = computed(() => {
     return { width: `${actorsArea.value.width}px`, height: `${actorsArea.value.height}px` }
   })
-
-  const emits = defineEmits(
-    ['actors-area'],
-  )
 
   const svgContent = computed(() => {
     const vars = new FootballPitchVariables(props.length, props.width, props.percentageShown, 3)

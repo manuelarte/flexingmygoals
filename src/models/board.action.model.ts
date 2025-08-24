@@ -1,6 +1,8 @@
+import type { PlayerId } from '@/models/transfer.model'
 import { ValidationException } from '@/models/validation.model'
 
-/** Class holding a football result, like 1-1, or 2-5.
+/**
+ * Class holding a football result, like 1-1, or 2-5.
  * There is no concept of home-away, it's just my team and opponent team.
  */
 export class FootballResult {
@@ -31,6 +33,9 @@ export class FootballResult {
   }
 }
 
+/**
+ * The two options for a team side.
+ */
 export enum TeamSide {
   MyTeam = 'myTeam',
   OpponentTeam = 'opponentTeam',
@@ -47,7 +52,7 @@ interface BoardActor {}
 export class BoardPlayer implements BoardActor {
   static readonly MIN_NAME_LENGTH = 2
   static readonly MAX_NAME_LENGTH = 15
-  static readonly MIN_NUMBER = 0
+  static readonly MIN_NUMBER = 1
   static readonly MAX_NUMBER = 99
 
   private readonly _name: string
@@ -154,9 +159,9 @@ export class BoardPosition {
   }
 
   private validateCoordinate (value: number, coordinate: string): void {
-    if (value < BoardPosition.MIN_COORDINATE || value > BoardPosition.MAX_COORDINATE) {
+    if (!Number.isFinite(value) || value < BoardPosition.MIN_COORDINATE || value > BoardPosition.MAX_COORDINATE) {
       throw new ValidationException(
-        `${coordinate} needs to be between [${BoardPosition.MIN_COORDINATE}, ${BoardPosition.MAX_COORDINATE}]`,
+        `${coordinate} needs to be a finite number between [${BoardPosition.MIN_COORDINATE}, ${BoardPosition.MAX_COORDINATE}]`,
       )
     }
   }
@@ -191,9 +196,9 @@ export class BoardPositionTimestamp {
   }
 
   private validateTime (time: number): void {
-    if (time < BoardPositionTimestamp.MIN_TIME || time > BoardPositionTimestamp.MAX_TIME) {
+    if (!Number.isFinite(time) || time < BoardPositionTimestamp.MIN_TIME || time > BoardPositionTimestamp.MAX_TIME) {
       throw new ValidationException(
-        `Time needs to be between [${BoardPositionTimestamp.MIN_TIME}, ${BoardPositionTimestamp.MAX_TIME}]`,
+        `Time needs to be a finite number between [${BoardPositionTimestamp.MIN_TIME}, ${BoardPositionTimestamp.MAX_TIME}]`,
       )
     }
   }
@@ -284,12 +289,8 @@ export class BoardActorTimePositions {
     const timeDiff = next.time - previous.time
     const timeRatio = (time - previous.time) / timeDiff
 
-    const newX = Number.parseFloat(
-      (previous.position.x + (next.position.x - previous.position.x) * timeRatio).toFixed(3),
-    )
-    const newY = Number.parseFloat(
-      (previous.position.y + (next.position.y - previous.position.y) * timeRatio).toFixed(3),
-    )
+    const newX = previous.position.x + (next.position.x - previous.position.x) * timeRatio
+    const newY = previous.position.y + (next.position.y - previous.position.y) * timeRatio
 
     return new BoardPosition(newX, newY)
   }
@@ -354,9 +355,10 @@ export class BoardActionInput {
   /** The ball board positions during the action. */
   private readonly _ball: BoardActorTimePositions
   /** The main player board positions during the action. */
-  private _playerMain: BoardActorAction<BoardPlayer>
+  private readonly _playerMain: BoardActorAction<BoardPlayer>
   /** The keeper board positions during the action. */
-  private _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  private readonly _opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>
+  /** Other players board positions during the action. */
   private readonly _otherPlayers: Array<BoardActorAction<BoardPlayer>>
 
   constructor (
@@ -450,7 +452,7 @@ export class BoardAction extends BoardActionInput {
     return this._createdBy
   }
 
-  replacePlayer (id: string, player: BoardActorAction<BoardPlayer>): BoardAction {
+  replacePlayer (id: PlayerId, player: BoardActorAction<BoardPlayer>): BoardAction {
     let newPlayerMain = this.playerMain
     let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
     switch (id) {

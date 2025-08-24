@@ -78,12 +78,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { SelectedPlayer } from '@/models/transfer.model'
   import { BoardActorAction, BoardPlayer, TeamSide } from '@/models/board.action.model'
-
-  interface SelectedPlayer {
-    player: BoardActorAction<BoardPlayer>
-    id: string
-  }
 
   const props = defineProps({
     canDelete: {
@@ -100,7 +96,10 @@
     },
   })
 
-  const emits = defineEmits(['edit:player-saved'])
+  const emits = defineEmits<{
+    // Event to notify the parent component that the player has been updated.
+    'edit:player-saved': [playerSaved: SelectedPlayer]
+  }>()
 
   const name = toRef(props.playerAction.player.actor.name)
   const number = toRef(props.playerAction.player.actor.number)
@@ -140,7 +139,7 @@
   }
 
   const playerSaved = (): void => {
-    emits('edit:player-saved', { id: props.playerAction.id, player: modified.value })
+    emits('edit:player-saved', { id: props.playerAction.id, player: modified.value! })
   }
 </script>
 

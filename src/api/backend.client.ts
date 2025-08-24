@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios'
 import type { BoardAction } from '@/models/board.action.model'
+import type { PageResponse } from '@/models/http.models'
 import axios from 'axios'
 import { SavedExample1, SavedExample2, SavedExample3 } from '@/models/board.example'
-import { PageResponse } from '@/models/http.models'
 
 export interface ApiClient {
   get: (page: number, size: number) => Promise<PageResponse<BoardAction>>
@@ -38,6 +38,13 @@ export class MockClient implements ApiClient {
   async get (page: number, size: number): Promise<PageResponse<BoardAction>> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500))
-    return new PageResponse(page, size, Math.ceil(this.mockData.length / size), this.mockData.length, this.mockData.slice(page * size, size * (1 + page)))
+    const metadata = {
+      number: page,
+      size,
+      totalPages: Math.ceil(this.mockData.length / size),
+      totalElements: this.mockData.length,
+    }
+    const content = this.mockData.slice(page * size, size * (1 + page))
+    return { content, page: metadata }
   }
 }

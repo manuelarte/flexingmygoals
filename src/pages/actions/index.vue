@@ -1,9 +1,9 @@
 <template>
-  <div v-if="!isEdit">
+  <div v-if="!isEdit && boardAction">
     <v-container class="fill-height">
       <v-row no-gutters rows="12">
         <div class="board">
-          <Board :board-action="getBoardAction()" :time="time" />
+          <Board :board-action="boardAction" :time="time" />
         </div>
         <div class="slider">
           <PlayBar
@@ -55,45 +55,30 @@
 </template>
 
 <script lang="ts" setup>
-  import type { LocationQueryValue } from 'vue-router'
-  import type { BoardAction, BoardActorAction, BoardPlayer } from '@/models/board.action.model'
+  import type { BoardAction } from '@/models/board.action.model'
 
+  import type { SelectedPlayer } from '@/models/transfer.model.ts'
   import { onBeforeMount, onUnmounted } from 'vue'
   import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
   import { Page, useAppStore } from '@/stores/app'
-
-  interface SelectedPlayer {
-    player: BoardActorAction<BoardPlayer>
-    id: string
-  }
+  import { toBoolean } from '@/utils/http.utils'
 
   const appStore = useAppStore()
+  const route = useRoute()
 
-  const boardAction = ref<BoardAction>()
+  const boardAction = ref<BoardAction | undefined>()
   const isPlaying = ref(false)
+  const isEdit = ref(false)
   const time = ref(0)
   const playerSelected = ref<SelectedPlayer | null>()
 
-  const route = useRoute()
-  const isEdit = ref(false)
+  // Lifecycle Hooks
 
-  const onTimeChanged = (newValue: number) => {
-    time.value = newValue
-  }
-
-  const onTogglePlay = (newValue: boolean) => {
-    isPlaying.value = newValue
-  }
-
-  const onPlayerSelected = (event: SelectedPlayer) => {
-    playerSelected.value = playerSelected?.value?.id === event.id ? null : event
-  }
-
-  const onPlayerSaved = (newPlayer: SelectedPlayer): void => {
-    boardAction.value = boardAction.value?.replacePlayer(newPlayer.id, newPlayer.player)
-  }
-
+  /**
+   * Retrieves the board action from the store and sets it to the component.
+   * If the board action is not found, it redirects to the home page.
+   */
   onBeforeMount(() => {
     appStore.boardAction = SavedExample1
     if (appStore.boardAction == null) {
@@ -108,21 +93,47 @@
     isEdit.value = toBoolean(route.query.edit)
   })
 
+  /**
+   * Resets the page and board action in the store.
+   */
   onUnmounted(() => {
     appStore.resetPage()
     appStore.setBoardAction(null)
   })
 
-  // Check if it's a boolean string
-  const toBoolean = (value: LocationQueryValue | LocationQueryValue[]) => {
-    if (typeof value === 'string') {
-      return value === 'true'
-    }
-    return false
+  /**
+   * Event handler for the action time changed event.
+   * Updates the time value.
+   * @param newValue the new value between [0, 1].
+   */
+  const onTimeChanged = (newValue: number) => {
+    time.value = newValue
   }
 
-  const getBoardAction = (): BoardAction => {
-    return boardAction.value!
+  /**
+   * Event handler for the action play toggled event.
+   * Updates the isPlaying value.
+   * @param newValue whether the action is playing or not.
+   */
+  const onTogglePlay = (newValue: boolean) => {
+    isPlaying.value = newValue
+  }
+
+  /**
+   * Event handler for the player selected event.
+   * Updates the playerSelected value.
+   * @param event the selected player.
+   */
+  const onPlayerSelected = (event: SelectedPlayer) => {
+    playerSelected.value = playerSelected?.value?.id === event.id ? null : event
+  }
+
+  /**
+   * Event handler for the player saved event.
+   * @param newPlayer the updated player.
+   */
+  const onPlayerSaved = (newPlayer: SelectedPlayer): void => {
+    boardAction.value = boardAction.value?.replacePlayer(newPlayer.id, newPlayer.player)
   }
 </script>
 

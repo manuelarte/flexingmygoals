@@ -4,7 +4,12 @@ import { defineStore } from 'pinia'
 import { createApiClient } from '@/api/backend.client'
 
 export enum Page {
-  HOME, BOARD_ACTION,
+  /** The home page */
+  HOME,
+  /** The action details page */
+  BOARD_ACTION,
+  /** The action details edit page */
+  BOARD_ACTION_EDIT,
 }
 
 export interface AppState {
