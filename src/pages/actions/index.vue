@@ -57,7 +57,7 @@
 <script lang="ts" setup>
   import type { BoardAction } from '@/models/board.action.model'
 
-  import type { SelectedPlayer } from '@/models/transfer.model.ts'
+  import type { SelectedPlayer } from '@/models/transfer.model'
   import { onBeforeMount, onUnmounted } from 'vue'
   import { SavedExample1 } from '@/models/board.example'
   import router from '@/router'
