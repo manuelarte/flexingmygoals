@@ -1,4 +1,4 @@
-import { ValidationException } from '@/models/validation.model.ts'
+import { ValidationException } from '@/models/validation.model'
 
 export interface PageResponse<Type> {
   /** The response data */

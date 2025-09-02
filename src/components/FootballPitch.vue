@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { Rect } from '@/models/transfer.model.ts'
+  import type { Rect } from '@/models/transfer.model'
   import { FootballPitchTemplate } from '@/models/football.pitch.template.model'
   import { FootballPitchVariables } from '@/models/football.pitch.variables.model'
 

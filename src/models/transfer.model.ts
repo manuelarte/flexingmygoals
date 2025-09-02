@@ -1,4 +1,4 @@
-import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model.ts'
+import type { BoardActorAction, BoardPlayer } from '@/models/board.action.model'
 
 export type PlayerId = 'me' | 'opponentTeamKeeperPlayer' | number
 
