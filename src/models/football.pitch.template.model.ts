@@ -8,7 +8,7 @@ export class FootballPitchTemplate {
   }
 }
 
-const templateSVG = (vars: FootballPitchVariables): string => {
+function templateSVG (vars: FootballPitchVariables): string {
   const pitch_length = vars.length
   const pitch_width = vars.width
   const pitch_percentage_shown = vars.percentageShown
