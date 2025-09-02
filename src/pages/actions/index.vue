@@ -102,7 +102,7 @@
   })
 
   /**
-   * Event handler for the action time changed event.
+   * Event handler for the action time-changed event.
    * Updates the time value.
    * @param newValue the new value between [0, 1].
    */
@@ -120,7 +120,7 @@
   }
 
   /**
-   * Event handler for the player selected event.
+   * Event handler for the player-selected event.
    * Updates the playerSelected value.
    * @param event the selected player.
    */
@@ -129,7 +129,7 @@
   }
 
   /**
-   * Event handler for the player saved event.
+   * Event handler for player-saved event.
    * @param newPlayer the updated player.
    */
   function onPlayerSaved (newPlayer: SelectedPlayer): void {
