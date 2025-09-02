@@ -75,7 +75,7 @@
   /** The current page number */
   const currentPage = ref(props.pageResponse?.page.number)
 
-  const pageChanged = (newPage: number): void => {
+  function pageChanged (newPage: number): void {
     emits('action-list:page-request-changed', new PageRequest(newPage - 1, props.pageResponse!.page.size))
   }
 
@@ -83,7 +83,7 @@
    * Method to handle the click event on an action.
    * It navigates to the action details page and sets the board action in the store.
    */
-  const onActionClicked = (action: BoardAction): void => {
+  function onActionClicked (action: BoardAction): void {
     appStore.setBoardAction(action)
     router.push('/actions')
   }

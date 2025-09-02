@@ -30,7 +30,7 @@
 
   const appStore = useAppStore()
 
-  const getTitle = (): string => {
+  function getTitle (): string {
     switch (appStore.page) {
       case Page.BOARD_ACTION: {
         return 'Action'
@@ -44,26 +44,26 @@
     }
   }
 
-  const isBackEnabled = (): boolean => {
+  function isBackEnabled (): boolean {
     return isPage(Page.BOARD_ACTION)
   }
 
-  const isEditEnabled = (): boolean => {
+  function isEditEnabled (): boolean {
     return isPage(Page.BOARD_ACTION)
   }
 
-  const isSaveEnabled = (): boolean => {
+  function isSaveEnabled (): boolean {
     return isPage(Page.BOARD_ACTION_EDIT)
   }
 
-  const isPage = (page: Page): boolean => {
+  function isPage (page: Page): boolean {
     return appStore?.page == page
   }
 
   /**
    * Method to handle the back button click event.
    */
-  const onBackClicked = (): void => {
+  function onBackClicked (): void {
     switch (appStore.page) {
       case Page.BOARD_ACTION: {
         router.push('/')

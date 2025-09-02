@@ -45,11 +45,7 @@
     appStore.resetPage()
   })
 
-  const onPageRequestChanged = (newPageRequest: PageRequest): void => {
-    fetchActions(newPageRequest)
-  }
-
-  const fetchActions = (pageRequest: Readonly<PageRequest>): void => {
+  function fetchActions (pageRequest: Readonly<PageRequest>): void {
     isLoading.value = true
     appStore.fetchActionsPage(pageRequest.page, pageRequest.size).then(
       result => {
@@ -60,6 +56,10 @@
         error.value = error_
       },
     ).finally(() => isLoading.value = false)
+  }
+
+  function onPageRequestChanged (newPageRequest: PageRequest): void {
+    fetchActions(newPageRequest)
   }
 </script>
 

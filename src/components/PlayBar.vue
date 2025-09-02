@@ -95,24 +95,24 @@
 
   // Methods
 
-  const changeIsPlaying = (newValue: boolean): void => {
+  function changeIsPlaying (newValue: boolean): void {
     emits('toggle-play', newValue)
   }
 
-  const changeTime = (newValue: number): void => {
+  function changeTime (newValue: number): void {
     timeValue.value = Number.parseFloat(newValue.toFixed(2))
     emits('time-changed', newValue)
   }
 
-  const getPlayBarIcon = (): string => {
+  function getPlayBarIcon (): string {
     return props.isPlaying ? 'mdi-pause' : 'mdi-play'
   }
 
-  const getTimePositions = (p: BoardActorAction<BoardPlayer> | undefined): Array<number> | undefined => {
+  function getTimePositions (p: BoardActorAction<BoardPlayer> | undefined): Array<number> | undefined {
     return p?.moves.getTimePositions().map(p => p.time)
   }
 
-  const resetTime = (): void => {
+  function resetTime (): void {
     changeIsPlaying(false)
     changeTime(0)
   }

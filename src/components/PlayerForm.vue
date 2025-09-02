@@ -130,15 +130,15 @@
     moves.value = props.playerAction.player.moves
   })
 
-  const changeColor = (): void => {
+  function changeColor (): void {
     color.value = color.value === TeamSide.MyTeam ? TeamSide.OpponentTeam : TeamSide.MyTeam
   }
 
-  const isSaveDisabled = (): boolean => {
+  function isSaveDisabled (): boolean {
     return !valid.value || props.playerAction.player.actor.equals(modified.value)
   }
 
-  const playerSaved = (): void => {
+  function playerSaved (): void {
     emits('edit:player-saved', { id: props.playerAction.id, player: modified.value! })
   }
 </script>

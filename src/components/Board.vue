@@ -117,7 +117,7 @@
     }) ?? []
   })
 
-  const denormalizePos = (normalizePos: BoardPosition): RelativePos => {
+  function denormalizePos (normalizePos: BoardPosition): RelativePos {
     if (actorsArea.value == null) return { x: 0, y: 0 }
     const rect = actorsArea.value!
     const width = rect.width

@@ -106,7 +106,7 @@
    * Updates the time value.
    * @param newValue the new value between [0, 1].
    */
-  const onTimeChanged = (newValue: number) => {
+  function onTimeChanged (newValue: number) {
     time.value = newValue
   }
 
@@ -115,7 +115,7 @@
    * Updates the isPlaying value.
    * @param newValue whether the action is playing or not.
    */
-  const onTogglePlay = (newValue: boolean) => {
+  function onTogglePlay (newValue: boolean) {
     isPlaying.value = newValue
   }
 
@@ -124,7 +124,7 @@
    * Updates the playerSelected value.
    * @param event the selected player.
    */
-  const onPlayerSelected = (event: SelectedPlayer) => {
+  function onPlayerSelected (event: SelectedPlayer) {
     playerSelected.value = playerSelected?.value?.id === event.id ? null : event
   }
 
@@ -132,7 +132,7 @@
    * Event handler for the player saved event.
    * @param newPlayer the updated player.
    */
-  const onPlayerSaved = (newPlayer: SelectedPlayer): void => {
+  function onPlayerSaved (newPlayer: SelectedPlayer): void {
     boardAction.value = boardAction.value?.replacePlayer(newPlayer.id, newPlayer.player)
   }
 </script>
