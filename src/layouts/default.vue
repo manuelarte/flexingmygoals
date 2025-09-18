@@ -1,73 +1,18 @@
 <template>
   <v-main>
-    <v-toolbar :elevation="8" :title="getTitle()">
+    <v-toolbar :elevation="8" title="Flexing My Goals">
       <template #prepend>
         <v-btn
-          v-if="isBackEnabled()"
           icon="mdi-arrow-left"
-          @click="onBackClicked()"
         />
       </template>
-
-      <v-btn v-if="isEditEnabled()" icon="mdi-pencil" @click="emits('button:edit-clicked')" />
-      <v-btn v-if="isSaveEnabled()" icon="mdi-save" @click="emits('button:save-clicked')" />
     </v-toolbar>
     <router-view />
   </v-main>
+
   <AppFooter />
 </template>
 
 <script lang="ts" setup>
-  import router from '@/router'
-  import { Page, useAppStore } from '@/stores/app'
-
-  const emits = defineEmits<{
-    // Event to notify the parent component that the edit button has been clicked
-    'button:edit-clicked': [void]
-    // Event to notify the parent component that the save button has been clicked
-    'button:save-clicked': [void]
-  }>()
-
-  const appStore = useAppStore()
-
-  function getTitle (): string {
-    switch (appStore.page) {
-      case Page.BOARD_ACTION: {
-        return 'Action'
-      }
-      case Page.HOME: {
-        return 'Home'
-      }
-      default: {
-        return import.meta.env.VITE_APP_TITLE
-      }
-    }
-  }
-
-  function isBackEnabled (): boolean {
-    return isPage(Page.BOARD_ACTION)
-  }
-
-  function isEditEnabled (): boolean {
-    return isPage(Page.BOARD_ACTION)
-  }
-
-  function isSaveEnabled (): boolean {
-    return isPage(Page.BOARD_ACTION_EDIT)
-  }
-
-  function isPage (page: Page): boolean {
-    return appStore?.page == page
-  }
-
-  /**
-   * Method to handle the back button click event.
-   */
-  function onBackClicked (): void {
-    switch (appStore.page) {
-      case Page.BOARD_ACTION: {
-        router.push('/')
-      }
-    }
-  }
+  //
 </script>

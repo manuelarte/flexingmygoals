@@ -8,15 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionBoard: typeof import('./components/ActionBoard.vue')['default']
     ActionList: typeof import('./components/ActionList.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
-    Ball: typeof import('./components/Ball.vue')['default']
-    Board: typeof import('./components/Board.vue')['default']
-    FootballPitch: typeof import('./components/FootballPitch.vue')['default']
-    PlayBar: typeof import('./components/PlayBar.vue')['default']
-    Player: typeof import('./components/Player.vue')['default']
-    PlayerBadge: typeof import('./components/PlayerBadge.vue')['default']
-    PlayerForm: typeof import('./components/PlayerForm.vue')['default']
+    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

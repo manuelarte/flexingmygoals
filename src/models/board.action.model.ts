@@ -1,4 +1,3 @@
-import type { PlayerId } from '@/models/transfer.model'
 import { ValidationException } from '@/models/validation.model'
 
 /**
@@ -450,22 +449,5 @@ export class BoardAction extends BoardActionInput {
 
   get createdBy (): string {
     return this._createdBy
-  }
-
-  replacePlayer (id: PlayerId, player: BoardActorAction<BoardPlayer>): BoardAction {
-    let newPlayerMain = this.playerMain
-    let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
-    switch (id) {
-      case 'me': {
-        newPlayerMain = player
-        break
-      }
-      case 'opponentTeamKeeperPlayer': {
-        newOpponentTeamKeeperPlayer = player
-        break
-      }
-    }
-
-    return new BoardAction(this.id, this.createdAt, this.createdBy, this.highlight, this.summary, this.partialResult, this.ball, newPlayerMain, newOpponentTeamKeeperPlayer, this.otherPlayers)
   }
 }
