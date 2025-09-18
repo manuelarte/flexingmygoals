@@ -1,13 +1,14 @@
 <template>
   <ActionList @action:selected="onActionSelected" />
-  <ActionBoard />
+  <ActionBoard :action="action" />
 </template>
 
 <script lang="ts" setup>
-  import type { PropType } from 'vue'
-  import type { BoardAction } from '@/models/board.action.model.ts'
+  import type { IBoardAction } from '@/types/board.action.types.ts'
 
-  function onActionSelected (action: PropType<BoardAction>) {
-    console.log('Action Selected', action)
+  const action = ref<IBoardAction | undefined>()
+
+  function onActionSelected (event: IBoardAction) {
+    action.value = event
   }
 </script>
