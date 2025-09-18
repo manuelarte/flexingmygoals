@@ -169,7 +169,7 @@ export const SavedExample3 = new BoardAction(
 )
 
 export const TestingLimits = new BoardAction(
-  '2',
+  '4',
   new Date(),
   'manuelarte',
   'Testing limits',

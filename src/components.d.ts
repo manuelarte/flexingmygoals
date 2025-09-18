@@ -11,7 +11,6 @@ declare module 'vue' {
     ActionBoard: typeof import('./components/ActionBoard.vue')['default']
     ActionList: typeof import('./components/ActionList.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

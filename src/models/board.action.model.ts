@@ -1,3 +1,4 @@
+import type { IFootballResult } from '@/types/board.action.types'
 import { ValidationException } from '@/models/validation.model'
 
 /**
@@ -29,6 +30,10 @@ export class FootballResult {
 
   static of (myTeam: number, opponentTeam: number): FootballResult {
     return new FootballResult(myTeam, opponentTeam)
+  }
+
+  static fromJson (json: IFootballResult): FootballResult {
+    return new FootballResult(json.myTeam, json.opponentTeam)
   }
 }
 
@@ -98,7 +103,7 @@ export class BoardPlayer implements BoardActor {
       return false
     }
 
-    // Check if other is an instance of BoardPlayer
+    // Checks if other is an instance of BoardPlayer
     if (!(other instanceof BoardPlayer)) {
       return false
     }
@@ -295,6 +300,7 @@ export class BoardActorTimePositions {
   }
 
   private sortAndValidateTimestamps (timestamps: Array<BoardPositionTimestamp>): Array<BoardPositionTimestamp> {
+    // eslint-disable-next-line unicorn/no-array-sort
     const sorted = timestamps.slice().sort((a, b) => a.time - b.time)
 
     // Check for duplicate times

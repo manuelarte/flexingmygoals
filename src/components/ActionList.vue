@@ -12,7 +12,7 @@
         rounded
         :value="item"
         variant="tonal"
-        @click="selectAction(item)"
+        @click="selectAction(item as IBoardAction)"
       >
         <template #prepend>
           <v-icon icon="mdi-soccer" size="small" />
@@ -29,18 +29,21 @@
 </template>
 
 <script setup lang="ts">
-
-  import type { BoardAction } from '@/models/board.action.model.ts'
+  import type { IBoardAction } from '@/types/board.action.types.ts'
   import { SavedExample1, SavedExample2, SavedExample3, TestingLimits } from '@/models/board.example'
 
   const emits = defineEmits(['action:selected'])
 
-  const pageAction = ref([SavedExample1, SavedExample2, SavedExample3, TestingLimits])
+  const pageAction = ref<IBoardAction[]>([SavedExample1, SavedExample2, SavedExample3, TestingLimits])
 
-  const selected = ref<PropType<BoardAction> | null>(null)
+  const selected = ref<IBoardAction | null>(null)
 
-  function selectAction (action: PropType<BoardAction>) {
-    emits('action:selected', action)
+  function selectAction (action: IBoardAction) {
+    selected.value = selected.value?.id == action.id ? null : action
   }
+
+  watch(selected, () => {
+    emits('action:selected', selected.value)
+  })
 
 </script>
