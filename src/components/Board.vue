@@ -33,9 +33,10 @@
 .actor
   position: relative
 .football-pitch-container
-  outline: 1px solid red
+  margin: auto
   aspect-ratio: 1.19 // width(with extra space) / length(with extra space) => (68 + 2*2) / ((105+2)*0.55)
   width: 100%
+  max-width: 90vh
   background-size: 100% 100%
   background-position: center
   background-repeat: no-repeat
