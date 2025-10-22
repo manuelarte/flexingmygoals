@@ -1,6 +1,14 @@
 <template>
-  <ActionList class="table" @action:selected="onActionSelected" />
-  <ActionBoard :action="action" class="action" />
+  <v-container>
+    <v-row no-gutters>
+      <v-col cols="4">
+        <ActionList @action:selected="onActionSelected" />
+      </v-col>
+      <v-col>
+        <ActionBoard :action="action" class="action" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
@@ -14,11 +22,7 @@
 </script>
 
 <style scoped lang="sass">
-.table
-  margin: 12px
-  height: 30vh
-  overflow: scroll
 .action
-  margin: 12px
-  height: 55vh
+  height: auto
+  min-height: 85vh
 </style>

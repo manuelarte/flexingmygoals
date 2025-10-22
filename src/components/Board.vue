@@ -31,7 +31,7 @@
 .football-pitch-container
   width: auto
   height: auto
-  max-height: 45vh
+  max-height: 75vh
   display: flex
   justify-content: center
   overflow: visible
