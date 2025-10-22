@@ -1,5 +1,7 @@
 <template>
-  <img ref="actorsRectRef" alt="football pitch" class="pitch" :src="`data:image/svg+xml;base64,${svgContent}`">
+  <div class="football-pitch-container">
+    <img ref="actorsRectRef" alt="football pitch" class="football-pitch" :src="`data:image/svg+xml;base64,${svgContent}`">
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,7 +19,7 @@
   const svgContent = computed(() => {
     const length = 105
     const width = 68
-    const percentageShown = 0.6
+    const percentageShown = 0.55
 
     const vars = new FootballPitchVariables(length, width, percentageShown, 3)
     const content = new FootballPitchTemplate().apply(vars)
@@ -26,4 +28,16 @@
 </script>
 
 <style lang="sass">
+.football-pitch-container
+  width: auto
+  height: auto
+  max-height: 45vh
+  display: flex
+  justify-content: center
+  overflow: visible
+.football-pitch
+  width: auto
+  height: auto
+  display: block
+  object-fit: contain
 </style>

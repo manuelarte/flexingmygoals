@@ -1,6 +1,6 @@
 <template>
-  <ActionList @action:selected="onActionSelected" />
-  <ActionBoard :action="action" />
+  <ActionList class="table" @action:selected="onActionSelected" />
+  <ActionBoard :action="action" class="action" />
 </template>
 
 <script lang="ts" setup>
@@ -12,3 +12,13 @@
     action.value = event
   }
 </script>
+
+<style scoped lang="sass">
+.table
+  margin: 12px
+  height: 30vh
+  overflow: scroll
+.action
+  margin: 12px
+  height: 55vh
+</style>
