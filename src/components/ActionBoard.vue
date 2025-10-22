@@ -8,13 +8,14 @@
       Select one action...
     </v-card-text>
     <v-card-text v-if="action" class="pt-4 font-weight-bold">
-      Action selected
+      <board :board-action="action" />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
   import type { IBoardAction } from '@/types/board.action.types'
+  import Board from '@/components/Board.vue'
 
   defineProps({
     action: {
