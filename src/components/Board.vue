@@ -1,5 +1,7 @@
 <template>
   <div ref="footballPitchContainer" class="football-pitch-container" :style="{ backgroundImage: svgImg }">
+    <PlayerCircle class="actor" :number="4" :team-side="TeamSide.OpponentTeam" />
+    <PlayerCircle class="actor" is-keeper :number="1" :team-side="TeamSide.OpponentTeam" />
     <PlayerCircle class="actor" :number="12" :team-side="TeamSide.MyTeam" />
   </div>
 </template>
