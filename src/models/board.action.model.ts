@@ -1,4 +1,4 @@
-import type { PlayerId } from '@/models/transfer.model'
+import type { IFootballResult } from '@/types/board.action.types'
 import { ValidationException } from '@/models/validation.model'
 
 /**
@@ -31,6 +31,10 @@ export class FootballResult {
   static of (myTeam: number, opponentTeam: number): FootballResult {
     return new FootballResult(myTeam, opponentTeam)
   }
+
+  static fromJson (json: IFootballResult): FootballResult {
+    return new FootballResult(json.myTeam, json.opponentTeam)
+  }
 }
 
 /**
@@ -57,15 +61,15 @@ export class BoardPlayer implements BoardActor {
 
   private readonly _name: string
   private readonly _number: number
-  private readonly _color: TeamSide
+  private readonly _teamSide: TeamSide
 
-  constructor (name: string, number: number, color: TeamSide) {
+  constructor (name: string, number: number, teamSide: TeamSide) {
     this.validateName(name)
     this.validateNumber(number)
 
     this._name = name
     this._number = number
-    this._color = color
+    this._teamSide = teamSide
   }
 
   get name (): string {
@@ -76,8 +80,8 @@ export class BoardPlayer implements BoardActor {
     return this._number
   }
 
-  get color (): TeamSide {
-    return this._color
+  get teamSide (): TeamSide {
+    return this._teamSide
   }
 
   static myTeam (name: string, number: number): BoardPlayer {
@@ -99,7 +103,7 @@ export class BoardPlayer implements BoardActor {
       return false
     }
 
-    // Check if other is an instance of BoardPlayer
+    // Checks if other is an instance of BoardPlayer
     if (!(other instanceof BoardPlayer)) {
       return false
     }
@@ -107,7 +111,7 @@ export class BoardPlayer implements BoardActor {
     // Compare all significant properties
     return this._name === other._name
       && this._number === other._number
-      && this._color === other._color
+      && this._teamSide === other._teamSide
   }
 
   private validateName (name: string): void {
@@ -296,6 +300,7 @@ export class BoardActorTimePositions {
   }
 
   private sortAndValidateTimestamps (timestamps: Array<BoardPositionTimestamp>): Array<BoardPositionTimestamp> {
+    // eslint-disable-next-line unicorn/no-array-sort
     const sorted = timestamps.slice().sort((a, b) => a.time - b.time)
 
     // Check for duplicate times
@@ -450,22 +455,5 @@ export class BoardAction extends BoardActionInput {
 
   get createdBy (): string {
     return this._createdBy
-  }
-
-  replacePlayer (id: PlayerId, player: BoardActorAction<BoardPlayer>): BoardAction {
-    let newPlayerMain = this.playerMain
-    let newOpponentTeamKeeperPlayer = this.opponentTeamKeeperPlayer
-    switch (id) {
-      case 'me': {
-        newPlayerMain = player
-        break
-      }
-      case 'opponentTeamKeeperPlayer': {
-        newOpponentTeamKeeperPlayer = player
-        break
-      }
-    }
-
-    return new BoardAction(this.id, this.createdAt, this.createdBy, this.highlight, this.summary, this.partialResult, this.ball, newPlayerMain, newOpponentTeamKeeperPlayer, this.otherPlayers)
   }
 }

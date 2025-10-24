@@ -1,8 +1,8 @@
 <template>
   <div
     class="player"
-    :class="{ myTeam: color === 'myTeam',
-              opponentTeam: color === 'opponentTeam',
+    :class="{ myTeam: teamSide === 'myTeam',
+              opponentTeam: teamSide === 'opponentTeam',
               keeper: isKeeper,
     }"
   >
@@ -11,18 +11,22 @@
 </template>
 
 <script setup lang="ts">
+  import type { TeamSide } from '@/models/board.action.model.ts'
+
   defineProps({
+    // is this player the keeper
+    isKeeper: {
+      type: Boolean,
+      default: false,
+    },
+    // number of this player
     number: {
       type: Number,
       required: true,
     },
-    color: {
-      type: String,
+    teamSide: {
+      type: String as PropType<TeamSide>,
       required: true,
-    },
-    isKeeper: {
-      type: Boolean,
-      default: false,
     },
   })
 </script>

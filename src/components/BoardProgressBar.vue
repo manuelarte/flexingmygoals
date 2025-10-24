@@ -41,7 +41,7 @@
       type: Object as PropType<BoardActorAction<BoardPlayer>>,
       required: false,
     },
-    time: {
+    actionTime: {
       type: Number,
       required: true,
       validator (value: number): boolean {
@@ -58,7 +58,7 @@
   }>()
 
   // Reactive state
-  const timeValue = ref(props.time)
+  const timeValue = ref(props.actionTime)
   let intervalId: ReturnType<typeof setInterval> | null = null
 
   // Lifecycle hooks
@@ -89,7 +89,7 @@
   })
 
   // Watch for prop changes
-  watch(() => props.time, newTime => {
+  watch(() => props.actionTime, newTime => {
     timeValue.value = newTime
   })
 

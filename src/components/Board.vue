@@ -1,144 +1,141 @@
 <template>
-  <FootballPitch @actors-area="actorsArea = $event">
-    <div v-if="actorsArea">
-      <!-- Players -->
-      <!-- Other players -->
-      <div
-        v-for="(playerAction, index) in boardAction.otherPlayers"
-        :key="index"
-        class="player-wrapper"
-        style="position: absolute"
-        :style="{ left: `${otherPlayersTimePos[index]!.x}px`, top: `${otherPlayersTimePos[index]!.y}px` }"
-      >
-        <Player
-          :id="`player-${index}`"
-          :is-draggable="false"
-          :is-dragging="false"
-          :player="playerAction.actor"
-          @click="emits('edit:player-selected', {player: playerAction, id: index })"
-        />
-      </div>
-      <!-- Main Player -->
-      <div
-        ref="playerMainRef"
-        class="player-wrapper"
-        style="position: absolute"
-        :style="{ left: `${playerMyTeamMainTimePos.x}px`, top: `${playerMyTeamMainTimePos.y}px` }"
-      >
-        <Player
-          id="playerMain"
-          :is-draggable="false"
-          :is-dragging="false"
-          :player="boardAction.playerMain.actor"
-          @click="emits('edit:player-selected', {player: boardAction.playerMain, id:`me` })"
-        />
-      </div>
-      <!-- Opponent Team keeper player -->
-      <div
-        ref="playerOpponentTeamKeeperRef"
-        class="player-wrapper"
-        style="position: absolute"
-        :style="{ left: `${playerOpponentTeamKeeperTimePos.x}px`, top: `${playerOpponentTeamKeeperTimePos.y}px` }"
-      >
-        <Player
-          id="playerOpponentTeamKeeper"
-          :is-draggable="false"
-          :is-dragging="false"
-          :is-keeper="true"
-          :player="boardAction.opponentTeamKeeperPlayer.actor"
-          @click="emits('edit:player-selected', {player: boardAction.opponentTeamKeeperPlayer, id:`opponentTeamKeeperPlayer` })"
-        />
-      </div>
-      <!-- End Players -->
-      <div
-        ref="ballRef"
-        class="ball-wrapper"
-        :style="{ left: `${ballTimePos.x}px`, top: `${ballTimePos.y}px` }"
-      >
-        <Ball />
-      </div>
+  <div ref="footballPitchContainer" class="football-pitch-container" :style="{ backgroundImage: svgImg }">
+    <div
+      v-for="(playerAction, index) in boardAction.otherPlayers"
+      :key="index"
+    >
+      <PlayerCircle
+        class="actor"
+        :number="playerAction.actor.number"
+        :style="{'left': `${otherPlayersTimePos[index]?.left}px`, 'top': `${otherPlayersTimePos[index]?.top}px`}"
+        :team-side="playerAction.actor.teamSide"
+      />
     </div>
-  </FootballPitch>
+
+    <PlayerCircle
+      v-if="!opponentTeamKeeperPlayerPosition.outOfBounds"
+      class="actor"
+      is-keeper
+      :number="1"
+      :style="{'left': `${opponentTeamKeeperPlayerPosition.left}px`, 'top': `${opponentTeamKeeperPlayerPosition.top}px`}"
+      :team-side="TeamSide.OpponentTeam"
+    />
+    <PlayerCircle
+      v-if="!myPlayerPosition.outOfBounds"
+      class="actor"
+      :number="12"
+      :style="{'left': `${myPlayerPosition.left}px`, 'top': `${myPlayerPosition.top}px`}"
+      :team-side="TeamSide.MyTeam"
+    />
+
+    <Ball
+      v-if="!ballPosition.outOfBounds"
+      class="actor"
+      :style="{'left': `${ballPosition.left}px`, 'top': `${ballPosition.top}px`}"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-  import type { Rect, SelectedPlayer } from '@/models/transfer.model'
-  import { BoardAction, type BoardPosition } from '@/models/board.action.model'
+  import Ball from '@/components/Ball.vue'
+  import PlayerCircle from '@/components/PlayerCircle.vue'
+  import { BoardAction, TeamSide } from '@/models/board.action.model.ts'
+  import { FootballPitchTemplate } from '@/models/football.pitch.template.model.ts'
+  import { FootballPitchVariables } from '@/models/football.pitch.variables.model.ts'
+  import { ValidationException } from '@/models/validation.model.ts'
 
-  interface RelativePos {
-    x: number
-    y: number
+  interface Position {
+    outOfBounds: boolean
+    left: number
+    top: number
   }
 
   const props = defineProps({
-    time: {
-      type: Number,
-      required: true,
-      validator (value: number, _): boolean {
-        return value >= 0 && value <= 100
-      },
-    },
     boardAction: {
       type: BoardAction,
       required: true,
     },
+    actionTime: {
+      type: Number,
+      required: true,
+      validator (value: number, _) {
+        return value >= 0 && value <= 1
+      },
+    },
   })
 
-  const emits = defineEmits<{
-    // Event to notify the parent component that the player selected has changed
-    'edit:player-selected': [playerSelected: SelectedPlayer]
-  }>()
+  const percentageShown = ref(0.55)
 
-  /**
-   * The area, football pitch, where the actors can move.
-   */
-  const actorsArea: Ref<Rect | null> = ref(null)
+  const footballPitchContainer = useTemplateRef('footballPitchContainer')
 
-  const ballTimePos = computed ((): RelativePos => {
-    if (!actorsArea.value) return { x: 0, y: 0 }
-    const normalizePos = props.boardAction.ball.getPositionForTime(props.time)
-    return denormalizePos(normalizePos)
+  // data:image/svg+xml;base64,${svgContent}`
+  const svgImg = computed(() => {
+    const length = ref(105)
+    const width = ref(68)
+    const ps = percentageShown.value
+
+    const vars = new FootballPitchVariables(length.value, width.value, ps, 2)
+    const content = new FootballPitchTemplate().apply(vars)
+    return `url(data:image/svg+xml;base64,${btoa(content)})`
   })
-  const playerMyTeamMainTimePos = computed ((): RelativePos => {
-    if (!actorsArea.value || props.boardAction.playerMain == null) return { x: 0, y: 0 }
-    const normalizePos = props.boardAction.playerMain.getPositionForTime(props.time)
-    return denormalizePos(normalizePos)
+
+  const ballPosition = computed(() => {
+    const { x, y } = props.boardAction!.ball.getPositionForTime(props.actionTime!)
+    return _denormalize(x, y)
   })
-  const playerOpponentTeamKeeperTimePos = computed ((): RelativePos => {
-    if (!actorsArea.value) return { x: 0, y: 0 }
-    const normalizePos = props.boardAction.opponentTeamKeeperPlayer.getPositionForTime(props.time)
-    return denormalizePos(normalizePos)
+
+  const myPlayerPosition = computed(() => {
+    const { x, y } = props.boardAction!.playerMain.getPositionForTime(props.actionTime!)
+    return _denormalize(x, y)
   })
-  const otherPlayersTimePos = computed((): Array<RelativePos> => {
+
+  const opponentTeamKeeperPlayerPosition = computed(() => {
+    const { x, y } = props.boardAction!.opponentTeamKeeperPlayer.getPositionForTime(props.actionTime!)
+    return _denormalize(x, y)
+  })
+
+  const otherPlayersTimePos = computed((): Array<Position> => {
     return props.boardAction?.otherPlayers.map(player => {
-      if (!actorsArea.value) return { x: 0, y: 0 }
-      const normalizePos = player.getPositionForTime(props.time)
-      return denormalizePos(normalizePos)
+      const { x, y } = player.getPositionForTime(props.actionTime!)
+      return _denormalize(x, y)
     }) ?? []
   })
 
-  function denormalizePos (normalizePos: BoardPosition): RelativePos {
-    if (actorsArea.value == null) return { x: 0, y: 0 }
-    const rect = actorsArea.value!
-    const width = rect.width
-    // 50% of the field is shown
-    const height = rect.height * 2
-    return {
-      x: Math.min(normalizePos.x * width, rect.width),
-      y: Math.min(normalizePos.y * height, rect.height),
+  function _denormalize (x: number, y: number): Position {
+    if (!footballPitchContainer.value) {
+      // not ready
+      return { outOfBounds: false, left: 0, top: 0 }
     }
+
+    if (x < 0 || x > 1) {
+      throw new ValidationException('x is out of bounds')
+    }
+    if (y < 0 || y > 1) {
+      throw new ValidationException('y is out of bounds')
+    }
+
+    if (y > percentageShown.value) {
+      return { outOfBounds: true, left: 0, top: 0 }
+    }
+
+    const width = footballPitchContainer.value.clientWidth * 0.95
+    const height = footballPitchContainer.value.clientHeight * 0.975
+    return { outOfBounds: false, left: width * x, top: (height / 0.55) * y }
   }
 </script>
 
 <style lang="sass">
-.ball-wrapper
+.actor
   position: absolute
-  top: 0
-  left: 0
-.board-wrapper
-  height: 100%
+.football-pitch-container
+  margin: auto
+  aspect-ratio: 1.19 // width(with extra space) / length(with extra space) => (68 + 2*2) / ((105+2)*0.55)
   width: 100%
+  max-width: 90vh
+  background-size: 100% 100%
+  background-position: center
+  background-repeat: no-repeat
+  justify-content: center
+  overflow: visible
   position: relative
-.player-wrapper
-  position: absolute
 </style>

@@ -1,17 +1,10 @@
 <template>
   <div
     class="ball"
-    :class="{ dragging: isDragging }"
   />
 </template>
 
 <script setup lang="ts">
-  defineProps({
-    isDragging: {
-      type: Boolean,
-      default: false,
-    },
-  })
 </script>
 
 <style scoped lang="sass">
@@ -22,9 +15,6 @@ $ball_size: 1dvw
     transform: scale(1)
   100%
     transform: scale(1.2)
-
-.dragging
-  animation: scaleAnimation 0.2s forwards
 
 .ball
   background: url(@/assets/ball.svg)
