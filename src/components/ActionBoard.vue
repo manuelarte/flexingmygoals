@@ -8,7 +8,7 @@
       Select one action...
     </v-card-text>
     <v-card-text v-if="action" class="pt-4 font-weight-bold">
-      <board :board-action="action" />
+      <board :action-time="0." :board-action="action" />
     </v-card-text>
   </v-card>
 </template>

@@ -1,16 +1,10 @@
 <template>
   <div ref="footballPitchContainer" class="football-pitch-container" :style="{ backgroundImage: svgImg }">
     <PlayerCircle
-      v-if="!defenderPlayerPosition.outOfBounds"
-      class="actor"
-      :number="4"
-      :style="{'left': `${defenderPlayerPosition.left}px`, 'top': `${defenderPlayerPosition.top}px`}"
-      :team-side="TeamSide.OpponentTeam"
-    />
-    <PlayerCircle
       class="actor"
       is-keeper
       :number="1"
+      :style="{'left': `${opponentTeamKeeperPlayerPosition.left}px`, 'top': `${opponentTeamKeeperPlayerPosition.top}px`}"
       :team-side="TeamSide.OpponentTeam"
     />
     <PlayerCircle
@@ -36,10 +30,17 @@
     top: number
   }
 
-  defineProps({
+  const props = defineProps({
     boardAction: {
       type: BoardAction,
       required: true,
+    },
+    actionTime: {
+      type: Number,
+      required: true,
+      validator (value: number, _) {
+        return value >= 0 && value <= 1
+      },
     },
   })
 
@@ -59,14 +60,12 @@
   })
 
   const myPlayerPosition = computed(() => {
-    const x = 0.4
-    const y = 0.2
+    const { x, y } = props.boardAction!.playerMain.getPositionForTime(props.actionTime!)
     return _denormalize(x, y)
   })
 
-  const defenderPlayerPosition = computed(() => {
-    const x = 1
-    const y = 0.5
+  const opponentTeamKeeperPlayerPosition = computed(() => {
+    const { x, y } = props.boardAction!.opponentTeamKeeperPlayer.getPositionForTime(props.actionTime!)
     return _denormalize(x, y)
   })
 
