@@ -1,5 +1,17 @@
 <template>
   <div ref="footballPitchContainer" class="football-pitch-container" :style="{ backgroundImage: svgImg }">
+    <div
+      v-for="(playerAction, index) in boardAction.otherPlayers"
+      :key="index"
+    >
+      <PlayerCircle
+        class="actor"
+        :number="playerAction.actor.number"
+        :style="{'left': `${otherPlayersTimePos[index]?.left}px`, 'top': `${otherPlayersTimePos[index]?.top}px`}"
+        :team-side="playerAction.actor.teamSide"
+      />
+    </div>
+
     <PlayerCircle
       v-if="!opponentTeamKeeperPlayerPosition.outOfBounds"
       class="actor"
@@ -80,6 +92,13 @@
   const opponentTeamKeeperPlayerPosition = computed(() => {
     const { x, y } = props.boardAction!.opponentTeamKeeperPlayer.getPositionForTime(props.actionTime!)
     return _denormalize(x, y)
+  })
+
+  const otherPlayersTimePos = computed((): Array<Position> => {
+    return props.boardAction?.otherPlayers.map(player => {
+      const { x, y } = player.getPositionForTime(props.actionTime!)
+      return _denormalize(x, y)
+    }) ?? []
   })
 
   function _denormalize (x: number, y: number): Position {

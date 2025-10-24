@@ -11,8 +11,9 @@ const me = BoardPlayer.myTeam('Manuel', 12)
 const opponentKeeper = new BoardActorAction(
   BoardPlayer.opponentTeam('Keeper', 1),
   BoardActorTimePositions.from(
-    BoardPosition.of(0.5, 0.07),
-    new BoardPositionTimestamp(0.2, BoardPosition.of(0.46, 0.05)),
+    BoardPosition.of(0.5, 0.06),
+    new BoardPositionTimestamp(0.35, BoardPosition.of(0.56, 0.03)),
+    new BoardPositionTimestamp(0.6, BoardPosition.of(0.52, 0.02)),
   ),
 )
 
@@ -87,7 +88,7 @@ export const SavedExample2 = new BoardAction(
     new BoardPositionTimestamp(0.5, BoardPosition.of(0.86, 0.18)),
     new BoardPositionTimestamp(0.8, BoardPosition.of(0.38, 0.19)), // Manuel receives the ball
     new BoardPositionTimestamp(0.85, BoardPosition.of(0.38, 0.19)), // Manuel controls
-    new BoardPositionTimestamp(1, BoardPosition.of(0.55, 0)),
+    new BoardPositionTimestamp(1, BoardPosition.of(0.48, 0)),
   ),
   new BoardActorAction(
     me,

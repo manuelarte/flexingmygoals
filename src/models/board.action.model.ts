@@ -61,15 +61,15 @@ export class BoardPlayer implements BoardActor {
 
   private readonly _name: string
   private readonly _number: number
-  private readonly _color: TeamSide
+  private readonly _teamSide: TeamSide
 
-  constructor (name: string, number: number, color: TeamSide) {
+  constructor (name: string, number: number, teamSide: TeamSide) {
     this.validateName(name)
     this.validateNumber(number)
 
     this._name = name
     this._number = number
-    this._color = color
+    this._teamSide = teamSide
   }
 
   get name (): string {
@@ -80,8 +80,8 @@ export class BoardPlayer implements BoardActor {
     return this._number
   }
 
-  get color (): TeamSide {
-    return this._color
+  get teamSide (): TeamSide {
+    return this._teamSide
   }
 
   static myTeam (name: string, number: number): BoardPlayer {
@@ -111,7 +111,7 @@ export class BoardPlayer implements BoardActor {
     // Compare all significant properties
     return this._name === other._name
       && this._number === other._number
-      && this._color === other._color
+      && this._teamSide === other._teamSide
   }
 
   private validateName (name: string): void {

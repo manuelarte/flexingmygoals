@@ -8,7 +8,7 @@
       Select one action...
     </v-card-text>
     <v-card-text v-if="action" class="pt-4 font-weight-bold">
-      <board :action-time="actionTime" :board-action="action" />
+      <Board :action-time="actionTime" :board-action="action" />
       <BoardProgressBar
         :action-time="actionTime"
         :is-playing="isPlaying"
