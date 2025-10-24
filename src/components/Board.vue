@@ -1,6 +1,7 @@
 <template>
   <div ref="footballPitchContainer" class="football-pitch-container" :style="{ backgroundImage: svgImg }">
     <PlayerCircle
+      v-if="!opponentTeamKeeperPlayerPosition.outOfBounds"
       class="actor"
       is-keeper
       :number="1"
@@ -14,10 +15,17 @@
       :style="{'left': `${myPlayerPosition.left}px`, 'top': `${myPlayerPosition.top}px`}"
       :team-side="TeamSide.MyTeam"
     />
+
+    <Ball
+      v-if="!ballPosition.outOfBounds"
+      class="actor"
+      :style="{'left': `${ballPosition.left}px`, 'top': `${ballPosition.top}px`}"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+  import Ball from '@/components/Ball.vue'
   import PlayerCircle from '@/components/PlayerCircle.vue'
   import { BoardAction, TeamSide } from '@/models/board.action.model.ts'
   import { FootballPitchTemplate } from '@/models/football.pitch.template.model.ts'
@@ -57,6 +65,11 @@
     const vars = new FootballPitchVariables(length.value, width.value, ps, 2)
     const content = new FootballPitchTemplate().apply(vars)
     return `url(data:image/svg+xml;base64,${btoa(content)})`
+  })
+
+  const ballPosition = computed(() => {
+    const { x, y } = props.boardAction!.ball.getPositionForTime(props.actionTime!)
+    return _denormalize(x, y)
   })
 
   const myPlayerPosition = computed(() => {
