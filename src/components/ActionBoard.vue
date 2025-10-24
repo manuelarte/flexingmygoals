@@ -23,10 +23,15 @@
   import type { IBoardAction } from '@/types/board.action.types'
   import Board from '@/components/Board.vue'
 
-  defineProps({
+  const props = defineProps({
     action: {
       type: Object as PropType<IBoardAction> | null,
     },
+  })
+
+  watch(() => props.action, (_first, _second) => {
+    isPlaying.value = false
+    actionTime.value = 0
   })
 
   const isPlaying = ref(false)
