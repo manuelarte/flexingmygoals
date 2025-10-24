@@ -12,6 +12,7 @@ declare module 'vue' {
     ActionList: typeof import('./components/ActionList.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     Board: typeof import('./components/Board.vue')['default']
+    BoardProgressBar: typeof import('./components/BoardProgressBar.vue')['default']
     PlayerCircle: typeof import('./components/PlayerCircle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
