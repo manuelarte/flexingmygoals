@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row no-gutters>
+  <v-container fluid>
+    <v-row>
       <v-col cols="4">
         <ActionList @action:selected="onActionSelected" />
       </v-col>
