@@ -45,7 +45,7 @@ export enum TeamSide {
   OpponentTeam = 'opponentTeam',
 }
 
-interface BoardActor {}
+export interface BoardActor {}
 
 /**
  * A player to be represented in the Board.
