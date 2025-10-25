@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { TeamSide } from '@/models/board.action.model.ts'
+  import type { TeamSide } from '@/models/board.action.model'
 
   defineProps({
     // if this player is the keeper

@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { IBoardAction } from '@/types/board.action.types.ts'
+  import type { IBoardAction } from '@/types/board.action.types'
 
   const props = defineProps({
     action: {

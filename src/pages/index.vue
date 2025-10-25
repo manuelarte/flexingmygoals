@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-  import type { IBoardAction } from '@/types/board.action.types.ts'
+  import type { IBoardAction } from '@/types/board.action.types'
 
   const action = ref<IBoardAction | undefined>()
 

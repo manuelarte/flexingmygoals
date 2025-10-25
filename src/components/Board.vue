@@ -39,10 +39,10 @@
 <script setup lang="ts">
   import Ball from '@/components/Ball.vue'
   import PlayerCircle from '@/components/PlayerCircle.vue'
-  import { BoardAction, TeamSide } from '@/models/board.action.model.ts'
-  import { FootballPitchTemplate } from '@/models/football.pitch.template.model.ts'
-  import { FootballPitchVariables } from '@/models/football.pitch.variables.model.ts'
-  import { ValidationException } from '@/models/validation.model.ts'
+  import { BoardAction, TeamSide } from '@/models/board.action.model'
+  import { FootballPitchTemplate } from '@/models/football.pitch.template.model'
+  import { FootballPitchVariables } from '@/models/football.pitch.variables.model'
+  import { ValidationException } from '@/models/validation.model'
 
   interface Position {
     outOfBounds: boolean

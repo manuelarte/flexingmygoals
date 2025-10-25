@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { IBoardAction } from '@/types/board.action.types.ts'
+  import type { IBoardAction } from '@/types/board.action.types'
   import { SavedExample1, SavedExample2, SavedExample3, TestingLimits } from '@/models/board.example'
 
   const emits = defineEmits(['action:selected'])
