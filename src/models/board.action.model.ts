@@ -226,7 +226,7 @@ export class BoardActorTimePositions {
   }
 
   get other (): Array<BoardPositionTimestamp> {
-    return this._other
+    return this._other.slice()
   }
 
   static from (initialPosition: BoardPosition, ...other: Array<BoardPositionTimestamp>): BoardActorTimePositions {
@@ -371,21 +371,21 @@ export class BoardActionInput {
     summary: string | null,
     partialResult: FootballResult,
     ball: BoardActorTimePositions,
-    mainPlayer: BoardActorAction<BoardPlayer>,
+    playerMain: BoardActorAction<BoardPlayer>,
     opponentTeamKeeperPlayer: BoardActorAction<BoardPlayer>,
     otherPlayers: Array<BoardActorAction<BoardPlayer>>,
   ) {
-    if (highlight && highlight.length > 0 && highlight.length > 40) {
+    if (highlight && highlight.length > 40) {
       throw new ValidationException(`Invalid highlight length: 40 < ${highlight.length}`)
     }
-    if (summary && summary.length > 0 && summary.length > 200) {
+    if (summary && summary.length > 200) {
       throw new ValidationException(`Invalid summary length: 200 < ${summary.length}`)
     }
     this._highlight = highlight
     this._summary = summary
     this._partialResult = partialResult
     this._ball = ball
-    this._playerMain = mainPlayer
+    this._playerMain = playerMain
     this._opponentTeamKeeperPlayer = opponentTeamKeeperPlayer
     this._otherPlayers = [...otherPlayers]
   }
@@ -411,7 +411,7 @@ export class BoardActionInput {
   }
 
   get otherPlayers (): Array<BoardActorAction<BoardPlayer>> {
-    return this._otherPlayers
+    return this._otherPlayers.slice()
   }
 
   get opponentTeamKeeperPlayer (): BoardActorAction<BoardPlayer> {
@@ -442,6 +442,9 @@ export class BoardAction extends BoardActionInput {
     super (highlight, summary, partialResult, ball, playerMain, opponentTeamKeeperPlayer, otherPlayers)
     this._id = id
     this._createdAt = createdAt
+    if (!createdBy || createdBy.length < 3) {
+      throw new ValidationException('createdBy must be at least 3 characters long')
+    }
     this._createdBy = createdBy
   }
 
