@@ -1,11 +1,16 @@
 <template>
-  <v-container fluid>
+  <v-container class="fill-height" fluid>
     <v-row>
       <v-col cols="4">
-        <ActionList @action:selected="onActionSelected" />
+        <v-row class="ma-auto w-100">
+          <ActionsList class="w-100" @action:selected="onActionSelected" />
+        </v-row>
+        <v-row v-if="action" class="ma-auto w-100 overflow-scroll">
+          <ActionNewEdit :action="action" class="w-100" />
+        </v-row>
       </v-col>
       <v-col>
-        <ActionBoard :action="action" class="action" />
+        <ActionBoard :action="action" class="action h-auto ma-auto" />
       </v-col>
     </v-row>
   </v-container>
@@ -23,6 +28,5 @@
 
 <style scoped lang="sass">
 .action
-  height: auto
-  min-height: 85vh
+  min-height: 86vh
 </style>

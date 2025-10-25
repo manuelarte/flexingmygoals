@@ -10,6 +10,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     ActionBoard: typeof import('./components/ActionBoard.vue')['default']
     ActionList: typeof import('./components/ActionList.vue')['default']
+    ActionNewEdit: typeof import('./components/ActionNewEdit.vue')['default']
+    ActionsList: typeof import('./components/ActionsList.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     Ball: typeof import('./components/Ball.vue')['default']
     Board: typeof import('./components/Board.vue')['default']

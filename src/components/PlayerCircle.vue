@@ -14,7 +14,7 @@
   import type { TeamSide } from '@/models/board.action.model.ts'
 
   defineProps({
-    // is this player the keeper
+    // if this player is the keeper
     isKeeper: {
       type: Boolean,
       default: false,
